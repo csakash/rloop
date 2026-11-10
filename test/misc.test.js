@@ -12,19 +12,44 @@ const { allocate, dedupe } = require('../lib/stages/map');
 
 const ROOT = path.resolve(__dirname, '..');
 
-// protects=the disprover can read, search the web and run rsearch, and is denied every write tool and push; authors cannot push; fails_when=a reviewer gets Write/Edit or anyone gets git push; no_claim=how the claude CLI enforces these flags
+// protects=s1-01/s1-02: every file rule is scoped to the run dir (no bare Read/Write/Edit/Grep/Glob), only the toolbox rsearch may run, WebFetch is domain-limited, the disprover never edits, nobody pushes, and "Bash" is not denied outright (that would cancel the rsearch rule); fails_when=an agent can read or write outside the run dir, fetch any domain, or run other commands; no_claim=the claude CLI's enforcement of these rules (checked by hand: it reports bare Write(path) rules as unmatched, so Edit(path) is used)
 test('agent tool permissions per role', () => {
-  const d = agent.args('disprover', 'disprove', 'p');
+  const runDir = '/tmp/rloop-run';
+  const rs = '/tmp/rloop-tools-x/bin/rsearch';
+  const d = agent.args('disprover', 'disprove', 'p', { runDir, rsearch: rs });
   const allowed = d.slice(d.indexOf('--allowedTools') + 1, d.indexOf('--disallowedTools'));
   const denied = d.slice(d.indexOf('--disallowedTools') + 1, d.indexOf('--output-format'));
-  assert.deepEqual(allowed, ['Read', 'Grep', 'Glob', 'WebSearch', 'WebFetch', agent.rsearchRule()]);
+  assert.deepEqual(allowed.slice(0, 3), ['Read(//tmp/rloop-run/**)', `Bash(${rs}:*)`, 'WebSearch']);
+  assert.ok(allowed.slice(3).every((t) => /^WebFetch\(domain:[a-z0-9.-]+\)$/.test(t)));
+  assert.ok(allowed.includes('WebFetch(domain:arxiv.org)'));
   for (const t of ['Edit', 'Write', 'NotebookEdit', 'Bash(git push:*)']) assert.ok(denied.includes(t), t);
-  assert.ok(!allowed.some((t) => t === 'Bash' || t.startsWith('Write')));
-  const a = agent.args('author', 'detect', 'p');
-  assert.ok(a.includes('Write') && a.includes('Bash(git push:*)'));
-  assert.ok(!a.includes('WebSearch'));
+  assert.ok(!denied.includes('Bash'));
+  const a = agent.args('author', 'detect', 'p', { runDir, rsearch: rs });
+  const aAllowed = a.slice(a.indexOf('--allowedTools') + 1, a.indexOf('--disallowedTools'));
+  assert.deepEqual(aAllowed, ['Read(//tmp/rloop-run/**)', `Bash(${rs}:*)`, 'Edit(//tmp/rloop-run/**)']);
+  for (const bare of ['Read', 'Write', 'Edit', 'Grep', 'Glob', 'WebFetch', 'Bash']) assert.ok(![...allowed, ...aAllowed].includes(bare), bare);
   assert.equal(a[a.indexOf('--permission-mode') + 1], 'default');
-  assert.match(agent.rsearchRule(), /^Bash\(\/.+\/bin\/rsearch:\*\)$/);
+});
+
+// protects=s1-01: agents run a read-only per-run copy of rsearch, and any change to it is detected; fails_when=an agent's Write can alter code that rsearch later runs; no_claim=root or chmod-capable processes (agents have no shell)
+test('rsearch toolbox is read-only and fingerprinted', () => {
+  const ctx = { runDir: tmpdir() };
+  const tb = agent.toolbox(ctx);
+  assert.ok(tb.rsearch.endsWith(path.join('bin', 'rsearch')) && !tb.rsearch.startsWith(ROOT));
+  assert.throws(() => fs.writeFileSync(path.join(tb.dir, 'lib', 'http.js'), 'evil'), /EACCES|EPERM/);
+  assert.throws(() => fs.writeFileSync(path.join(tb.dir, 'lib', 'new.js'), 'evil'), /EACCES|EPERM/);
+  const out = execFileSync(tb.rsearch, ['sources'], { encoding: 'utf8' });
+  assert.equal(JSON.parse(out).length, 7, 'the copy runs');
+  assert.equal(agent.toolbox(ctx), tb, 'one toolbox per run');
+});
+
+// protects=s1-02: a credential pattern or an env key value in the report blocks the push; fails_when=an injected agent's copied secret is published; no_claim=secrets in formats not listed
+test('secret scan before push', () => {
+  const { scanSecrets } = require('../lib/stages/ship');
+  assert.deepEqual(scanSecrets([['REPORT.md', 'clean text about sleep']], { NCBI_API_KEY: 'abcd1234efgh' }), []);
+  assert.match(scanSecrets([['REPORT.md', 'token ghp_abcdefghijklmnopqrstuvwxyz0123456789']], {})[0], /credential pattern/);
+  assert.match(scanSecrets([['brief.md', 'key abcd1234efgh here']], { NCBI_API_KEY: 'abcd1234efgh' })[0], /value of \$NCBI_API_KEY/);
+  assert.match(scanSecrets([['PR body', '-----BEGIN OPENSSH PRIVATE KEY-----']], {})[0], /credential pattern/);
 });
 
 // protects=stream-json parsing yields the final result text and every tool call; plain text passes through; fails_when=findings are read from the wrong event or tool calls are lost; no_claim=future CLI event formats
