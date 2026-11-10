@@ -1,0 +1,37 @@
+{
+  "worktreeDir": "worktrees",
+  "branchPrefix": "feat/",
+  "portStride": 100,
+  "repos": [
+    {
+      "name": "open-research",
+      "path": ".",
+      "baseBranch": "main",
+      "basePort": 4000,
+      "dev": [],
+      "env": {}
+    }
+  ],
+  "review": {
+    "fixCycles": 2,
+    "security": true,
+    "sensitivePaths": [
+      ".github/workflows/**",
+      ".gitlab-ci.yml",
+      ".circleci/**",
+      "Jenkinsfile",
+      "CODEOWNERS",
+      ".github/CODEOWNERS",
+      "**/auth/**",
+      "**/billing/**",
+      "**/payments/**",
+      "**/migrations/**",
+      "setup",
+      "**/install*"
+    ]
+  },
+  "hooks": {
+    "preLoop": null,
+    "postShip": null
+  }
+}
