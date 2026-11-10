@@ -28,8 +28,12 @@ test('agent tool permissions per role', () => {
   const aAllowed = a.slice(a.indexOf('--allowedTools') + 1, a.indexOf('--disallowedTools'));
   assert.deepEqual(aAllowed, ['Read(//tmp/rloop-stage-x/**)', `Bash(${rs}:*)`, 'Edit(//tmp/rloop-stage-x/**)']);
   for (const bare of ['Read', 'Write', 'Edit', 'Grep', 'Glob', 'WebFetch', 'Bash']) assert.ok(![...allowed, ...aAllowed].includes(bare), bare);
+  assert.equal(a[a.indexOf('--tools') + 1], 'Read,Edit,Write,Bash');
+  assert.equal(d[d.indexOf('--tools') + 1], 'Read,Bash,WebSearch,WebFetch');
   for (const x of [a, d]) {
     assert.equal(x[x.indexOf('--permission-mode') + 1], 'dontAsk');
+    // t4-01: only the needed built-ins exist; account/scheduling/agent tools are denied as a backstop
+    for (const t of ['RemoteTrigger', 'CronCreate', 'Agent', 'Skill', 'Workflow', 'SendMessage']) assert.ok(x.slice(x.indexOf('--disallowedTools')).includes(t), t);
     assert.ok(x.includes('--safe-mode') && x.includes('--strict-mcp-config'));
     assert.equal(x[x.indexOf('--setting-sources') + 1], '');
   }
@@ -233,9 +237,22 @@ test('agent env: keys file, git config, proxy', () => {
   const src = fs.readFileSync(path.join(ROOT, 'lib', 'agent.js'), 'utf8');
   assert.doesNotMatch(src, /CLAUDE_CODE_SUBPROCESS_ENV_SCRUB: '1'/);
   assert.doesNotMatch(src, /RLOOP_LOG_KEY: ctx\.logKey/);
-  const proxied = agent.minimalEnv({ HTTPS_PROXY: 'http://user:pw@proxy:8080', http_proxy: 'http://proxy:3128' });
-  assert.equal(proxied.HTTPS_PROXY, 'http://proxy:8080/');
+  // t4-03/t4-04: any proxy value with "@" (with or without a scheme) is dropped, and agents refuse to start
+  const proxied = agent.minimalEnv({ HTTPS_PROXY: 'http://user:pw@proxy:8080', ALL_PROXY: 'user:pw@proxy.corp:8080', http_proxy: 'http://proxy:3128' });
+  assert.ok('HTTPS_PROXY' in proxied && proxied.HTTPS_PROXY === undefined);
+  assert.ok('ALL_PROXY' in proxied && proxied.ALL_PROXY === undefined, 'scheme-less userinfo dropped');
   assert.ok(!('http_proxy' in proxied), 'credential-free proxy passes unchanged');
+  assert.equal(agent.authenticatedProxy({ ALL_PROXY: 'user:pw@proxy.corp:8080' }), 'ALL_PROXY');
+  assert.equal(agent.authenticatedProxy({ HTTPS_PROXY: 'http://proxy:3128' }), null);
+  // t4-05: NO_PROXY and credential-free proxies are not "secrets" for the guard
+  assert.equal(require('../bin/rsearch').leaksSecret(['count', 'openalex', 'localhost networking'], { NO_PROXY: 'localhost,127.0.0.1' }), null);
+  // t4-02: path-like arguments (what a shell glob expands to) are refused
+  const { pathLike } = require('../bin/rsearch');
+  assert.equal(pathLike(['count', 'openalex', 'sleep memory']), false);
+  assert.equal(pathLike(['resolve', 'doi:10.1038/nature14539']), false);
+  assert.equal(pathLike(['count', 'openalex', '/Users/x/.ssh/id_rsa']), true);
+  assert.equal(pathLike(['count', 'openalex', '~/.aws']), true);
+  assert.equal(pathLike(['count', 'openalex', 'a/../b']), true);
   const { leaksSecret } = require('../bin/rsearch');
   assert.equal(leaksSecret(['search', 'openalex', '/tmp/rloop-tools-abc/keys.json'], { RLOOP_KEYS_FILE: '/tmp/rloop-tools-abc/keys.json', SSH_AUTH_SOCK: '/private/tmp/com.apple.launchd.x/Listeners' }), null);
   assert.equal(leaksSecret(['q', 'Bearer abcdefgh123'], { ANTHROPIC_CUSTOM_HEADERS: 'Authorization: Bearer abcdefgh123' }), 'ANTHROPIC_CUSTOM_HEADERS');

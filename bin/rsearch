@@ -25,11 +25,11 @@ if (keysFile) {
 const sources = require('../lib/sources');
 const searchlog = require('../lib/searchlog');
 
-// Refuse any argument carrying a piece (8+ chars) of a secret-looking env value, so a shell
-// expansion inside an allowed command cannot read a secret back or send it to an API or log.
-// Defense in depth only: the real barrier is that agents' env holds no secrets (rloop's env
-// allowlist plus CLAUDE_CODE_SUBPROCESS_ENV_SCRUB); pieces under 8 chars still pass this check.
-const SECRET_NAME = /(KEY|TOKEN|SECRET|PASS|AUTH|CREDENTIAL|COOKIE|SESSION|HEADER|PROXY)/i;
+// Refuse any argument carrying a piece (8+ chars) of a secret-looking env value. Second layer
+// only: the first is the claude CLI denying ${...}, $(...), backticks, chaining and redirects in
+// the rsearch rule (scripts/probe-sandbox.js), plus rloop's env allowlist. Pieces under 8 chars
+// pass this check. Proxy vars are not secrets here: credentialed proxies never reach agents.
+const SECRET_NAME = /(KEY|TOKEN|SECRET|PASS|AUTH|CREDENTIAL|COOKIE|SESSION|HEADER)/i;
 const NOT_SECRET = new Set(['RLOOP_KEYS_FILE']);
 const WINDOW = 8;
 function leaksSecret(args, env = process.env) {
@@ -63,9 +63,17 @@ function fail(msg) {
   process.exit(2);
 }
 
+// The CLI lets an unquoted glob through in the rsearch rule, and the shell expands it to file
+// paths before rsearch runs. Refuse anything that looks like or names a filesystem path, and
+// never echo it, so rsearch cannot be used to list or probe files.
+function pathLike(args) {
+  return args.some((a) => /^[~/]/.test(a) || a.includes('/./') || a.includes('/../') || (a.length > 1 && fs.existsSync(a)));
+}
+
 async function main() {
   const leak = leaksSecret(process.argv.slice(2));
   if (leak) fail(`refusing: an argument contains part of $${leak}`);
+  if (pathLike(process.argv.slice(2))) fail('refusing: an argument looks like a filesystem path');
   const { pos, flags } = parseArgs(process.argv.slice(2));
   const [op, a, ...rest] = pos;
   const runDir = process.env.RLOOP_RUN_DIR;
@@ -112,4 +120,4 @@ async function main() {
 }
 
 if (require.main === module) main().catch((e) => fail(e.message));
-module.exports = { leaksSecret };
+module.exports = { leaksSecret, pathLike };
