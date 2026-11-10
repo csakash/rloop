@@ -12,30 +12,48 @@ const { allocate, dedupe } = require('../lib/stages/map');
 
 const ROOT = path.resolve(__dirname, '..');
 
-// protects=s1-01/s1-02: every file rule is scoped to the run dir (no bare Read/Write/Edit/Grep/Glob), only the toolbox rsearch may run, WebFetch is domain-limited, the disprover never edits, nobody pushes, and "Bash" is not denied outright (that would cancel the rsearch rule); fails_when=an agent can read or write outside the run dir, fetch any domain, or run other commands; no_claim=the claude CLI's enforcement of these rules (checked by hand: it reports bare Write(path) rules as unmatched, so Edit(path) is used)
+// protects=s1-01/s1-02/s2-03/s3-03: file rules scoped to the stage dir (no bare Read/Write/Edit/Grep/Glob), only the toolbox rsearch may run, WebFetch domain-limited, the disprover never edits, nobody pushes, "Bash" not denied outright (that would cancel the rsearch rule), and the CLI starts in --safe-mode with dontAsk (a valid mode per `claude --help`), no settings sources and no MCP; fails_when=an agent can read or write outside its stage dir, fetch any domain, run other commands, or load customizations; no_claim=the CLI's runtime enforcement (not testable here: its login has expired)
 test('agent tool permissions per role', () => {
-  const runDir = '/tmp/rloop-run';
+  const dir = '/tmp/rloop-stage-x';
   const rs = '/tmp/rloop-tools-x/bin/rsearch';
-  const d = agent.args('disprover', 'disprove', 'p', { runDir, rsearch: rs });
+  const d = agent.args('disprover', 'disprove', 'p', { dir, rsearch: rs });
   const allowed = d.slice(d.indexOf('--allowedTools') + 1, d.indexOf('--disallowedTools'));
   const denied = d.slice(d.indexOf('--disallowedTools') + 1, d.indexOf('--output-format'));
-  assert.deepEqual(allowed.slice(0, 3), ['Read(//tmp/rloop-run/**)', `Bash(${rs}:*)`, 'WebSearch']);
+  assert.deepEqual(allowed.slice(0, 3), ['Read(//tmp/rloop-stage-x/**)', `Bash(${rs}:*)`, 'WebSearch']);
   assert.ok(allowed.slice(3).every((t) => /^WebFetch\(domain:[a-z0-9.-]+\)$/.test(t)));
   assert.ok(allowed.includes('WebFetch(domain:arxiv.org)'));
   for (const t of ['Edit', 'Write', 'NotebookEdit', 'Bash(git push:*)']) assert.ok(denied.includes(t), t);
   assert.ok(!denied.includes('Bash'));
-  const a = agent.args('author', 'detect', 'p', { runDir, rsearch: rs });
+  const a = agent.args('author', 'detect', 'p', { dir, rsearch: rs });
   const aAllowed = a.slice(a.indexOf('--allowedTools') + 1, a.indexOf('--disallowedTools'));
-  assert.deepEqual(aAllowed, ['Read(//tmp/rloop-run/**)', `Bash(${rs}:*)`, 'Edit(//tmp/rloop-run/**)']);
+  assert.deepEqual(aAllowed, ['Read(//tmp/rloop-stage-x/**)', `Bash(${rs}:*)`, 'Edit(//tmp/rloop-stage-x/**)']);
   for (const bare of ['Read', 'Write', 'Edit', 'Grep', 'Glob', 'WebFetch', 'Bash']) assert.ok(![...allowed, ...aAllowed].includes(bare), bare);
-  assert.equal(a[a.indexOf('--permission-mode') + 1], 'default');
-  // s2-01/s2-03: no settings or MCP servers loaded; authors cannot write CLI config into the run dir
   for (const x of [a, d]) {
+    assert.equal(x[x.indexOf('--permission-mode') + 1], 'dontAsk');
+    assert.ok(x.includes('--safe-mode') && x.includes('--strict-mcp-config'));
     assert.equal(x[x.indexOf('--setting-sources') + 1], '');
-    assert.ok(x.includes('--strict-mcp-config'));
   }
-  const aDenied = a.slice(a.indexOf('--disallowedTools') + 1);
-  for (const p of ['CLAUDE.md', 'CLAUDE.local.md', '.claude/**', '.mcp.json']) assert.ok(aDenied.includes(`Edit(//tmp/rloop-run/${p})`), p);
+});
+
+// protects=the stage sandbox: only declared inputs are copied in, only declared regular-file outputs come back, symlinks and ../ paths are refused, and the stage dir is outside any git repo; fails_when=undeclared files (CLAUDE.md, .git, .claude) or a symlink escape flow into the run dir; no_claim=the CLI's in-stage behavior
+test('stage sandbox copies only declared files', () => {
+  const runDir = tmpdir();
+  fs.writeFileSync(path.join(runDir, 'brief.md'), 'b');
+  fs.writeFileSync(path.join(runDir, 'papers.jsonl'), 'p');
+  const ctx = { runDir };
+  const dir = agent.stageDir(ctx, ['brief.md', 'missing.json']);
+  assert.deepEqual(fs.readdirSync(dir), ['brief.md']);
+  assert.ok(!dir.startsWith(ROOT));
+  assert.equal(spawnSync('git', ['-C', dir, 'rev-parse', '--git-dir'], { encoding: 'utf8', env: { ...process.env, GIT_CEILING_DIRECTORIES: path.dirname(dir) } }).status !== 0, true, 'not inside a git repo');
+  fs.writeFileSync(path.join(dir, 'gaps.json'), '[]');
+  fs.writeFileSync(path.join(dir, 'CLAUDE.md'), 'evil');
+  fs.mkdirSync(path.join(dir, '.git'));
+  agent.collect(ctx, dir, ['gaps.json'], 'detect');
+  assert.ok(fs.existsSync(path.join(runDir, 'gaps.json')));
+  assert.ok(!fs.existsSync(path.join(runDir, 'CLAUDE.md')) && !fs.existsSync(path.join(runDir, '.git')));
+  fs.symlinkSync('/etc/hosts', path.join(dir, 'scores.json'));
+  assert.throws(() => agent.collect(ctx, dir, ['scores.json'], 'rank'), /not a regular file/);
+  assert.throws(() => agent.stageDir(ctx, ['../x']), /bad stage path/);
 });
 
 // protects=s1-01: agents run a read-only per-run copy of rsearch, and any change to it is detected; fails_when=an agent's Write can alter code that rsearch later runs; no_claim=root or chmod-capable processes (agents have no shell)

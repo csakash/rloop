@@ -18,13 +18,14 @@ const searchlog = require('../lib/searchlog');
 
 // Signed like rsearch does (it inherits RLOOP_LOG_KEY from the runner's env).
 function logSearch(gap, n, sources) {
-  for (let i = 0; i < n; i += 1) searchlog.append(cwd, { role: 'disprover', stage: 'disprove', op: 'search', source: sources[i % sources.length], query: `${gap} query ${i}`, gap, results: 3 });
+  for (let i = 0; i < n; i += 1) searchlog.append(process.env.RLOOP_RUN_DIR, { role: 'disprover', stage: 'disprove', op: 'search', source: sources[i % sources.length], query: `${gap} query ${i}`, gap, results: 3 });
 }
 
-// What a misbehaving author could write by hand: no valid signature.
+// Unsigned entries in the run's log (a real agent cannot reach the run dir at all now;
+// this checks the signature filter on its own).
 function forgeSearch(gap, n) {
   const lines = Array.from({ length: n }, (_, i) => JSON.stringify({ ts: 't', role: 'disprover', op: 'search', source: i % 2 ? 'pubmed' : 'openalex', query: `forged ${i}`, gap, results: 1, sig: 'f'.repeat(64) }));
-  fs.appendFileSync(path.join(cwd, 'search-log.jsonl'), `${lines.join('\n')}\n`);
+  fs.appendFileSync(path.join(process.env.RLOOP_RUN_DIR, 'search-log.jsonl'), `${lines.join('\n')}\n`);
 }
 
 const CONCEPTS = [['slow-wave sleep', 'motor memory'], ['aging', 'slow-wave sleep'], ['napping', 'motor memory']];

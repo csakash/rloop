@@ -143,12 +143,21 @@ test('autonomous without origin blocks at ship', async () => {
   assert.match(git(dir, 'log', '-1', '--format=%s'), /^research: t gap report/);
 });
 
-// protects=r1-03: an agent appending a fake paper to papers.jsonl (to make a fake id "resolve") is caught right after that stage; fails_when=runner-owned gate inputs can be edited; no_claim=tampering outside the run dir
-test('agent tampering with papers.jsonl blocks', async () => {
-  const { final } = await fullRun('tamper-papers');
-  assert.equal(final.outcome, 'blocked');
-  assert.equal(final.blockedGate, 'detect');
-  assert.equal(final.message, 'runner-owned file changed by an agent: papers.jsonl');
+// protects=r1-03 under the stage sandbox: an agent appending a fake paper to its copy of papers.jsonl changes nothing in the run, because only declared outputs come back; fails_when=a stage's input copy flows back into the run dir; no_claim=the CLI's own file-rule enforcement
+test('agent edits to stage inputs never reach the run', async () => {
+  const { ctx, final } = await fullRun('tamper-papers');
+  assert.equal(final.outcome, 'needs-human', final.message);
+  assert.ok(!fs.readFileSync(path.join(ctx.runDir, 'papers.jsonl'), 'utf8').includes('10.6666/fake'));
+});
+
+// protects=r1-03 seal check still guards the run dir itself; fails_when=a changed runner-owned file goes unnoticed; no_claim=none beyond protects
+test('a changed runner-owned file blocks', () => {
+  const { seal, verifySeals } = require('../lib/runctx');
+  const ctx = { runDir: tmpdir() };
+  fs.writeFileSync(path.join(ctx.runDir, 'papers.jsonl'), 'a\n');
+  seal(ctx, 'papers.jsonl');
+  fs.appendFileSync(path.join(ctx.runDir, 'papers.jsonl'), 'b\n');
+  assert.throws(() => verifySeals(ctx, 'detect'), /runner-owned file changed by an agent: papers.jsonl/);
 });
 
 // protects=r1-03: unsigned search-log entries written by an author do not count toward disprover coverage; fails_when=forged entries satisfy the 10-query bar; no_claim=an agent that can read the process env (denied by tool permissions)
@@ -204,12 +213,13 @@ test('ship commits only verified proof', async () => {
   assert.ok(!fs.existsSync(path.join(out, 'disprove', 'open-1.json')) || ctx.seals.has('disprove/open-1.json'));
 });
 
-// protects=s2-01: an agent that plants CLAUDE.md (or .claude/) in the run dir, which the next agent would load as instructions, blocks the run right after that stage; fails_when=a planted instruction file reaches the disprover; no_claim=the CLI's own enforcement of the Edit deny rule
-test('planted CLI config in the run dir blocks', async () => {
-  const { final } = await fullRun('plant-config');
-  assert.equal(final.outcome, 'blocked');
-  assert.equal(final.blockedGate, 'detect');
-  assert.equal(final.message, 'agent wrote CLI config into the run dir: CLAUDE.md');
+// protects=s2-01/s3-01: a CLAUDE.md (or .claude/, .git) an agent writes stays in its own stage dir, which is deleted; the next agent never sees it; fails_when=undeclared files flow back to the run dir; no_claim=what the CLI loads inside one stage (--safe-mode)
+test('planted CLI config never reaches a later stage', async () => {
+  const { ctx, final } = await fullRun('plant-config');
+  assert.equal(final.outcome, 'needs-human', final.message);
+  const all = [];
+  (function walk(d) { for (const e of fs.readdirSync(d, { withFileTypes: true })) { const p = path.join(d, e.name); if (e.isDirectory()) walk(p); else all.push(p); } })(ctx.runDir);
+  assert.ok(!all.some((f) => /CLAUDE\.md$/.test(f)));
 });
 
 // protects=s2-02: the pre-push scan covers branch history, so a secret committed by an earlier run and later overwritten still blocks the push; fails_when=only the working tree is scanned; no_claim=encoded or split secrets
@@ -223,6 +233,9 @@ test('secret in branch history blocks push', async () => {
   fs.writeFileSync(path.join(out, 'REPORT.md'), '# clean\n');
   git(dir, 'add', '-A'); git(dir, 'commit', '-q', '-m', 'run 2');
   git(dir, 'branch', 'base', 'HEAD~2');
+  const bare = tmpdir();
+  execFileSync('git', ['init', '-q', '--bare', bare]);
+  git(dir, 'remote', 'add', 'origin', bare);
   const runDir = tmpdir();
   fs.writeFileSync(path.join(runDir, 'REPORT.md'), '# clean\n');
   assert.throws(() => push({ topicDir: dir, slug: 't', runDir, baseBranch: 'base', topicTitle: 't' }), /possible secret in the report, not pushing: commits base\.\.HEAD matches a credential pattern/);
