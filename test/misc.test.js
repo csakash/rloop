@@ -1,0 +1,129 @@
+// Agent permissions, paper allocation/dedupe, the gstack-loops export check, and the CLI on a
+// real gloop workspace.
+const test = require('node:test');
+const assert = require('node:assert/strict');
+const crypto = require('crypto');
+const fs = require('fs');
+const path = require('path');
+const { execFileSync, spawnSync } = require('child_process');
+const { tmpdir, FIX } = require('./helpers');
+const agent = require('../lib/agent');
+const { allocate, dedupe } = require('../lib/stages/map');
+
+const ROOT = path.resolve(__dirname, '..');
+
+// protects=the disprover can read, search the web and run rsearch, and is denied every write tool and push; authors cannot push; fails_when=a reviewer gets Write/Edit or anyone gets git push; no_claim=how the claude CLI enforces these flags
+test('agent tool permissions per role', () => {
+  const d = agent.args('disprover', 'disprove', 'p');
+  const allowed = d.slice(d.indexOf('--allowedTools') + 1, d.indexOf('--disallowedTools'));
+  const denied = d.slice(d.indexOf('--disallowedTools') + 1, d.indexOf('--output-format'));
+  assert.deepEqual(allowed, ['Read', 'Grep', 'Glob', 'WebSearch', 'WebFetch', agent.rsearchRule()]);
+  for (const t of ['Edit', 'Write', 'NotebookEdit', 'Bash(git push:*)']) assert.ok(denied.includes(t), t);
+  assert.ok(!allowed.some((t) => t === 'Bash' || t.startsWith('Write')));
+  const a = agent.args('author', 'detect', 'p');
+  assert.ok(a.includes('Write') && a.includes('Bash(git push:*)'));
+  assert.ok(!a.includes('WebSearch'));
+  assert.equal(a[a.indexOf('--permission-mode') + 1], 'default');
+  assert.match(agent.rsearchRule(), /^Bash\(\/.+\/bin\/rsearch:\*\)$/);
+});
+
+// protects=stream-json parsing yields the final result text and every tool call; plain text passes through; fails_when=findings are read from the wrong event or tool calls are lost; no_claim=future CLI event formats
+test('parseStream', () => {
+  const s = [
+    JSON.stringify({ type: 'assistant', message: { content: [{ type: 'text', text: 'hi' }, { type: 'tool_use', name: 'WebSearch', input: { query: 'a' } }] } }),
+    JSON.stringify({ type: 'user', message: { content: [] } }),
+    JSON.stringify({ type: 'result', result: 'final {"x":1}' }),
+  ].join('\n');
+  const r = agent.parseStream(s);
+  assert.equal(r.text, 'final {"x":1}');
+  assert.deepEqual(r.tools.map((t) => t.name), ['WebSearch']);
+  assert.equal(agent.parseStream('plain text').text, 'plain text');
+});
+
+// protects=paper allocation splits N by count share, gives every source ≥1, never exceeds a source's count, and sums to N; fails_when=allocation over- or under-fetches; no_claim=dedupe losses (topped up at fetch time)
+test('allocate', () => {
+  const a = allocate(100, [{ source: 'a', query: 'q', count: 9000 }, { source: 'b', query: 'q', count: 1000 }, { source: 'c', query: 'q', count: 3 }]);
+  assert.equal(a.reduce((s, x) => s + x.n, 0), 100);
+  assert.ok(a.find((x) => x.source === 'c').n >= 1 && a.find((x) => x.source === 'c').n <= 3);
+  assert.ok(a.find((x) => x.source === 'a').n > a.find((x) => x.source === 'b').n);
+  const small = allocate(2, [{ source: 'a', count: 10 }, { source: 'b', count: 10 }, { source: 'c', count: 10 }]);
+  assert.equal(small.reduce((s, x) => s + x.n, 0), 2);
+});
+
+// protects=dedupe merges a paper found in two databases by shared id or title, keeping the longer abstract and all ids; fails_when=the same paper counts twice; no_claim=fuzzy title matching beyond normalization
+test('dedupe', () => {
+  const out = dedupe([
+    { id: 'pmid:1', ids: { pmid: '1' }, title: 'Sleep, Memory!', abstract: 'short', citations: null, source: 'pubmed' },
+    { id: 'doi:10.1000/x', ids: { doi: '10.1000/x', pmid: '1' }, title: 'Sleep memory', abstract: 'a much longer abstract', citations: 5, source: 'openalex' },
+    { id: 'arxiv:2101.00001', ids: { arxiv: '2101.00001' }, title: 'sleep memory', abstract: '', citations: null, source: 'arxiv' },
+    { id: 'doi:10.1000/y', ids: { doi: '10.1000/y' }, title: 'Other', abstract: 'x', citations: null, source: 'openalex' },
+  ]);
+  assert.equal(out.length, 2);
+  assert.equal(out[0].id, 'doi:10.1000/x');
+  assert.deepEqual(out[0].foundIn.sort(), ['arxiv', 'openalex', 'pubmed']);
+  assert.equal(out[0].abstract, 'a much longer abstract');
+});
+
+// protects=AC11: lib/gloop.js fails clearly when gstack-loops is missing or lacks an export; fails_when=a missing dependency surfaces as a confusing crash mid-run; no_claim=compatibility with future gstack-loops versions
+test('gloop export check', () => {
+  const missing = spawnSync(process.execPath, ['-e', "require('./lib/gloop')"], { cwd: ROOT, env: { ...process.env, GSTACK_LOOPS_DIR: '/nonexistent' }, encoding: 'utf8' });
+  assert.notEqual(missing.status, 0);
+  assert.match(missing.stderr, /gstack-loops not found at \/nonexistent/);
+  const fake = tmpdir();
+  const real = require('../lib/gloop').DIR;
+  fs.mkdirSync(path.join(fake, 'lib'));
+  for (const f of fs.readdirSync(path.join(real, 'lib'))) fs.copyFileSync(path.join(real, 'lib', f), path.join(fake, 'lib', f));
+  fs.appendFileSync(path.join(fake, 'lib', 'review.js'), '\ndelete module.exports.ingest;\n');
+  const bad = spawnSync(process.execPath, ['-e', "require('./lib/gloop')"], { cwd: ROOT, env: { ...process.env, GSTACK_LOOPS_DIR: fake }, encoding: 'utf8' });
+  assert.match(bad.stderr, /lib\/review\.js has no export "ingest"/);
+});
+
+// Pre-fill the http cache with recorded responses so a CLI subprocess runs offline.
+function seedCache(dir, ...names) {
+  for (const n of names) {
+    for (const [url, r] of Object.entries(JSON.parse(fs.readFileSync(path.join(FIX, `${n}.json`), 'utf8')))) {
+      if (r.status !== 200) continue;
+      const host = new URL(url).host;
+      fs.mkdirSync(path.join(dir, host), { recursive: true });
+      fs.writeFileSync(path.join(dir, host, `${crypto.createHash('sha256').update(url).digest('hex')}.json`), JSON.stringify({ url, status: 200, text: r.text }));
+    }
+  }
+}
+
+function hasGloop() {
+  return spawnSync('gloop', ['--help'], { encoding: 'utf8' }).error === undefined;
+}
+
+// protects=AC1 + AC2 + AC9 through the real CLI and real gloop: `rloop new` makes feat/r-<slug> with topic.md; `rloop run` stops at the gate printing measured counts; `rloop ls`/`stats` report it; fails_when=topic loops are not gloop loops or the CLI fetches before the gate; no_claim=gloop's own behavior beyond creating the loop
+test('CLI: new, run to the gate, ls, stats', { skip: !hasGloop() && 'gloop not on PATH' }, () => {
+  const ws = tmpdir('rloop-ws-');
+  const cache = tmpdir('rloop-cache-');
+  seedCache(cache, 'openalex', 'pubmed');
+  const sh = (cmd, args, extra = {}) => execFileSync(cmd, args, { cwd: ws, encoding: 'utf8', env: { ...process.env, RLOOP_CACHE: 'on', RLOOP_CACHE_DIR: cache, STUB_SCENARIO: 'clean', RLOOP_AGENT_BIN: path.join(__dirname, 'stub-claude.js'), ...extra } });
+  sh('git', ['init', '-q', '-b', 'main']);
+  sh('git', ['config', 'user.email', 't@example.com']);
+  sh('git', ['config', 'user.name', 'T']);
+  const cfg = JSON.parse(fs.readFileSync(path.join(ROOT, 'loops.json'), 'utf8'));
+  cfg.repos[0].name = path.basename(ws);
+  fs.writeFileSync(path.join(ws, 'loops.json'), JSON.stringify(cfg));
+  fs.writeFileSync(path.join(ws, '.gitignore'), '.loops/\nworktrees/\n');
+  sh('git', ['add', '-A']);
+  sh('git', ['commit', '-q', '-m', 'init']);
+  const rloop = path.join(ROOT, 'bin', 'rloop');
+
+  const created = sh(rloop, ['new', 'sleep and procedural memory in older adults']);
+  assert.match(created, /branch=feat\/r-sleep-and-procedural-memory-in-older-adults/);
+  const reg = JSON.parse(fs.readFileSync(path.join(ws, '.loops', 'registry.json'), 'utf8'));
+  const tdir = path.join(ws, reg.loops['r-sleep-and-procedural-memory-in-older-adults'].worktrees[cfg.repos[0].name]);
+  assert.ok(fs.existsSync(path.join(tdir, 'research', 'sleep-and-procedural-memory-in-older-adults', 'topic.md')));
+
+  const out = sh(rloop, ['run', 'sleep-and-procedural-memory-in-older-adults', '--mode', 'bypass']);
+  assert.match(out, /openalex\s+17990\s+sleep procedural memory older adults/);
+  assert.match(out, /pubmed\s+2502/);
+  assert.match(out, /NEEDS HUMAN \(scope-gate\).*--papers <N>/);
+  assert.match(sh(rloop, ['ls']), /sleep-and-procedural-memory-in-older-adults\s+needs-human/);
+  const stats = JSON.parse(sh(rloop, ['stats', '--json']));
+  assert.equal(stats.runs, 1);
+  assert.deepEqual(stats.needsHumanByGate, { 'scope-gate': 1 });
+  assert.match(sh(rloop, ['run', 'sleep-and-procedural-memory-in-older-adults', '--papers', '50', '--dry-run']), /would run: gate → map → detect → disprove → citegate → rank → ship .*resuming/);
+});

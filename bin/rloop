@@ -7,6 +7,7 @@
 //   rloop stats [--json]
 const fs = require('fs');
 const path = require('path');
+const { spawnSync } = require('child_process');
 const gloop = require('../lib/gloop');
 const ws = require('../lib/workspace');
 const runner = require('../lib/runner');
@@ -43,7 +44,10 @@ function cmdNew(root, pos, flags) {
   const slug = flags.slug || ws.slugify(topic);
   if (!slugOk(slug)) die(`bad slug "${slug}" (lowercase letters, digits, dashes)`);
   if (ws.topicDir(root, slug)) die(`topic "${slug}" already exists (rloop ls)`);
-  run('gloop', ['new', ws.loopName(slug)], { cwd: root, stdio: 'inherit' });
+  // stdio passes through, so use spawnSync (gloop's run() reads captured stdout).
+  const made = spawnSync('gloop', ['new', ws.loopName(slug)], { cwd: root, stdio: 'inherit' });
+  if (made.error) die(`could not run gloop: ${made.error.message}`);
+  if (made.status !== 0) die(`gloop new ${ws.loopName(slug)} failed (exit ${made.status})`);
   const tdir = ws.topicDir(root, slug);
   if (!tdir) die(`gloop new did not register loop ${ws.loopName(slug)}`);
   const dir = path.join(tdir, 'research', slug);

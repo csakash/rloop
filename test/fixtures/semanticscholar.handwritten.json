@@ -1,0 +1,15 @@
+{
+ "_note": "HAND-WRITTEN from the documented Graph API response shape (https://api.semanticscholar.org/api-docs/graph). The keyless API returned HTTP 429 on every attempt on 2026-11-11, so no live response could be recorded. Replace with node scripts/record-fixtures.js semanticscholar when it answers.",
+ "https://api.semanticscholar.org/graph/v1/paper/search?query=sleep%20procedural%20memory%20older%20adults&limit=1&fields=title": {
+  "status": 200,
+  "text": "{\"total\": 4210, \"offset\": 0, \"next\": 1, \"data\": [{\"paperId\": \"0f9b4e0a6c3d2e1f00112233445566778899aabb\", \"title\": \"Sleep and procedural memory consolidation in aging\"}]}"
+ },
+ "https://api.semanticscholar.org/graph/v1/paper/search?query=sleep%20procedural%20memory%20older%20adults&offset=0&limit=3&fields=title,abstract,year,venue,citationCount,externalIds": {
+  "status": 200,
+  "text": "{\"total\": 4210, \"offset\": 0, \"next\": 3, \"data\": [{\"paperId\": \"0f9b4e0a6c3d2e1f00112233445566778899aabb\", \"externalIds\": {\"DOI\": \"10.1016/J.NEUROBIOLAGING.2010.01.001\", \"PubMed\": \"20117776\"}, \"title\": \"Sleep and procedural memory consolidation in aging\", \"abstract\": \"Older adults show reduced sleep-dependent gains in motor sequence learning.\", \"year\": 2010, \"venue\": \"Neurobiology of Aging\", \"citationCount\": 120}, {\"paperId\": \"1a2b3c4d5e6f708192a3b4c5d6e7f80910111213\", \"externalIds\": {\"ArXiv\": \"2101.00001\"}, \"title\": \"A preprint without DOI\", \"abstract\": null, \"year\": 2021, \"venue\": \"\", \"citationCount\": 0}, {\"paperId\": \"ffeeddccbbaa99887766554433221100ffeeddcc\", \"externalIds\": {}, \"title\": \"Only an S2 id\", \"abstract\": \"Short.\", \"year\": null, \"venue\": null, \"citationCount\": 3}]}"
+ },
+ "https://api.semanticscholar.org/graph/v1/paper/DOI%3A10.1038%2Fnature14539?fields=title,abstract,year,venue,citationCount,externalIds": {
+  "status": 200,
+  "text": "{\"paperId\": \"a4a8b1e1a3c4d5e6f708192a3b4c5d6e7f809101\", \"externalIds\": {\"DOI\": \"10.1038/nature14539\", \"PubMed\": \"26017442\"}, \"title\": \"Deep learning\", \"abstract\": null, \"year\": 2015, \"venue\": \"Nature\", \"citationCount\": 60000}"
+ }
+}
