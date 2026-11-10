@@ -58,7 +58,7 @@ function ctxFor(dir, over = {}) {
 }
 
 async function fullRun(scenario, over = {}) {
-  process.env.STUB_SCENARIO = scenario;
+  process.env.RLOOP_TEST_SCENARIO = scenario;
   const dir = workspace();
   const { ctx } = ctxFor(dir, { opts: { papers: 6, sources: null }, ...over });
   const final = await runner.runResearch(ctx);
@@ -67,7 +67,7 @@ async function fullRun(scenario, over = {}) {
 
 // protects=AC2: with no paper count the run stops needs-human at the scope gate with measured counts per source, and a later --papers resumes the same run; fails_when=papers are fetched before a human picks the count, or resume re-runs scope; no_claim=real agent's source choice
 test('scope gate stops, then resumes with --papers', async () => {
-  process.env.STUB_SCENARIO = 'clean';
+  process.env.RLOOP_TEST_SCENARIO = 'clean';
   const dir = workspace();
   const first = ctxFor(dir);
   const st = await runner.runResearch(first.ctx);
@@ -190,7 +190,7 @@ test('rejected resolution is retried next round', async () => {
 
 // protects=r1-05: a run stopped at the gate and resumed leaves one history record, not two; fails_when=stats double-count resumed runs; no_claim=none beyond protects
 test('history keeps one record per run', async () => {
-  process.env.STUB_SCENARIO = 'clean';
+  process.env.RLOOP_TEST_SCENARIO = 'clean';
   const dir = workspace();
   const first = ctxFor(dir);
   await runner.runResearch(first.ctx);
@@ -239,4 +239,21 @@ test('secret in branch history blocks push', async () => {
   const runDir = tmpdir();
   fs.writeFileSync(path.join(runDir, 'REPORT.md'), '# clean\n');
   assert.throws(() => push({ topicDir: dir, slug: 't', runDir, baseBranch: 'base', topicTitle: 't' }), /possible secret in the report, not pushing: commits base\.\.HEAD matches a credential pattern/);
+});
+
+// protects=t1-04: the search-log key and seal map survive a resume, so a run parked at the gate keeps its signed entries and `rloop ship` still knows which proof files are runner-written; t1-02: the disprover gets topic.md, not the agent-written brief.md; fails_when=resume re-keys the log or loses seals; no_claim=none beyond protects
+test('resume keeps the log key and seals; disprover never sees brief.md', async () => {
+  process.env.RLOOP_TEST_SCENARIO = 'clean';
+  const dir = workspace();
+  const first = ctxFor(dir);
+  await runner.runResearch(first.ctx);
+  const key1 = fs.readFileSync(path.join(first.ctx.runDir, '.logkey'), 'utf8');
+  assert.equal(fs.statSync(path.join(first.ctx.runDir, '.logkey')).mode & 0o777, 0o600);
+  const second = ctxFor(dir, { opts: { papers: 6, sources: null }, resume: first.ctx.runDir });
+  await runner.runResearch(second.ctx);
+  assert.equal(second.ctx.logKey, key1);
+  const seals = JSON.parse(fs.readFileSync(path.join(first.ctx.runDir, '.seals.json'), 'utf8'));
+  assert.ok(seals['proof/citations.json'] && seals['sources.json']);
+  const prompt = fs.readFileSync(path.join(__dirname, '..', 'prompts', 'disprove.md'), 'utf8');
+  assert.ok(!prompt.includes('brief.md') && prompt.includes('topic.md'));
 });

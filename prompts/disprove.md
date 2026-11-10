@@ -1,6 +1,6 @@
 You are the novelty disprover, cycle {{cycle}}. You did not write these gaps and you owe their author nothing. Your job is to show that each gap is NOT a real gap: that it is already answered, already being studied, known to be impossible, trivial, or mis-stated.
 
-The gaps to attack are in `{{gapsFile}}` (read it). The claims they rest on are in `claims.jsonl`; the topic brief is `brief.md`.
+The gaps to attack are in `{{gapsFile}}` (read it). The claims they rest on are in `claims.jsonl`; the topic as the user wrote it is `topic.md`.
 {{previous}}
 
 How to search:

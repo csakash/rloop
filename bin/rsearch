@@ -6,8 +6,27 @@
 //   rsearch resolve <kind:value>
 // Prints JSON. When RLOOP_RUN_DIR is set, every call is appended to its search-log.jsonl
 // with RLOOP_ROLE / RLOOP_STAGE.
+const fs = require('fs');
+
+// Database keys come from the toolbox's owner-only keys file, never from the agent's env.
+if (process.env.RLOOP_KEYS_FILE) {
+  try { Object.assign(process.env, JSON.parse(fs.readFileSync(process.env.RLOOP_KEYS_FILE, 'utf8'))); } catch { /* no keys: keyless */ }
+}
 const sources = require('../lib/sources');
 const searchlog = require('../lib/searchlog');
+
+// Refuse any argument carrying a piece (8+ chars) of a secret-looking env value, so a shell
+// expansion inside an allowed command cannot read a secret back or send it to an API or log.
+const SECRET_NAME = /(KEY|TOKEN|SECRET|PASS|AUTH|CREDENTIAL|COOKIE|SESSION)/i;
+const WINDOW = 8;
+function leaksSecret(args, env = process.env) {
+  const text = args.join('\u0000');
+  for (const [k, v] of Object.entries(env)) {
+    if (!SECRET_NAME.test(k) || typeof v !== 'string' || v.length < WINDOW) continue;
+    for (let i = 0; i + WINDOW <= v.length; i += 1) if (text.includes(v.slice(i, i + WINDOW))) return k;
+  }
+  return null;
+}
 
 const ABSTRACT_CHARS = 700;
 const MAX_LIMIT = 50;
@@ -32,6 +51,8 @@ function fail(msg) {
 }
 
 async function main() {
+  const leak = leaksSecret(process.argv.slice(2));
+  if (leak) fail(`refusing: an argument contains part of $${leak}`);
   const { pos, flags } = parseArgs(process.argv.slice(2));
   const [op, a, ...rest] = pos;
   const runDir = process.env.RLOOP_RUN_DIR;
@@ -77,4 +98,5 @@ async function main() {
   fail('usage: rsearch <sources|count|search|resolve> ...');
 }
 
-main().catch((e) => fail(e.message));
+if (require.main === module) main().catch((e) => fail(e.message));
+module.exports = { leaksSecret };

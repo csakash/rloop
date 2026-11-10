@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 // A stand-in for `claude -p` in the runner tests. It acts on RLOOP_STAGE and writes the
-// files a real stage agent would, deterministically. STUB_SCENARIO picks the disprover's
+// files a real stage agent would, deterministically. RLOOP_TEST_SCENARIO picks the disprover's
 // behavior: clean | kill-g02 | never-converge | modify-tree | thin.
 const fs = require('fs');
 const path = require('path');
 
 const stage = process.env.RLOOP_STAGE;
-const scenario = process.env.STUB_SCENARIO || 'clean';
+const scenario = process.env.RLOOP_TEST_SCENARIO || 'clean';
 const prompt = process.argv[process.argv.indexOf('-p') + 1] || '';
 const cwd = process.cwd();
 const rd = (f) => fs.readFileSync(path.join(cwd, f), 'utf8');

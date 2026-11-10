@@ -149,7 +149,7 @@ test('CLI: new, run to the gate, ls, stats', { skip: !hasGloop() && 'gloop not o
   const ws = tmpdir('rloop-ws-');
   const cache = tmpdir('rloop-cache-');
   seedCache(cache, 'openalex', 'pubmed');
-  const sh = (cmd, args, extra = {}) => execFileSync(cmd, args, { cwd: ws, encoding: 'utf8', env: { ...process.env, RLOOP_CACHE: 'on', RLOOP_CACHE_DIR: cache, STUB_SCENARIO: 'clean', RLOOP_AGENT_BIN: path.join(__dirname, 'stub-claude.js'), ...extra } });
+  const sh = (cmd, args, extra = {}) => execFileSync(cmd, args, { cwd: ws, encoding: 'utf8', env: { ...process.env, RLOOP_CACHE: 'on', RLOOP_CACHE_DIR: cache, RLOOP_TEST_SCENARIO: 'clean', RLOOP_AGENT_BIN: path.join(__dirname, 'stub-claude.js'), ...extra } });
   sh('git', ['init', '-q', '-b', 'main']);
   sh('git', ['config', 'user.email', 't@example.com']);
   sh('git', ['config', 'user.name', 'T']);
@@ -176,4 +176,27 @@ test('CLI: new, run to the gate, ls, stats', { skip: !hasGloop() && 'gloop not o
   assert.equal(stats.runs, 1);
   assert.deepEqual(stats.needsHumanByGate, { 'scope-gate': 1 });
   assert.match(sh(rloop, ['run', 'sleep-and-procedural-memory-in-older-adults', '--papers', '50', '--dry-run']), /would run: gate → map → detect → disprove → citegate → rank → ship .*resuming/);
+});
+
+// protects=t1-01: agents get a minimal env (no GITHUB_TOKEN, AWS keys, database keys), database keys reach rsearch only via an owner-only file outside the stage dir, and rsearch refuses arguments carrying any 8-char piece of a secret; fails_when=a secret is in the agent env or can be passed through rsearch to an API or the published log; no_claim=the CLI's handling of its own auth env
+test('agent env is minimal; rsearch guards secrets', () => {
+  const env = agent.minimalEnv({ PATH: '/bin', HOME: '/h', GITHUB_TOKEN: 'ghp_x', AWS_SECRET_ACCESS_KEY: 'a', NCBI_API_KEY: 'k', DATABASE_URL: 'u', ANTHROPIC_API_KEY: 'sk', RLOOP_TEST_SCENARIO: 's' });
+  assert.deepEqual(Object.keys(env).filter((k) => env[k] === undefined).sort(), ['AWS_SECRET_ACCESS_KEY', 'DATABASE_URL', 'GITHUB_TOKEN', 'NCBI_API_KEY']);
+  const { leaksSecret } = require('../bin/rsearch');
+  const e = { GH_TOKEN: 'ghp_abcdefghijklmnop', HOME: '/Users/someone/long/path' };
+  assert.equal(leaksSecret(['search', 'openalex', 'sleep memory'], e), null);
+  assert.equal(leaksSecret(['count', 'openalex', 'x defghijk y'], e), 'GH_TOKEN', 'any 8-char window');
+  assert.equal(leaksSecret(['count', 'openalex', '/Users/someone/long/path'], e), null, 'non-secret names ignored');
+  const prev = process.env.NCBI_API_KEY;
+  process.env.NCBI_API_KEY = 'ncbi-secret-123';
+  try {
+    const ctx = { runDir: tmpdir() };
+    const tb = agent.toolbox(ctx);
+    assert.equal(fs.statSync(tb.keys).mode & 0o777, 0o400);
+    assert.deepEqual(JSON.parse(fs.readFileSync(tb.keys, 'utf8')), { NCBI_API_KEY: 'ncbi-secret-123' });
+    agent.cleanup(ctx);
+    assert.ok(!fs.existsSync(tb.dir), 't1-03: toolbox removed despite read-only modes');
+  } finally {
+    if (prev === undefined) delete process.env.NCBI_API_KEY; else process.env.NCBI_API_KEY = prev;
+  }
 });
