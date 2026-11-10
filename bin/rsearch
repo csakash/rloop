@@ -66,8 +66,15 @@ function fail(msg) {
 // The CLI lets an unquoted glob through in the rsearch rule, and the shell expands it to file
 // paths before rsearch runs. Refuse anything that looks like or names a filesystem path, and
 // never echo it, so rsearch cannot be used to list or probe files.
+// rsearch runs in the stage dir, so any reference outside it must start with "/", "~" or
+// "..": refuse those by syntax, before touching the filesystem (no existence oracle). An
+// argument naming an entry in the stage dir is refused too (lstat: dangling links count).
 function pathLike(args) {
-  return args.some((a) => /^[~/]/.test(a) || a.includes('/./') || a.includes('/../') || (a.length > 1 && fs.existsSync(a)));
+  return args.some((a) => {
+    if (/^[~/]/.test(a) || /(^|\/)\.\.(\/|$)/.test(a) || a.includes('/./')) return true;
+    if (a.length < 2) return false;
+    try { fs.lstatSync(a); return true; } catch { return false; }
+  });
 }
 
 async function main() {

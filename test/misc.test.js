@@ -253,6 +253,13 @@ test('agent env: keys file, git config, proxy', () => {
   assert.equal(pathLike(['count', 'openalex', '/Users/x/.ssh/id_rsa']), true);
   assert.equal(pathLike(['count', 'openalex', '~/.aws']), true);
   assert.equal(pathLike(['count', 'openalex', 'a/../b']), true);
+  // t5-01: ".." refused by syntax (no existence oracle, dangling links can't slip through)
+  assert.equal(pathLike(['count', 'openalex', '../x/nope']), true);
+  assert.equal(pathLike(['count', 'openalex', '..']), true);
+  const dangling = path.join(tmpdir(), 'dangling-secret-name');
+  fs.symlinkSync('/nonexistent/target', dangling);
+  assert.equal(pathLike(['count', 'openalex', path.relative(process.cwd(), dangling)]), true);
+  assert.equal(pathLike(['count', 'openalex', '"sleep"[tiab] AND aging']), false);
   const { leaksSecret } = require('../bin/rsearch');
   assert.equal(leaksSecret(['search', 'openalex', '/tmp/rloop-tools-abc/keys.json'], { RLOOP_KEYS_FILE: '/tmp/rloop-tools-abc/keys.json', SSH_AUTH_SOCK: '/private/tmp/com.apple.launchd.x/Listeners' }), null);
   assert.equal(leaksSecret(['q', 'Bearer abcdefgh123'], { ANTHROPIC_CUSTOM_HEADERS: 'Authorization: Bearer abcdefgh123' }), 'ANTHROPIC_CUSTOM_HEADERS');
