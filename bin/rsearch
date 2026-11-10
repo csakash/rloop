@@ -1,0 +1,80 @@
+#!/usr/bin/env node
+// rsearch: the only way rloop's agents touch the databases.
+//   rsearch sources
+//   rsearch count   <source> <query>
+//   rsearch search  <source> <query> [--limit N] [--gap gID]
+//   rsearch resolve <kind:value>
+// Prints JSON. When RLOOP_RUN_DIR is set, every call is appended to its search-log.jsonl
+// with RLOOP_ROLE / RLOOP_STAGE.
+const sources = require('../lib/sources');
+const searchlog = require('../lib/searchlog');
+
+const ABSTRACT_CHARS = 700;
+const MAX_LIMIT = 50;
+
+function parseArgs(argv) {
+  const pos = [];
+  const flags = {};
+  for (let i = 0; i < argv.length; i += 1) {
+    const a = argv[i];
+    if (a.startsWith('--')) { flags[a.slice(2)] = argv[i + 1]; i += 1; } else pos.push(a);
+  }
+  return { pos, flags };
+}
+
+function out(obj) {
+  process.stdout.write(`${JSON.stringify(obj, null, 2)}\n`);
+}
+
+function fail(msg) {
+  process.stderr.write(`rsearch: ${msg}\n`);
+  process.exit(2);
+}
+
+async function main() {
+  const { pos, flags } = parseArgs(process.argv.slice(2));
+  const [op, a, ...rest] = pos;
+  const runDir = process.env.RLOOP_RUN_DIR;
+  const base = { role: process.env.RLOOP_ROLE || 'cli', stage: process.env.RLOOP_STAGE || null };
+
+  if (op === 'sources') return out(sources.list());
+
+  if (op === 'count' || op === 'search') {
+    if (!a || rest.length === 0) fail(`usage: rsearch ${op} <source> <query>`);
+    const src = sources.get(a);
+    const query = rest.join(' ');
+    const gap = flags.gap || null;
+    try {
+      if (op === 'count') {
+        const n = await src.count(query);
+        searchlog.append(runDir, { ...base, op, source: a, query, gap, results: n });
+        return out({ source: a, query, count: n });
+      }
+      if (!src.canSearch) fail(`${a} cannot search in v1 (count/resolve only)`);
+      const limit = Math.max(1, Math.min(MAX_LIMIT, Number.parseInt(flags.limit, 10) || 10));
+      const res = await src.search(query, { limit });
+      searchlog.append(runDir, { ...base, op, source: a, query, gap, results: res.papers.length, total: res.total, ids: res.papers.map((p) => p.id) });
+      return out({
+        source: a, query, total: res.total,
+        papers: res.papers.map((p) => ({
+          id: p.id, ids: p.ids, title: p.title, year: p.year, venue: p.venue, citations: p.citations,
+          abstract: p.abstract.length > ABSTRACT_CHARS ? `${p.abstract.slice(0, ABSTRACT_CHARS)}…` : p.abstract,
+        })),
+      });
+    } catch (e) {
+      searchlog.append(runDir, { ...base, op, source: a, query, gap, error: e.message });
+      fail(e.message);
+    }
+  }
+
+  if (op === 'resolve') {
+    if (!a) fail('usage: rsearch resolve <kind:value>');
+    const r = await sources.resolveId(a);
+    searchlog.append(runDir, { ...base, op, source: r.via || null, query: a, gap: flags.gap || null, results: r.ok ? 1 : 0 });
+    return out({ id: r.id, ok: r.ok, via: r.via, title: r.title, error: r.error, year: r.paper ? r.paper.year : undefined });
+  }
+
+  fail('usage: rsearch <sources|count|search|resolve> ...');
+}
+
+main().catch((e) => fail(e.message));

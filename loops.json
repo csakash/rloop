@@ -33,5 +33,12 @@
   "hooks": {
     "preLoop": null,
     "postShip": null
+  },
+  "research": {
+    "disprove": {
+      "minQueries": 10,
+      "minSources": 2
+    },
+    "signals": {}
   }
 }
