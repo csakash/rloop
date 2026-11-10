@@ -54,6 +54,7 @@ test('stage sandbox copies only declared files', () => {
   fs.symlinkSync('/etc/hosts', path.join(dir, 'scores.json'));
   assert.throws(() => agent.collect(ctx, dir, ['scores.json'], 'rank'), /not a regular file/);
   assert.throws(() => agent.stageDir(ctx, ['../x']), /bad stage path/);
+  fs.rmSync(dir, { recursive: true, force: true });
 });
 
 // protects=s1-01: agents run a read-only per-run copy of rsearch, and any change to it is detected; fails_when=an agent's Write can alter code that rsearch later runs; no_claim=root or chmod-capable processes (agents have no shell)
@@ -66,6 +67,7 @@ test('rsearch toolbox is read-only and fingerprinted', () => {
   const out = execFileSync(tb.rsearch, ['sources'], { encoding: 'utf8' });
   assert.equal(JSON.parse(out).length, 7, 'the copy runs');
   assert.equal(agent.toolbox(ctx), tb, 'one toolbox per run');
+  agent.cleanup(ctx);
 });
 
 // protects=s1-02: a credential pattern or an env key value in the report blocks the push; fails_when=an injected agent's copied secret is published; no_claim=secrets in formats not listed
@@ -181,7 +183,7 @@ test('CLI: new, run to the gate, ls, stats', { skip: !hasGloop() && 'gloop not o
 // protects=t1-01: agents get a minimal env (no GITHUB_TOKEN, AWS keys, database keys), database keys reach rsearch only via an owner-only file outside the stage dir, and rsearch refuses arguments carrying any 8-char piece of a secret; fails_when=a secret is in the agent env or can be passed through rsearch to an API or the published log; no_claim=the CLI's handling of its own auth env
 test('agent env is minimal; rsearch guards secrets', () => {
   const env = agent.minimalEnv({ PATH: '/bin', HOME: '/h', GITHUB_TOKEN: 'ghp_x', AWS_SECRET_ACCESS_KEY: 'a', NCBI_API_KEY: 'k', DATABASE_URL: 'u', ANTHROPIC_API_KEY: 'sk', RLOOP_TEST_SCENARIO: 's' });
-  assert.deepEqual(Object.keys(env).filter((k) => env[k] === undefined).sort(), ['AWS_SECRET_ACCESS_KEY', 'DATABASE_URL', 'GITHUB_TOKEN', 'NCBI_API_KEY']);
+  assert.deepEqual(Object.keys(env).filter((k) => env[k] === undefined).sort(), ['AWS_SECRET_ACCESS_KEY', 'DATABASE_URL', 'GITHUB_TOKEN', 'NCBI_API_KEY', 'RLOOP_TEST_SCENARIO']);
   const { leaksSecret } = require('../bin/rsearch');
   const e = { GH_TOKEN: 'ghp_abcdefghijklmnop', HOME: '/Users/someone/long/path' };
   assert.equal(leaksSecret(['search', 'openalex', 'sleep memory'], e), null);
@@ -199,4 +201,31 @@ test('agent env is minimal; rsearch guards secrets', () => {
   } finally {
     if (prev === undefined) delete process.env.NCBI_API_KEY; else process.env.NCBI_API_KEY = prev;
   }
+});
+
+// protects=t2-01: the CLI scrubs its auth vars from Bash children, the search-log key travels in the keys file (not env), test hooks pass only under a stub, and push-blocking git config is renumbered from 0; t2-03: proxy/CA vars pass; t2-04: path-valued "secret" names don't trip the guard; fails_when=a credential or log key is in the agent/rsearch env, or git config indexes point at stripped entries; no_claim=the CLI's scrub list contents (string-checked in the 2.1.318 binary, not run)
+test('agent env: scrub, keys file, git config, proxy', () => {
+  const env = agent.minimalEnv({ PATH: '/b', HTTPS_PROXY: 'http://p', NODE_EXTRA_CA_CERTS: '/ca', RLOOP_TEST_SCENARIO: 's', GIT_CONFIG_COUNT: '2', GIT_CONFIG_KEY_0: 'k' });
+  assert.ok(!('HTTPS_PROXY' in env) && !('NODE_EXTRA_CA_CERTS' in env), 'proxy/CA kept');
+  assert.ok('RLOOP_TEST_SCENARIO' in env && env.RLOOP_TEST_SCENARIO === undefined, 'test hook stripped without a stub');
+  assert.ok('GIT_CONFIG_KEY_0' in env && env.GIT_CONFIG_KEY_0 === undefined);
+  const prev = process.env.GIT_CONFIG_COUNT;
+  process.env.GIT_CONFIG_COUNT = '3';
+  try {
+    const g = agent.pushBlockEnv('bypass', 'detect');
+    assert.equal(g.GIT_CONFIG_KEY_0, 'url.gloop-push-blocked://.pushInsteadOf');
+    assert.equal(Number(g.GIT_CONFIG_COUNT), Object.keys(g).filter((k) => k.startsWith('GIT_CONFIG_KEY_')).length);
+  } finally {
+    if (prev === undefined) delete process.env.GIT_CONFIG_COUNT; else process.env.GIT_CONFIG_COUNT = prev;
+  }
+  const ctx = { runDir: tmpdir(), logKey: 'f'.repeat(64) };
+  const tb = agent.toolbox(ctx);
+  assert.equal(JSON.parse(fs.readFileSync(tb.keys, 'utf8')).RLOOP_LOG_KEY, 'f'.repeat(64));
+  agent.cleanup(ctx);
+  const src = fs.readFileSync(path.join(ROOT, 'lib', 'agent.js'), 'utf8');
+  assert.match(src, /CLAUDE_CODE_SUBPROCESS_ENV_SCRUB: '1'/);
+  assert.doesNotMatch(src, /RLOOP_LOG_KEY: ctx\.logKey/);
+  const { leaksSecret } = require('../bin/rsearch');
+  assert.equal(leaksSecret(['search', 'openalex', '/tmp/rloop-tools-abc/keys.json'], { RLOOP_KEYS_FILE: '/tmp/rloop-tools-abc/keys.json', SSH_AUTH_SOCK: '/private/tmp/com.apple.launchd.x/Listeners' }), null);
+  assert.equal(leaksSecret(['q', 'Bearer abcdefgh123'], { ANTHROPIC_CUSTOM_HEADERS: 'Authorization: Bearer abcdefgh123' }), 'ANTHROPIC_CUSTOM_HEADERS');
 });

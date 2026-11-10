@@ -17,12 +17,15 @@ const searchlog = require('../lib/searchlog');
 
 // Refuse any argument carrying a piece (8+ chars) of a secret-looking env value, so a shell
 // expansion inside an allowed command cannot read a secret back or send it to an API or log.
-const SECRET_NAME = /(KEY|TOKEN|SECRET|PASS|AUTH|CREDENTIAL|COOKIE|SESSION)/i;
+// Defense in depth only: the real barrier is that agents' env holds no secrets (rloop's env
+// allowlist plus CLAUDE_CODE_SUBPROCESS_ENV_SCRUB); pieces under 8 chars still pass this check.
+const SECRET_NAME = /(KEY|TOKEN|SECRET|PASS|AUTH|CREDENTIAL|COOKIE|SESSION|HEADER)/i;
+const NOT_SECRET = new Set(['RLOOP_KEYS_FILE']);
 const WINDOW = 8;
 function leaksSecret(args, env = process.env) {
   const text = args.join('\u0000');
   for (const [k, v] of Object.entries(env)) {
-    if (!SECRET_NAME.test(k) || typeof v !== 'string' || v.length < WINDOW) continue;
+    if (!SECRET_NAME.test(k) || NOT_SECRET.has(k) || typeof v !== 'string' || v.length < WINDOW || v.startsWith('/')) continue;
     for (let i = 0; i + WINDOW <= v.length; i += 1) if (text.includes(v.slice(i, i + WINDOW))) return k;
   }
   return null;

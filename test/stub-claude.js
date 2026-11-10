@@ -16,9 +16,12 @@ const Q = 'sleep procedural memory older adults';
 
 const searchlog = require('../lib/searchlog');
 
+// Sign like rsearch: the log key comes from the toolbox keys file, not the env.
+const KEYS = process.env.RLOOP_KEYS_FILE ? JSON.parse(fs.readFileSync(process.env.RLOOP_KEYS_FILE, 'utf8')) : {};
+
 // Signed like rsearch does (it inherits RLOOP_LOG_KEY from the runner's env).
 function logSearch(gap, n, sources) {
-  for (let i = 0; i < n; i += 1) searchlog.append(process.env.RLOOP_RUN_DIR, { role: 'disprover', stage: 'disprove', op: 'search', source: sources[i % sources.length], query: `${gap} query ${i}`, gap, results: 3 });
+  for (let i = 0; i < n; i += 1) searchlog.append(process.env.RLOOP_RUN_DIR, { role: 'disprover', stage: 'disprove', op: 'search', source: sources[i % sources.length], query: `${gap} query ${i}`, gap, results: 3 }, KEYS.RLOOP_LOG_KEY);
 }
 
 // Unsigned entries in the run's log (a real agent cannot reach the run dir at all now;
