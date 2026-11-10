@@ -264,3 +264,19 @@ test('agent env: keys file, git config, proxy', () => {
   assert.equal(leaksSecret(['search', 'openalex', '/tmp/rloop-tools-abc/keys.json'], { RLOOP_KEYS_FILE: '/tmp/rloop-tools-abc/keys.json', SSH_AUTH_SOCK: '/private/tmp/com.apple.launchd.x/Listeners' }), null);
   assert.equal(leaksSecret(['q', 'Bearer abcdefgh123'], { ANTHROPIC_CUSTOM_HEADERS: 'Authorization: Bearer abcdefgh123' }), 'ANTHROPIC_CUSTOM_HEADERS');
 });
+
+// protects=rloop-quality AC1: sqrt-weighted split with a 10% floor, capped per source, summing to n; live-run counts give 52/18/16/14 instead of 95/3/1/1; n < sources keeps 1-each; fails_when=one broad query takes nearly all papers, a source exceeds its count, or the split misses n; no_claim=relevance of the papers fetched
+test('allocate: sqrt + 10% floor', () => {
+  const rows = (o) => Object.entries(o).map(([source, count]) => ({ source, query: 'q', count }));
+  const pick = (a) => Object.fromEntries(a.map((x) => [x.source, x.n]));
+  assert.deepEqual(pick(allocate(100, rows({ openalex: 3249, pubmed: 124, europepmc: 69, clinicaltrials: 33 }))), { openalex: 52, pubmed: 18, europepmc: 16, clinicaltrials: 14 });
+  const capped = pick(allocate(100, rows({ a: 5, b: 3, c: 9000 })));
+  assert.deepEqual(capped, { a: 5, b: 3, c: 92 });
+  assert.deepEqual(pick(allocate(50, rows({ a: 10, b: 12 }))), { a: 10, b: 12 }, 'sums to total available when short');
+  assert.deepEqual(pick(allocate(2, rows({ a: 10, b: 20, c: 30 }))), { c: 1, b: 1 });
+  for (const n of [5, 17, 100, 333]) {
+    const a = allocate(n, rows({ x: 4000, y: 300, z: 40, w: 7 }));
+    assert.equal(a.reduce((s, v) => s + v.n, 0), Math.min(n, 4347), `n=${n}`);
+    for (const v of a) assert.ok(v.n <= v.count && v.n >= Math.min(v.count, Math.max(1, Math.floor(0.1 * n))), `${v.source} n=${n}`);
+  }
+});
