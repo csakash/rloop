@@ -65,3 +65,13 @@ test('too-short quote is not verified', async () => {
     assert.equal(r.quotes[0].verified, false, quote);
   }
 });
+
+// protects=r2-02: a forged 64-char non-hex signature is skipped, not a crash that discards every valid entry; fails_when=searchlog.read throws; no_claim=none beyond protects
+test('non-hex signature is skipped, not a crash', () => {
+  const fs = require('fs');
+  const dir = require('./helpers').tmpdir();
+  searchlog.append(dir, { role: 'disprover', op: 'search', gap: 'g01', source: 'openalex', query: 'real' }, 'k');
+  fs.appendFileSync(require('path').join(dir, 'search-log.jsonl'), `${JSON.stringify({ role: 'disprover', op: 'search', gap: 'g01', source: 'pubmed', query: 'x', sig: 'z'.repeat(64) })}\n`);
+  const got = searchlog.read(dir, 'k');
+  assert.deepEqual(got.map((e) => e.query), ['real']);
+});

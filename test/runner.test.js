@@ -191,3 +191,15 @@ test('history keeps one record per run', async () => {
   assert.equal(runs[0].blockedGate, 'push');
   assert.equal(runner.stats(dir).runs, 1);
 });
+
+// protects=r2-03: ship commits only runner-sealed proof files and the verified search log; forged log lines and stray agent files never reach the PR; fails_when=unsigned entries or agent-dropped files are committed as proof; no_claim=none beyond protects
+test('ship commits only verified proof', async () => {
+  const { dir, ctx, final } = await fullRun('kill-g02');
+  assert.equal(final.blockedGate, 'push');
+  const out = path.join(dir, 'research', 't');
+  const shipped = fs.readFileSync(path.join(out, 'search-log.jsonl'), 'utf8').trim().split('\n').map((l) => JSON.parse(l));
+  assert.ok(shipped.length >= 20 && shipped.every((e) => /^[0-9a-f]{64}$/.test(e.sig)));
+  assert.ok(fs.existsSync(path.join(out, 'proof', 'citations.json')));
+  assert.ok(fs.existsSync(path.join(out, 'disprove', 'cycle-1.json')));
+  assert.ok(!fs.existsSync(path.join(out, 'disprove', 'open-1.json')) || ctx.seals.has('disprove/open-1.json'));
+});

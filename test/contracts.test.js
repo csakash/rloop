@@ -4,7 +4,7 @@ const assert = require('node:assert/strict');
 const C = require('../lib/contracts');
 const ids = require('../lib/ids');
 
-const claim = (over = {}) => ({ id: 'c1', source: 'doi:10.1000/x', subject: 'slow-wave sleep', relation: 'increases', object: 'motor memory', design: 'rct', n: 40, setting: 'older adults', quote: 'sleep improved recall', ...over });
+const claim = (over = {}) => ({ id: 'c1', source: 'doi:10.1000/x', subject: 'slow-wave sleep', relation: 'increases', object: 'motor memory', design: 'rct', n: 40, setting: 'older adults', quote: 'sleep improved recall in adults', ...over });
 const papers = new Set(['doi:10.1000/x']);
 
 // protects=a well-formed claim from a fetched paper passes; fails_when=valid claims are rejected; no_claim=quote matches the abstract (citegate checks that)
@@ -88,4 +88,10 @@ test('ids: normalize and canonical order', () => {
 test('ids: arxiv old style, nct', () => {
   assert.equal(ids.normalize('arxiv:hep-th/9901001'), 'arxiv:hep-th/9901001');
   assert.equal(ids.normalize('nct:nct01840839'), 'nct:NCT01840839');
+});
+
+// protects=r2-01: quotes under 4 words are rejected at extraction (so the retry tells the agent), with the same constant citegate uses; fails_when=a 3-word quote passes extraction and only fails later; no_claim=none beyond protects
+test('claim: quote under 4 words rejected', () => {
+  assert.match(C.validateClaim(claim({ quote: 'sleep helps memory' }), papers).error, /at least 4 words/);
+  assert.equal(C.MIN_QUOTE_WORDS, 4);
 });

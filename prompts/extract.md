@@ -8,7 +8,7 @@ For every paper, extract the empirical or theoretical claims its abstract makes 
 
 Write `{{output}}`: one JSON object per line, nothing else:
 
-    {"id":"<paper-local id like p3-c1>","source":"<the paper's id field, exactly>","subject":"…","relation":"increases|decreases|associated|no-effect|enables|other","object":"…","design":"rct|meta-analysis|observational|experiment|simulation|theory|review|other","n":<sample size integer or null>,"setting":"<population/context, short, or null>","quote":"<copied verbatim from the abstract, at most 40 words>"}
+    {"id":"<paper-local id like p3-c1>","source":"<the paper's id field, exactly>","subject":"…","relation":"increases|decreases|associated|no-effect|enables|other","object":"…","design":"rct|meta-analysis|observational|experiment|simulation|theory|review|other","n":<sample size integer or null>,"setting":"<population/context, short, or null>","quote":"<copied verbatim from the abstract, 4 to 40 words>"}
 
 Rules:
 - `quote` must be copied character for character from that paper's abstract. It is checked by code; a paraphrase fails the run.
