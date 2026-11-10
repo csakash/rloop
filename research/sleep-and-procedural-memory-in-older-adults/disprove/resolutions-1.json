@@ -1,0 +1,42 @@
+{
+  "d1-01": {
+    "status": "narrowed",
+    "reason": "Accepted. Age-related changes in spindle clustering/trains, and their relation to declarative/episodic consolidation in older adults, are already studied. I removed the false 'no study has measured spindle trains in older adults' premise and the general 'do trains decline with age' component. The question now asks only whether loss of trains, rather than isolated-spindle density, statistically mediates the age deficit in overnight motor-sequence consolidation (e.g., by reanalysing the n=173 dataset).",
+    "sources": ["doi:10.1093/sleep/zsac282", "doi:10.1093/sleep/zsaf105", "doi:10.1093/sleepadvances/zpaf084"]
+  },
+  "d1-02": {
+    "status": "narrowed",
+    "reason": "Accepted. Single-night CLAS with a finger-tapping outcome in ~56-year-olds (null), and multi-night PLAS that raises SO-coupled spindles in older adults (declarative outcomes only), are already done. I removed the false 'no CLAS on a motor outcome in older adults' premise and any single-night framing. The question now asks only about multi-night CLAS with a motor-sequence outcome in adults aged 60+, plus formal mediation through coupling.",
+    "sources": ["doi:10.1093/sleep/zsaa111", "doi:10.1093/ageing/afad228", "doi:10.1093/sleep/zsad206"]
+  },
+  "d1-03": {
+    "status": "narrowed",
+    "reason": "Accepted. Older-adult open-loop TMR evidence is mixed, not null (positive throwing-task nap TMR), and overnight open-loop TMR has been tried in adults over 60 for vocabulary. I removed the 'overnight vs nap' contrast and the 'no overnight TMR in older adults' premise, and rewrote 'why' to cite the mixed evidence. The question now asks only whether SO-up-state phase-targeted overnight TMR of a motor sequence helps healthy older adults, and whether it beats phase-random overnight cueing.",
+    "sources": ["doi:10.1016/j.neulet.2020.134973", "doi:10.1016/j.neuropsychologia.2018.08.021", "doi:10.1038/s41467-025-57602-2"]
+  },
+  "d1-04": {
+    "status": "narrowed",
+    "reason": "Accepted. Evening vs morning (and early-sleep vs ≥12 h) training has already been compared in older adults, with mostly positive results. I removed the implied broad 'training close to sleep vs far from sleep' question and the framing that c0099 is the main older-adult evidence. The question is now restricted to the within-evening ~1 h vs ~4 h before bedtime manipulation, with test clock-time matched across groups.",
+    "sources": ["doi:10.3389/fnagi.2019.00321", "doi:10.1101/lm.052522.120", "doi:10.1038/s41598-024-53664-2"]
+  },
+  "d1-05": {
+    "status": "narrowed",
+    "reason": "Accepted. Overnight sleep-vs-wake offline gains in chronic stroke vs age-matched controls are documented (Siengsukon & Boyd 2009), and PSG-behaviour links exist. I removed the 'does sleep yield greater offline gains in stroke vs controls' component and the 'relies on reviews and a single nap trial' premise. The question now asks only whether measured perilesional (vs contralesional) SO–spindle coupling predicts paretic-hand discrete-sequence gains against healthy older controls in a circadian-matched design.",
+    "sources": ["doi:10.1177/1545968308326631", "doi:10.3389/fneur.2015.00225", "doi:10.3389/fneur.2023.1243575"]
+  },
+  "d1-06": {
+    "status": "narrowed",
+    "reason": "Accepted. A fixed additional-practice (overtraining) × sleep/wake design in older adults already exists and reports a sleep benefit with extra practice. I removed 'does stronger encoding restore sleep gains' in general. The question now asks only whether individual criterion-based training restores gains under counterbalanced AM/PM (circadian-controlled) conditions with adequate power, since the 12-h AM/PM design confounds time of testing.",
+    "sources": ["doi:10.7275/hec9-z333", "doi:10.1093/sleep/zsae067.0071"]
+  },
+  "d1-07": {
+    "status": "narrowed",
+    "reason": "Accepted. The older-adult/PD arm of c0052 had no wake control, so the claim of a sleep-specific accuracy benefit in older adults was a misreading. Some older-adult sleep/wake studies also report accuracy. I removed the misstated premise and the 'reanalysis will reverse the conclusion' framing. The question now asks whether a circadian-controlled sleep/wake design in older adults shows an accuracy-specific effect, and whether a systematic accuracy-vs-speed synthesis across older-adult studies changes the conclusion.",
+    "sources": ["doi:10.3389/fnbeh.2024.1466696", "doi:10.1101/lm.569407", "doi:10.1016/j.neurobiolaging.2011.06.029"]
+  },
+  "d1-08": {
+    "status": "narrowed",
+    "reason": "Accepted. The between-study question of whether the coupling–consolidation link varies with age and memory type is addressed by the eLife Bayesian meta-analysis and cross-study work. I removed that between-study component. The question now asks only for a within-subject test in adults aged 60+ that pits coupling against fast-spindle density across a motor-sequence task and a cognitive procedural task.",
+    "sources": ["doi:10.7554/elife.101992", "doi:10.1038/s41598-018-36557-z", "doi:10.7554/elife.66761"]
+  }
+}

@@ -1,35 +1,156 @@
 [
   {
-    "id": "doi:10.1007/7854_2014_300",
-    "resolved": true,
-    "via": "fetched:pubmed",
-    "title": "Sleep-dependent memory consolidation in healthy aging and mild cognitive impairment.",
-    "citedBy": [
-      "claim c0001",
-      "claim c0002",
-      "claim c0003",
-      "claim c0004"
-    ]
-  },
-  {
-    "id": "doi:10.1016/j.smrv.2008.08.002",
-    "resolved": true,
-    "via": "fetched:pubmed",
-    "title": "The whats and whens of sleep-dependent memory consolidation.",
-    "citedBy": [
-      "claim c0005",
-      "claim c0006"
-    ]
-  },
-  {
     "id": "doi:10.1093/sleep/zsae072",
     "resolved": true,
     "via": "fetched:pubmed",
     "title": "Spindle-slow wave coupling and problem-solving skills: impact of age.",
     "citedBy": [
-      "claim c0007",
+      "claim c0001",
+      "claim c0002",
+      "claim c0003",
+      "finding d1-08"
+    ]
+  },
+  {
+    "id": "doi:10.1037/bul0000009",
+    "resolved": true,
+    "via": "fetched:pubmed",
+    "title": "Sleep and motor learning: Is there room for consolidation?",
+    "citedBy": [
+      "claim c0004",
+      "claim c0005",
+      "claim c0006",
+      "claim c0007"
+    ]
+  },
+  {
+    "id": "doi:10.1007/7854_2014_300",
+    "resolved": true,
+    "via": "fetched:pubmed",
+    "title": "Sleep-dependent memory consolidation in healthy aging and mild cognitive impairment.",
+    "citedBy": [
       "claim c0008",
-      "claim c0009"
+      "claim c0009",
+      "claim c0010",
+      "claim c0011"
+    ]
+  },
+  {
+    "id": "doi:10.3389/fneur.2015.00241",
+    "resolved": true,
+    "via": "fetched:pubmed",
+    "title": "Sleep and Motor Learning: Implications for Physical Rehabilitation After Stroke.",
+    "citedBy": [
+      "claim c0012"
+    ]
+  },
+  {
+    "id": "doi:10.3389/fnagi.2022.1000707",
+    "resolved": true,
+    "via": "fetched:pubmed",
+    "title": "Benefits and risks of napping in older adults: A systematic review.",
+    "citedBy": [
+      "claim c0013",
+      "claim c0014"
+    ]
+  },
+  {
+    "id": "doi:10.2522/ptj.20080310",
+    "resolved": true,
+    "via": "fetched:pubmed",
+    "title": "Does sleep promote motor learning? Implications for physical rehabilitation.",
+    "citedBy": [
+      "claim c0015",
+      "claim c0016"
+    ]
+  },
+  {
+    "id": "doi:10.1016/j.nlm.2021.107508",
+    "resolved": true,
+    "via": "fetched:pubmed",
+    "title": "Encoding and consolidation of motor sequence learning in young and older adults.",
+    "citedBy": [
+      "claim c0017",
+      "claim c0018",
+      "finding d1-06"
+    ]
+  },
+  {
+    "id": "doi:10.1176/appi.ajgp.13.5.344",
+    "resolved": true,
+    "via": "fetched:pubmed",
+    "title": "Aging and the role of the HPA axis and rhythm in sleep and memory-consolidation.",
+    "citedBy": [
+      "claim c0019"
+    ]
+  },
+  {
+    "id": "doi:10.1042/etls20230110",
+    "resolved": true,
+    "via": "fetched:pubmed",
+    "title": "Sleep and memory consolidation in healthy, neurotypical children, and adults: a summary of systematic reviews and meta-analyses.",
+    "citedBy": [
+      "claim c0020"
+    ]
+  },
+  {
+    "id": "doi:10.1016/j.neurobiolaging.2016.08.006",
+    "resolved": true,
+    "via": "fetched:pubmed",
+    "title": "Age-related white-matter correlates of motor sequence learning and consolidation.",
+    "citedBy": [
+      "claim c0021",
+      "claim c0022",
+      "claim c0023"
+    ]
+  },
+  {
+    "id": "doi:10.1111/jsr.14027",
+    "resolved": true,
+    "via": "fetched:pubmed",
+    "title": "Targeted memory reactivation during post-learning sleep does not enhance motor memory consolidation in older adults.",
+    "citedBy": [
+      "claim c0024",
+      "finding d1-03"
+    ]
+  },
+  {
+    "id": "doi:10.3233/rnn-150521",
+    "resolved": true,
+    "via": "fetched:pubmed",
+    "title": "The effect of sleep on motor learning in the aging and stroke population - a systematic review.",
+    "citedBy": [
+      "claim c0025",
+      "claim c0026"
+    ]
+  },
+  {
+    "id": "doi:10.3389/fneur.2018.01002",
+    "resolved": true,
+    "via": "fetched:pubmed",
+    "title": "Can Daytime Napping Assist the Process of Skills Acquisition After Stroke?",
+    "citedBy": [
+      "claim c0027",
+      "claim c0028"
+    ]
+  },
+  {
+    "id": "doi:10.1371/journal.pone.0157770",
+    "resolved": true,
+    "via": "fetched:pubmed",
+    "title": "Motor Skills Enhance Procedural Memory Formation and Protect against Age-Related Decline.",
+    "citedBy": [
+      "claim c0029",
+      "claim c0030"
+    ]
+  },
+  {
+    "id": "doi:10.5665/sleep.5048",
+    "resolved": true,
+    "via": "fetched:pubmed",
+    "title": "Quantitative Motor Performance and Sleep Benefit in Parkinson Disease.",
+    "citedBy": [
+      "claim c0031"
     ]
   },
   {
@@ -38,20 +159,110 @@
     "via": "fetched:europepmc",
     "title": "The Effect of a Post-Learning Nap on Motor Memory Consolidation in People With Parkinson's Disease: A Randomised Controlled Trial.",
     "citedBy": [
-      "claim c0010",
-      "claim c0011",
-      "claim c0012"
+      "claim c0032",
+      "claim c0033",
+      "claim c0034"
     ]
   },
   {
-    "id": "doi:10.1093/cercor/bhv347",
+    "id": "doi:10.64898/2026.04.22.26351552",
     "resolved": true,
-    "via": "fetched:openalex",
-    "title": "Cerebral Activation During Initial Motor Learning Forecasts Subsequent Sleep-Facilitated Memory Consolidation in Older Adults",
+    "via": "fetched:europepmc",
+    "title": "Targeted memory reactivation during sleep modulates spindle and slow wave density, but not motor memory consolidation, in Parkinson’s disease",
     "citedBy": [
-      "claim c0013",
-      "claim c0014",
-      "claim c0015"
+      "claim c0035",
+      "claim c0036",
+      "claim c0037",
+      "claim c0038"
+    ]
+  },
+  {
+    "id": "doi:10.31234/osf.io/5yqjg_v1",
+    "resolved": true,
+    "via": "fetched:europepmc",
+    "title": "The Sleep-Aging-Motor Memory Triad: A Systematic Review of Task-Dependent Consolidation and Neuroplasticity",
+    "citedBy": [
+      "claim c0039",
+      "claim c0040"
+    ]
+  },
+  {
+    "id": "doi:10.1016/j.sleep.2025.106821",
+    "resolved": true,
+    "via": "fetched:europepmc",
+    "title": "Procedural learning worsens with OSA severity in older adults and is insensitive to short exposure supplemental oxygen therapy.",
+    "citedBy": [
+      "claim c0041",
+      "claim c0042"
+    ]
+  },
+  {
+    "id": "doi:10.1080/0361073x.2024.2439741",
+    "resolved": true,
+    "via": "fetched:europepmc",
+    "title": "The Effects of the Nocturnal Sleep on Learning of a Complex Motor Skill in Young and Older Adults.",
+    "citedBy": [
+      "claim c0043",
+      "claim c0044",
+      "claim c0045"
+    ]
+  },
+  {
+    "id": "doi:10.1093/sleepadvances/zpaf022",
+    "resolved": true,
+    "via": "fetched:europepmc",
+    "title": "Impact of spindle-inspired transcranial alternating current stimulation during a nap on sleep-dependent motor memory consolidation in healthy older adults.",
+    "citedBy": [
+      "claim c0046",
+      "claim c0047",
+      "claim c0048",
+      "claim c0049"
+    ]
+  },
+  {
+    "id": "doi:10.3389/fnbeh.2024.1466696",
+    "resolved": true,
+    "via": "fetched:europepmc",
+    "title": "Sleep improves accuracy, but not speed, of generalized motor learning in young and older adults and in individuals with Parkinson's disease.",
+    "citedBy": [
+      "claim c0050",
+      "claim c0051",
+      "claim c0052",
+      "finding d1-07",
+      "resolution d1-07"
+    ]
+  },
+  {
+    "id": "doi:10.1080/10749357.2026.2754432",
+    "resolved": true,
+    "via": "fetched:europepmc",
+    "title": "Motor memory consolidation during sleep after stroke: the rehabilitation timing hypothesis.",
+    "citedBy": [
+      "claim c0053",
+      "claim c0054",
+      "claim c0055"
+    ]
+  },
+  {
+    "id": "doi:10.3389/fnagi.2021.787654",
+    "resolved": true,
+    "via": "fetched:europepmc",
+    "title": "Aging-Related Changes in Cortical Sources of Sleep Oscillatory Neural Activity Following Motor Learning Reflect Contributions of Cortical Thickness and Pre-sleep Functional Activity.",
+    "citedBy": [
+      "claim c0056",
+      "claim c0057",
+      "claim c0058"
+    ]
+  },
+  {
+    "id": "doi:10.1111/ejn.15468",
+    "resolved": true,
+    "via": "fetched:europepmc",
+    "title": "Ageing-related changes in nap neuroscillatory activity are mediated and moderated by grey matter volume.",
+    "citedBy": [
+      "claim c0059",
+      "claim c0060",
+      "claim c0061"
     ]
   },
   {
@@ -60,73 +271,10 @@
     "via": "fetched:openalex",
     "title": "fMRI and sleep correlates of the age‐related impairment in motor memory consolidation",
     "citedBy": [
-      "claim c0016",
-      "claim c0017",
-      "claim c0018"
-    ]
-  },
-  {
-    "id": "doi:10.3389/fnagi.2021.747358",
-    "resolved": true,
-    "via": "fetched:openalex",
-    "title": "Differential Effects of a Nap on Motor Sequence Learning-Related Functional Connectivity Between Young and Older Adults",
-    "citedBy": [
-      "claim c0019",
-      "claim c0020"
-    ]
-  },
-  {
-    "id": "doi:10.1093/sleepadvances/zpaf022",
-    "resolved": true,
-    "via": "fetched:openalex",
-    "title": "Impact of spindle-inspired transcranial alternating current stimulation during a nap on sleep-dependent motor memory consolidation in healthy older adults",
-    "citedBy": [
-      "claim c0021",
-      "claim c0022",
-      "claim c0023"
-    ]
-  },
-  {
-    "id": "doi:10.67698/pjpcr.2026.0064",
-    "resolved": true,
-    "via": "fetched:openalex",
-    "title": "Slow-Wave Sleep Spindle Density and Motor Sequence Learning Consolidation in Young and Older Adults: Polysomnographic and fMRI Evidence",
-    "citedBy": [
-      "claim c0024",
-      "claim c0025",
-      "claim c0026"
-    ]
-  },
-  {
-    "id": "doi:10.64898/2026.04.22.26351552",
-    "resolved": true,
-    "via": "fetched:openalex",
-    "title": "Targeted memory reactivation during sleep modulates spindle and slow wave density, but not motor memory consolidation, in Parkinson’s disease",
-    "citedBy": [
-      "claim c0027",
-      "claim c0028",
-      "claim c0029",
-      "claim c0030"
-    ]
-  },
-  {
-    "id": "doi:10.1371/journal.pone.0006683",
-    "resolved": true,
-    "via": "fetched:openalex",
-    "title": "Sequence Skill Acquisition and Off-Line Learning in Normal Aging",
-    "citedBy": [
-      "claim c0031",
-      "claim c0032"
-    ]
-  },
-  {
-    "id": "doi:10.1101/lm.052522.120",
-    "resolved": true,
-    "via": "fetched:openalex",
-    "title": "Better later: evening practice is advantageous for motor skill consolidation in the elderly",
-    "citedBy": [
-      "claim c0033",
-      "finding d1-09"
+      "claim c0062",
+      "claim c0063",
+      "claim c0064",
+      "claim c0065"
     ]
   },
   {
@@ -135,91 +283,49 @@
     "via": "fetched:openalex",
     "title": "White Matter Structure in Older Adults Moderates the Benefit of Sleep Spindles on Motor Memory Consolidation",
     "citedBy": [
-      "claim c0034",
-      "claim c0035",
-      "claim c0036",
-      "claim c0037"
+      "claim c0066",
+      "claim c0067",
+      "claim c0068",
+      "claim c0069"
     ]
   },
   {
-    "id": "doi:10.1037/bul0000009",
+    "id": "doi:10.1007/s11357-015-9779-8",
     "resolved": true,
     "via": "fetched:openalex",
-    "title": "Sleep and motor learning: Is there room for consolidation?",
+    "title": "Neuronal mechanisms of motor learning and motor memory consolidation in healthy old adults",
     "citedBy": [
-      "claim c0038",
-      "claim c0039",
-      "finding d1-10"
+      "claim c0070"
     ]
   },
   {
-    "id": "doi:10.1093/sleep/zsz067.274",
+    "id": "doi:10.1371/journal.pone.0174755",
     "resolved": true,
     "via": "fetched:openalex",
-    "title": "0275 Age-Related Changes in Sleep-Dependent Procedural Learning Consolidation",
+    "title": "Reactivation or transformation? Motor memory consolidation associated with cerebral activation time-locked to sleep spindles",
     "citedBy": [
-      "claim c0040",
-      "claim c0041"
+      "claim c0071"
     ]
   },
   {
-    "id": "doi:10.3389/fnhum.2013.00142",
+    "id": "doi:10.1093/cercor/bhv347",
     "resolved": true,
     "via": "fetched:openalex",
-    "title": "Neural correlates of the age-related changes in motor sequence learning and motor adaptation in older adults",
+    "title": "Cerebral Activation During Initial Motor Learning Forecasts Subsequent Sleep-Facilitated Memory Consolidation in Older Adults",
     "citedBy": [
-      "claim c0042",
-      "claim c0043"
+      "claim c0072",
+      "claim c0073",
+      "claim c0074"
     ]
   },
   {
-    "id": "doi:10.1016/j.sleep.2025.106821",
+    "id": "doi:10.1038/s41598-018-34225-w",
     "resolved": true,
     "via": "fetched:openalex",
-    "title": "Procedural learning worsens with OSA severity in older adults and is insensitive to short exposure supplemental oxygen therapy",
+    "title": "Variable training but not sleep improves consolidation of motor adaptation",
     "citedBy": [
-      "claim c0044",
-      "claim c0045",
-      "claim c0046"
-    ]
-  },
-  {
-    "id": "doi:10.3389/fnagi.2022.1000707",
-    "resolved": true,
-    "via": "fetched:openalex",
-    "title": "Benefits and risks of napping in older adults: A systematic review",
-    "citedBy": [
-      "claim c0047"
-    ]
-  },
-  {
-    "id": "doi:10.1093/sleep/zsae067.0071",
-    "resolved": true,
-    "via": "fetched:openalex",
-    "title": "0071 Does Additional Training on a Motor Sequence Task Improve Sleep-Dependent Memory Consolidation for Older Adults?",
-    "citedBy": [
-      "claim c0048",
-      "claim c0049"
-    ]
-  },
-  {
-    "id": "doi:10.3389/fnagi.2016.00125",
-    "resolved": true,
-    "via": "fetched:openalex",
-    "title": "Motor Performance Is not Enhanced by Daytime Naps in Older Adults",
-    "citedBy": [
-      "claim c0050",
-      "claim c0051",
-      "finding d1-05"
-    ]
-  },
-  {
-    "id": "doi:10.1111/jsr.14027",
-    "resolved": true,
-    "via": "fetched:openalex",
-    "title": "Targeted memory reactivation during post‐learning sleep does not enhance motor memory consolidation in older adults",
-    "citedBy": [
-      "claim c0052"
+      "claim c0075",
+      "claim c0076"
     ]
   },
   {
@@ -228,40 +334,46 @@
     "via": "fetched:openalex",
     "title": "Temporal cluster-based organization of sleep spindles underlies motor memory consolidation",
     "citedBy": [
-      "claim c0053"
+      "claim c0077",
+      "finding d1-01"
     ]
   },
   {
-    "id": "doi:10.1101/lm.043042.116",
+    "id": "doi:10.5812/jmcl-148244",
     "resolved": true,
     "via": "fetched:openalex",
-    "title": "Insufficient chunk concatenation may underlie changes in sleep-dependent consolidation of motor sequence learning in older adults",
+    "title": "The Impact of Variable Practice and Feedback Frequency on Motor Memory Consolidation in Older Adults",
     "citedBy": [
-      "claim c0054",
-      "claim c0055",
-      "claim c0056",
-      "claim c0057"
+      "claim c0078"
     ]
   },
   {
-    "id": "doi:10.1055/s-0029-1240138",
+    "id": "doi:10.1016/j.neuroimage.2020.117323",
     "resolved": true,
     "via": "fetched:openalex",
-    "title": "Sleep and memory consolidation in the elderly",
+    "title": "Lateralized effects of post-learning transcranial direct current stimulation on motor memory consolidation in older adults: An fMRI investigation",
     "citedBy": [
-      "claim c0058",
-      "claim c0059",
-      "claim c0060"
+      "claim c0079",
+      "claim c0080"
     ]
   },
   {
-    "id": "doi:10.1371/journal.pone.0052805",
+    "id": "doi:10.1155/2018/4756785",
     "resolved": true,
     "via": "fetched:openalex",
-    "title": "Daytime Sleep Enhances Consolidation of the Spatial but Not Motoric Representation of Motor Sequence Memory",
+    "title": "Acute Exercise as an Intervention to Trigger Motor Performance and EEG Beta Activity in Older Adults",
     "citedBy": [
-      "claim c0061",
-      "claim c0062"
+      "claim c0081"
+    ]
+  },
+  {
+    "id": "doi:10.1155/2018/3076986",
+    "resolved": true,
+    "via": "fetched:openalex",
+    "title": "Adult Gross Motor Learning and Sleep: Is There a Mutual Benefit?",
+    "citedBy": [
+      "claim c0082",
+      "claim c0083"
     ]
   },
   {
@@ -270,71 +382,29 @@
     "via": "fetched:openalex",
     "title": "Temporal sleep spindle clustering and slow-oscillation coupling in motor memory consolidation and generalization",
     "citedBy": [
-      "claim c0063",
-      "claim c0064",
-      "claim c0065"
+      "claim c0084",
+      "claim c0085",
+      "claim c0086"
     ]
   },
   {
-    "id": "doi:10.3233/rnn-150521",
+    "id": "doi:10.12775/qs.2026.58.72667",
     "resolved": true,
     "via": "fetched:openalex",
-    "title": "The effect of sleep on motor learning in the aging and stroke population – a systematic review",
+    "title": "Imagery Training in REM Sleep and Lucid Dreaming and the Optimisation of Motor Memory Consolidation in Athletes: A Narrative Review",
     "citedBy": [
-      "claim c0066",
-      "claim c0067",
-      "claim c0068"
+      "claim c0087",
+      "claim c0088"
     ]
   },
   {
-    "id": "doi:10.3389/fnbeh.2024.1466696",
+    "id": "doi:10.3233/jpd-230038",
     "resolved": true,
     "via": "fetched:openalex",
-    "title": "Sleep improves accuracy, but not speed, of generalized motor learning in young and older adults and in individuals with Parkinson’s disease",
+    "title": "Motor Memory Consolidation Deficits in Parkinson’s Disease: A Systematic Review with Meta-Analysis",
     "citedBy": [
-      "claim c0069",
-      "claim c0070",
-      "claim c0071"
-    ]
-  },
-  {
-    "id": "doi:10.1042/etls20230110",
-    "resolved": true,
-    "via": "fetched:openalex",
-    "title": "Sleep and memory consolidation in healthy, neurotypical children, and adults: a summary of systematic reviews and meta-analyses",
-    "citedBy": [
-      "claim c0072"
-    ]
-  },
-  {
-    "id": "doi:10.31234/osf.io/5yqjg_v1",
-    "resolved": true,
-    "via": "fetched:openalex",
-    "title": "The Sleep-Aging-Motor Memory Triad: A Systematic Review of Task-Dependent Consolidation and Neuroplasticity",
-    "citedBy": [
-      "claim c0073",
-      "claim c0074"
-    ]
-  },
-  {
-    "id": "doi:10.1111/jsr.12028",
-    "resolved": true,
-    "via": "fetched:openalex",
-    "title": "The contribution of nocturnal sleep to the consolidation of motor skill learning in healthy ageing and P arkinson's disease",
-    "citedBy": [
-      "claim c0075",
-      "claim c0076",
-      "claim c0077"
-    ]
-  },
-  {
-    "id": "doi:10.3389/fneur.2018.01002",
-    "resolved": true,
-    "via": "fetched:openalex",
-    "title": "Can Daytime Napping Assist the Process of Skills Acquisition After Stroke?",
-    "citedBy": [
-      "claim c0078",
-      "claim c0079"
+      "claim c0089",
+      "claim c0090"
     ]
   },
   {
@@ -343,98 +413,9 @@
     "via": "fetched:openalex",
     "title": "Sleep-dependent motor memory consolidation in older adults depends on task demands",
     "citedBy": [
-      "claim c0080",
-      "claim c0081",
-      "claim c0082"
-    ]
-  },
-  {
-    "id": "doi:10.1212/wnl.96.15_supplement.4149",
-    "resolved": true,
-    "via": "fetched:openalex",
-    "title": "Evaluating Closed-loop Auditory Stimulation during Sleep as an Intervention to Improve Memory Consolidation (4149)",
-    "citedBy": [
-      "claim c0083",
-      "claim c0084",
-      "claim c0085",
-      "claim c0086"
-    ]
-  },
-  {
-    "id": "doi:10.7275/hec9-z333",
-    "resolved": true,
-    "via": "fetched:openalex",
-    "title": "Sleep Benefits Procedural Motor Learning in Older Adults With Additional Practice",
-    "citedBy": [
-      "claim c0087",
-      "claim c0088",
-      "claim c0089",
-      "claim c0090"
-    ]
-  },
-  {
-    "id": "doi:10.1111/ejn.15468",
-    "resolved": true,
-    "via": "fetched:openalex",
-    "title": "Ageing‐related changes in nap neuroscillatory activity are mediated and moderated by grey matter volume",
-    "citedBy": [
       "claim c0091",
-      "claim c0092"
-    ]
-  },
-  {
-    "id": "doi:10.1093/sleep/zsaa056.120",
-    "resolved": true,
-    "via": "fetched:openalex",
-    "title": "0122 Does Additional Training on an Implicit Motor Sequence Learning Task for Older Adults Improve Sleep-Dependent Memory Consolidation?",
-    "citedBy": [
-      "claim c0093",
-      "claim c0094"
-    ]
-  },
-  {
-    "id": "doi:10.1080/0361073x.2024.2439741",
-    "resolved": true,
-    "via": "fetched:openalex",
-    "title": "The Effects of the Nocturnal Sleep on Learning of a Complex Motor Skill in Young and Older Adults",
-    "citedBy": [
-      "claim c0095",
-      "claim c0096",
-      "claim c0097",
-      "finding d1-10"
-    ]
-  },
-  {
-    "id": "doi:10.1155/2019/2689790",
-    "resolved": true,
-    "via": "fetched:openalex",
-    "title": "Posttraining Alpha Transcranial Alternating Current Stimulation Impairs Motor Consolidation in Elderly People",
-    "citedBy": [
-      "claim c0098",
-      "claim c0099",
-      "claim c0100"
-    ]
-  },
-  {
-    "id": "doi:10.3389/fnagi.2013.00083",
-    "resolved": true,
-    "via": "fetched:openalex",
-    "title": "Age-related changes in consolidation of perceptual and muscle-based learning of motor skills",
-    "citedBy": [
-      "claim c0101",
-      "claim c0102"
-    ]
-  },
-  {
-    "id": "doi:10.2147/nss.s100337",
-    "resolved": true,
-    "via": "fetched:openalex",
-    "title": "Slow sleep spindle and procedural memory consolidation in patients with major depressive disorder",
-    "citedBy": [
-      "claim c0103",
-      "claim c0104",
-      "claim c0105",
-      "claim c0106"
+      "claim c0092",
+      "claim c0093"
     ]
   },
   {
@@ -443,60 +424,203 @@
     "via": "fetched:openalex",
     "title": "Age-related decline in gross motor memory : the role of slow oscillations-spindle coupling",
     "citedBy": [
-      "claim c0107",
-      "claim c0108",
+      "claim c0094",
+      "claim c0095",
+      "claim c0096",
+      "claim c0097",
+      "claim c0098",
+      "claim c0099"
+    ]
+  },
+  {
+    "id": "nct:NCT04277104",
+    "resolved": true,
+    "via": "fetched:clinicaltrials",
+    "title": "Improving Slow Wave Sleep by Auditory Stimulation to Enhance Memory Consolidation and New Learning in Healthy Older Adults and Older Individuals at Risk for Dementia",
+    "citedBy": [
+      "claim c0100",
+      "claim c0101"
+    ]
+  },
+  {
+    "id": "nct:NCT07051239",
+    "resolved": true,
+    "via": "fetched:clinicaltrials",
+    "title": "Enhancing Waste Clearance Through Sleep Stimulation",
+    "citedBy": [
+      "claim c0102"
+    ]
+  },
+  {
+    "id": "nct:NCT06501495",
+    "resolved": true,
+    "via": "fetched:clinicaltrials",
+    "title": "Slow Waves During Sleep and Wakefulness: a Common Denominator for Cognitive and Attentional Disorders in Normal and Pathological Aging (Exploratory Study)",
+    "citedBy": [
+      "claim c0103",
+      "claim c0104",
+      "claim c0105"
+    ]
+  },
+  {
+    "id": "nct:NCT03112902",
+    "resolved": true,
+    "via": "fetched:clinicaltrials",
+    "title": "Application of Transcranial Alternating Current Stimulation for Modulation of Sleep and Cognitive Performance",
+    "citedBy": [
+      "claim c0106",
+      "claim c0107"
+    ]
+  },
+  {
+    "id": "nct:NCT07383311",
+    "resolved": true,
+    "via": "fetched:clinicaltrials",
+    "title": "Autophagy-Enhancers to Reduce Sleep Disturbances: A Combined Approach",
+    "citedBy": [
+      "claim c0108"
+    ]
+  },
+  {
+    "id": "doi:10.7554/elife.73930",
+    "resolved": true,
+    "via": "fetched:openalex",
+    "title": "Sigma oscillations protect or reinstate motor memory depending on their temporal coordination with slow waves",
+    "citedBy": [
       "claim c0109",
       "claim c0110",
-      "claim c0111",
-      "finding d1-02",
-      "finding d1-09"
+      "claim c0111"
     ]
   },
   {
-    "id": "doi:10.1155/2013/619319",
+    "id": "doi:10.1038/s44271-024-00082-9",
     "resolved": true,
     "via": "fetched:openalex",
-    "title": "Neurophysiological Basis of Sleep’s Function on Memory and Cognition",
+    "title": "Children exhibit a developmental advantage in the offline processing of a learned motor sequence",
     "citedBy": [
-      "claim c0112"
-    ]
-  },
-  {
-    "id": "doi:10.1055/s-2003-825382",
-    "resolved": true,
-    "via": "fetched:openalex",
-    "title": "Does REM-sleep manipulation have a differential effect on learning and memory in healthy older adults?",
-    "citedBy": [
+      "claim c0112",
       "claim c0113"
     ]
   },
   {
-    "id": "doi:10.31237/osf.io/8t9uq",
+    "id": "doi:10.3389/fnins.2018.00280",
     "resolved": true,
     "via": "fetched:openalex",
-    "title": "The Effects of Self-Guided Meditation and Napping on Memory Consolidation in Humans",
+    "title": "Does Post-task Declarative Learning Have an Influence on Early Motor Memory Consolidation Over Day? An fMRI Study",
     "citedBy": [
       "claim c0114"
     ]
   },
   {
-    "id": "doi:10.1093/ageing/afad228",
+    "id": "openalex:W2950678296",
     "resolved": true,
-    "via": "crossref",
-    "title": "Acoustic stimulation during sleep predicts long-lasting increases in memory performance and beneficial amyloid response in older adults",
-    "error": null,
+    "via": "fetched:openalex",
+    "title": "Does chronological age increase the susceptibility to motor memory interference induced on the primary motor cortex (M1)",
     "citedBy": [
-      "finding d1-01"
+      "claim c0115",
+      "claim c0116",
+      "claim c0117",
+      "claim c0118"
     ]
   },
   {
-    "id": "doi:10.64898/2026.08.17.745219",
+    "id": "doi:10.1016/j.neubiorev.2020.07.028",
+    "resolved": true,
+    "via": "fetched:openalex",
+    "title": "Sleep-dependent motor memory consolidation in healthy adults: A meta-analysis",
+    "citedBy": [
+      "claim c0119",
+      "claim c0120"
+    ]
+  },
+  {
+    "id": "doi:10.1523/jneurosci.0325-24.2024",
+    "resolved": true,
+    "via": "fetched:openalex",
+    "title": "Sleep Consolidation Potentiates Sensorimotor Adaptation",
+    "citedBy": [
+      "claim c0121",
+      "claim c0122"
+    ]
+  },
+  {
+    "id": "doi:10.1590/s1980-657420220017221",
+    "resolved": true,
+    "via": "fetched:openalex",
+    "title": "The role of nocturnal sleep on the retention, adaptability, and relearning rate of a motor skill",
+    "citedBy": [
+      "claim c0123"
+    ]
+  },
+  {
+    "id": "doi:10.3389/fnhum.2026.1698460",
+    "resolved": true,
+    "via": "fetched:openalex",
+    "title": "Absence of evidence for post-training tDCS effects on motor memory consolidation and premotor–primary motor cortex interaction: a resting-state EEG study",
+    "citedBy": [
+      "claim c0124"
+    ]
+  },
+  {
+    "id": "doi:10.14288/1.0367776",
+    "resolved": true,
+    "via": "fetched:openalex",
+    "title": "The effects of acute aerobic exercise on motor skill learning and neurophysiology in healthy older adults",
+    "citedBy": [
+      "claim c0125",
+      "claim c0126"
+    ]
+  },
+  {
+    "id": "doi:10.3390/brainsci13010137",
+    "resolved": true,
+    "via": "fetched:openalex",
+    "title": "Optimizing the Effect of tDCS on Motor Sequence Learning in the Elderly",
+    "citedBy": [
+      "claim c0127"
+    ]
+  },
+  {
+    "id": "doi:10.3390/brainsci11081003",
+    "resolved": true,
+    "via": "fetched:openalex",
+    "title": "Sleep in Normal Aging, Homeostatic and Circadian Regulation and Vulnerability to Sleep Deprivation",
+    "citedBy": [
+      "claim c0128",
+      "claim c0129"
+    ]
+  },
+  {
+    "id": "doi:10.1093/sleep/zsac282",
     "resolved": true,
     "via": "crossref",
-    "title": "Closed-Loop Auditory Stimulation Reveals Differential Sleep Oscillatory Contributions to Memory in Healthy Older Adults",
+    "title": "Age-related changes in fast spindle clustering during non-rapid eye movement sleep and their relevance for memory consolidation",
     "error": null,
     "citedBy": [
-      "finding d1-01"
+      "finding d1-01",
+      "resolution d1-01"
+    ]
+  },
+  {
+    "id": "doi:10.1093/sleep/zsaf105",
+    "resolved": true,
+    "via": "crossref",
+    "title": "Resting-state functional connectivity and fast spindle temporal organization contribute to episodic memory consolidation in healthy aging",
+    "error": null,
+    "citedBy": [
+      "finding d1-01",
+      "resolution d1-01"
+    ]
+  },
+  {
+    "id": "doi:10.1093/sleepadvances/zpaf084",
+    "resolved": true,
+    "via": "crossref",
+    "title": "Differential expression of spatiotemporal sleep spindle clusters in aging",
+    "error": null,
+    "citedBy": [
+      "finding d1-01",
+      "resolution d1-01"
     ]
   },
   {
@@ -506,224 +630,100 @@
     "title": "Susceptibility to auditory closed-loop stimulation of sleep slow oscillations changes with age",
     "error": null,
     "citedBy": [
-      "finding d1-01"
+      "finding d1-02",
+      "resolution d1-02"
+    ]
+  },
+  {
+    "id": "doi:10.1093/ageing/afad228",
+    "resolved": true,
+    "via": "crossref",
+    "title": "Acoustic stimulation during sleep predicts long-lasting increases in memory performance and beneficial amyloid response in older adults",
+    "error": null,
+    "citedBy": [
+      "finding d1-02",
+      "resolution d1-02"
+    ]
+  },
+  {
+    "id": "doi:10.3389/frsle.2023.1294957",
+    "resolved": true,
+    "via": "crossref",
+    "title": "Acoustic stimulation during slow wave sleep shows delayed effects on memory performance in older adults",
+    "error": null,
+    "citedBy": [
+      "finding d1-02"
     ]
   },
   {
     "id": "doi:10.1093/sleep/zsad206",
     "resolved": true,
-    "via": "crossref",
-    "title": "The effects of closed-loop auditory stimulation on sleep oscillatory dynamics in relation to motor procedural memory consolidation",
-    "error": null,
+    "via": "fetched:europepmc",
+    "title": "The effects of closed-loop auditory stimulation on sleep oscillatory dynamics in relation to motor procedural memory consolidation.",
     "citedBy": [
-      "finding d1-01"
+      "finding d1-02",
+      "resolution d1-02"
     ]
   },
   {
-    "id": "doi:10.7554/elife.101992",
+    "id": "doi:10.1093/sleep/zsz315",
     "resolved": true,
     "via": "crossref",
-    "title": "Bayesian meta-analysis reveals the mechanistic role of slow oscillation-spindle coupling in sleep-dependent memory consolidation",
+    "title": "Examining the optimal timing for closed-loop auditory stimulation of slow-wave sleep in young and older adults",
     "error": null,
     "citedBy": [
       "finding d1-02"
     ]
   },
   {
-    "id": "doi:10.1038/s41598-018-36557-z",
+    "id": "doi:10.1016/j.neulet.2020.134973",
     "resolved": true,
     "via": "crossref",
-    "title": "Precise Slow Oscillation–Spindle Coupling Promotes Memory Consolidation in Younger and Older Adults",
+    "title": "Sensorimotor performance is improved by targeted memory reactivation during a daytime nap in healthy older adults",
     "error": null,
     "citedBy": [
-      "finding d1-02"
+      "finding d1-03",
+      "resolution d1-03"
     ]
   },
   {
-    "id": "doi:10.1037/bul0000048",
+    "id": "doi:10.1016/j.neuropsychologia.2018.08.021",
     "resolved": true,
     "via": "crossref",
-    "title": "Time for considering constraints on procedural memory consolidation processes: Comment on Pan and Rickard (2015) with specific reference to developmental changes.",
+    "title": "No effect of vocabulary reactivation in older adults",
     "error": null,
     "citedBy": [
-      "finding d1-03"
+      "finding d1-03",
+      "resolution d1-03"
     ]
   },
   {
-    "id": "doi:10.1037/bul0000094",
-    "resolved": true,
-    "via": "crossref",
-    "title": "Time for considering the possibility that sleep plays no unique role in motor memory consolidation: Reply to Adi-Japha and Karni (2016).",
-    "error": null,
-    "citedBy": [
-      "finding d1-03"
-    ]
-  },
-  {
-    "id": "doi:10.1007/s00221-009-2024-x",
+    "id": "doi:10.1038/s41467-025-57602-2",
     "resolved": true,
     "via": "fetched:openalex",
-    "title": "Sleep has no critical role in implicit motor sequence learning in young and old adults",
+    "title": "Unraveling the neurophysiological correlates of phase-specific enhancement of motor memory consolidation via slow-wave closed-loop targeted memory reactivation",
     "citedBy": [
-      "finding d1-03"
+      "finding d1-03",
+      "resolution d1-03"
     ]
   },
   {
-    "id": "doi:10.1016/j.neurobiolaging.2011.06.029",
-    "resolved": true,
-    "via": "fetched:openalex",
-    "title": "Sleep modulates word-pair learning but not motor sequence learning in healthy older adults",
-    "citedBy": [
-      "finding d1-03"
-    ]
-  },
-  {
-    "id": "doi:10.5664/jcsm.5794",
-    "resolved": true,
-    "via": "crossref",
-    "title": "Overnight Motor Skill Learning Outcomes in Obstructive Sleep Apnea: Effect of Continuous Positive Airway Pressure",
-    "error": null,
-    "citedBy": [
-      "finding d1-04"
-    ]
-  },
-  {
-    "id": "doi:10.1016/j.sleep.2015.01.017",
-    "resolved": true,
-    "via": "crossref",
-    "title": "First night of CPAP: impact on memory consolidation attention and subjective experience",
-    "error": null,
-    "citedBy": [
-      "finding d1-04"
-    ]
-  },
-  {
-    "id": "nct:NCT00464659",
+    "id": "nct:NCT07082595",
     "resolved": true,
     "via": "clinicaltrials",
-    "title": "Comparison of the Evolution of Memory Deficit in Patients With Sleep Apnea Obstructive Syndrome (SAOS) Before and After \"Effective\" Versus Sham Treatment by Positive Pression Continues (PPC)",
+    "title": "Personalized Stimulation Loop for Neurorehabilitation in Parkinson: a Proof-of-principle Study",
     "error": null,
     "citedBy": [
-      "finding d1-04"
+      "finding d1-03"
     ]
   },
   {
-    "id": "nct:NCT05988385",
+    "id": "nct:NCT06466772",
     "resolved": true,
-    "via": "clinicaltrials",
-    "title": "The Effects of Successful OSA Treatment on Memory and AD Biomarkers in Older Adults (ESSENTIAL) Study",
-    "error": null,
+    "via": "fetched:clinicaltrials",
+    "title": "Precision Sensorimotor Neurorehabilitation Through Personalized Stimulation Loops",
     "citedBy": [
-      "finding d1-04"
-    ]
-  },
-  {
-    "id": "doi:10.1016/j.smrv.2022.101666",
-    "resolved": true,
-    "via": "crossref",
-    "title": "Systematic review and meta-analyses on the effects of afternoon napping on cognition",
-    "error": null,
-    "citedBy": [
-      "finding d1-05"
-    ]
-  },
-  {
-    "id": "doi:10.1016/j.nlm.2021.107508",
-    "resolved": true,
-    "via": "fetched:openalex",
-    "title": "Encoding and consolidation of motor sequence learning in young and older adults",
-    "citedBy": [
-      "finding d1-05"
-    ]
-  },
-  {
-    "id": "nct:NCT04312126",
-    "resolved": true,
-    "via": "clinicaltrials",
-    "title": "Mechanisms Underlying the Beneficial Effects of Naps on Motor Learning",
-    "error": null,
-    "citedBy": [
-      "finding d1-05",
-      "finding d1-06"
-    ]
-  },
-  {
-    "id": "doi:10.1136/bmjopen-2023-077442",
-    "resolved": true,
-    "via": "crossref",
-    "title": "Sleep and motor learning in stroke (SMiLES): a longitudinal study investigating sleep-dependent consolidation of motor sequence learning in the context of recovery after stroke",
-    "error": null,
-    "citedBy": [
-      "finding d1-06"
-    ]
-  },
-  {
-    "id": "doi:10.1177/1545968308326631",
-    "resolved": true,
-    "via": "crossref",
-    "title": "Sleep Enhances Off-line Spatial and Temporal Motor Learning After Stroke",
-    "error": null,
-    "citedBy": [
-      "finding d1-06"
-    ]
-  },
-  {
-    "id": "doi:10.3389/fneur.2015.00225",
-    "resolved": true,
-    "via": "crossref",
-    "title": "Sleep Parameters, Functional Status, and Time Post-Stroke are Associated with Offline Motor Skill Learning in People with Chronic Stroke",
-    "error": null,
-    "citedBy": [
-      "finding d1-06"
-    ]
-  },
-  {
-    "id": "doi:10.3389/fnhum.2013.00318",
-    "resolved": true,
-    "via": "crossref",
-    "title": "Probabilistic sequence learning in mild cognitive impairment",
-    "error": null,
-    "citedBy": [
-      "finding d1-07"
-    ]
-  },
-  {
-    "id": "doi:10.1007/s11065-025-09661-x",
-    "resolved": true,
-    "via": "crossref",
-    "title": "Motor Learning in Older Adults with Mild Cognitive Impairment: A Systematic Review",
-    "error": null,
-    "citedBy": [
-      "finding d1-07"
-    ]
-  },
-  {
-    "id": "doi:10.1093/braincomms/fcag303",
-    "resolved": true,
-    "via": "crossref",
-    "title": "Sleep spindles are linked to white matter connectivity differentially in older adults with and without cognitive impairment",
-    "error": null,
-    "citedBy": [
-      "finding d1-07"
-    ]
-  },
-  {
-    "id": "doi:10.64898/2026.10.13.758910",
-    "resolved": true,
-    "via": "crossref",
-    "title": "Modulating Sleep Oscillations Through Targeted Memory Reactivation: Linking Functional Dynamics to Brain Microstructure",
-    "error": null,
-    "citedBy": [
-      "finding d1-08"
-    ]
-  },
-  {
-    "id": "doi:10.1016/j.neuroscience.2018.12.049",
-    "resolved": true,
-    "via": "fetched:openalex",
-    "title": "Thalamo-Cortical White Matter Underlies Motor Memory Consolidation via Modulation of Sleep Spindles in Young and Older Adults",
-    "citedBy": [
-      "finding d1-08"
+      "finding d1-03"
     ]
   },
   {
@@ -733,57 +733,210 @@
     "title": "A Delayed Advantage: Multi-Session Training at Evening Hours Leads to Better Long-Term Retention of Motor Skill in the Elderly",
     "error": null,
     "citedBy": [
-      "finding d1-09"
+      "finding d1-04",
+      "resolution d1-04"
     ]
   },
   {
-    "id": "doi:10.1038/s41539-023-00176-9",
+    "id": "doi:10.1101/lm.052522.120",
     "resolved": true,
     "via": "crossref",
-    "title": "Time of day and sleep effects on motor acquisition and consolidation",
+    "title": "Better later: evening practice is advantageous for motor skill consolidation in the elderly",
     "error": null,
     "citedBy": [
-      "finding d1-09"
+      "finding d1-04",
+      "resolution d1-04"
     ]
   },
   {
-    "id": "doi:10.1590/s1980-657420220017221",
+    "id": "doi:10.1038/s41598-024-53664-2",
     "resolved": true,
     "via": "crossref",
-    "title": "The role of nocturnal sleep on the retention, adaptability, and relearning rate of a motor skill",
+    "title": "Early sleep after action observation plus motor imagery improves gait and balance abilities in older adults",
     "error": null,
     "citedBy": [
-      "finding d1-10"
+      "finding d1-04",
+      "resolution d1-04"
     ]
   },
   {
-    "id": "doi:10.1038/nn.2206",
+    "id": "nct:NCT05393700",
     "resolved": true,
-    "via": "crossref",
-    "title": "Pharmacological REM sleep suppression paradoxically improves rather than impairs skill memory",
+    "via": "clinicaltrials",
+    "title": "Effects of Early Sleep After Action Observation Therapy on Balance in Elderly",
     "error": null,
     "citedBy": [
-      "finding d1-11"
+      "finding d1-04"
     ]
   },
   {
-    "id": "doi:10.5665/sleep.3674",
+    "id": "doi:10.1177/1545968308326631",
     "resolved": true,
     "via": "crossref",
-    "title": "Differential Effect of an Anticholinergic Antidepressant on Sleep-Dependent Memory Consolidation",
+    "title": "Sleep Enhances Off-line Spatial and Temporal Motor Learning After Stroke",
     "error": null,
     "citedBy": [
-      "finding d1-11"
+      "finding d1-05",
+      "resolution d1-05"
     ]
   },
   {
-    "id": "doi:10.1038/npp.2009.6",
+    "id": "doi:10.3389/fneur.2015.00225",
     "resolved": true,
     "via": "crossref",
-    "title": "Impaired Off-Line Consolidation of Motor Memories After Combined Blockade of Cholinergic Receptors During REM Sleep-Rich Sleep",
+    "title": "Sleep Parameters, Functional Status, and Time Post-Stroke are Associated with Offline Motor Skill Learning in People with Chronic Stroke",
     "error": null,
     "citedBy": [
-      "finding d1-11"
+      "finding d1-05",
+      "resolution d1-05"
+    ]
+  },
+  {
+    "id": "doi:10.1016/j.celrep.2022.110426",
+    "resolved": true,
+    "via": "crossref",
+    "title": "Recovery of consolidation after sleep following stroke—interaction of slow waves, spindles, and GABA",
+    "error": null,
+    "citedBy": [
+      "finding d1-05"
+    ]
+  },
+  {
+    "id": "doi:10.3389/fneur.2023.1243575",
+    "resolved": true,
+    "via": "crossref",
+    "title": "Disturbed laterality of non-rapid eye movement sleep oscillations in post-stroke human sleep: a pilot study",
+    "error": null,
+    "citedBy": [
+      "finding d1-05",
+      "resolution d1-05"
+    ]
+  },
+  {
+    "id": "doi:10.1136/bmjopen-2023-077442",
+    "resolved": true,
+    "via": "crossref",
+    "title": "Sleep and motor learning in stroke (SMiLES): a longitudinal study investigating sleep-dependent consolidation of motor sequence learning in the context of recovery after stroke",
+    "error": null,
+    "citedBy": [
+      "finding d1-05"
+    ]
+  },
+  {
+    "id": "nct:NCT05746260",
+    "resolved": true,
+    "via": "clinicaltrials",
+    "title": "Investigating Consolidation of Motor Learning in the Context of Recovery After Stroke",
+    "error": null,
+    "citedBy": [
+      "finding d1-05"
+    ]
+  },
+  {
+    "id": "nct:NCT05843656",
+    "resolved": true,
+    "via": "clinicaltrials",
+    "title": "Enhancing Sleep Dependent Consolidation by Non-invasive Brain Stimulation to Boost Motor Skill Acquisition in Individuals After Stroke",
+    "error": null,
+    "citedBy": [
+      "finding d1-05"
+    ]
+  },
+  {
+    "id": "doi:10.7275/hec9-z333",
+    "resolved": true,
+    "via": "openalex",
+    "title": "Sleep Benefits Procedural Motor Learning in Older Adults With Additional Practice",
+    "error": null,
+    "citedBy": [
+      "finding d1-06",
+      "resolution d1-06"
+    ]
+  },
+  {
+    "id": "doi:10.1093/sleep/zsae067.0071",
+    "resolved": true,
+    "via": "crossref",
+    "title": "0071 Does Additional Training on a Motor Sequence Task Improve Sleep-Dependent Memory Consolidation for Older Adults?",
+    "error": null,
+    "citedBy": [
+      "finding d1-06",
+      "resolution d1-06"
+    ]
+  },
+  {
+    "id": "doi:10.1093/sleep/zsaa056.120",
+    "resolved": true,
+    "via": "crossref",
+    "title": "0122 Does Additional Training on an Implicit Motor Sequence Learning Task for Older Adults Improve Sleep-Dependent Memory Consolidation?",
+    "error": null,
+    "citedBy": [
+      "finding d1-06"
+    ]
+  },
+  {
+    "id": "doi:10.1101/lm.569407",
+    "resolved": true,
+    "via": "crossref",
+    "title": "Age-related decline of sleep-dependent consolidation",
+    "error": null,
+    "citedBy": [
+      "finding d1-07",
+      "resolution d1-07"
+    ]
+  },
+  {
+    "id": "doi:10.1016/j.neurobiolaging.2011.06.029",
+    "resolved": true,
+    "via": "crossref",
+    "title": "Sleep modulates word-pair learning but not motor sequence learning in healthy older adults",
+    "error": null,
+    "citedBy": [
+      "finding d1-07",
+      "resolution d1-07"
+    ]
+  },
+  {
+    "id": "doi:10.7554/elife.101992",
+    "resolved": true,
+    "via": "crossref",
+    "title": "Bayesian meta-analysis reveals the mechanistic role of slow oscillation-spindle coupling in sleep-dependent memory consolidation",
+    "error": null,
+    "citedBy": [
+      "finding d1-08",
+      "resolution d1-08"
+    ]
+  },
+  {
+    "id": "doi:10.1038/s41598-018-36557-z",
+    "resolved": true,
+    "via": "crossref",
+    "title": "Precise Slow Oscillation–Spindle Coupling Promotes Memory Consolidation in Younger and Older Adults",
+    "error": null,
+    "citedBy": [
+      "finding d1-08",
+      "resolution d1-08"
+    ]
+  },
+  {
+    "id": "doi:10.7554/elife.66761",
+    "resolved": true,
+    "via": "crossref",
+    "title": "Slow oscillation–spindle coupling strength predicts real-life gross-motor learning in adolescents and adults",
+    "error": null,
+    "citedBy": [
+      "finding d1-08",
+      "resolution d1-08"
+    ]
+  },
+  {
+    "id": "doi:10.1016/j.neuron.2017.11.020",
+    "resolved": true,
+    "via": "crossref",
+    "title": "Old Brains Come Uncoupled in Sleep: Slow Wave-Spindle Synchrony, Brain Atrophy, and Forgetting",
+    "error": null,
+    "citedBy": [
+      "finding d1-08"
     ]
   }
 ]

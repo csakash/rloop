@@ -1,0 +1,34 @@
+{
+  "stream": true,
+  "toolCalls": 95,
+  "web": [
+    {
+      "tool": "WebFetch",
+      "input": {
+        "url": "https://doi.org/10.64898/2026.08.17.745219",
+        "prompt": "Give the full abstract. What memory tasks (declarative, motor/procedural, finger tapping)? How many nights, consecutive? Was SO-spindle coupling analysed as mediator?"
+      }
+    },
+    {
+      "tool": "WebFetch",
+      "input": {
+        "url": "https://clinicaltrials.gov/api/v2/studies/NCT04277104",
+        "prompt": "List the primary and secondary outcome measures, the number of stimulation nights, and any procedural/motor memory tasks (e.g., finger tapping)."
+      }
+    },
+    {
+      "tool": "WebFetch",
+      "input": {
+        "url": "http://biorxiv.org/lookup/doi/10.64898/2026.08.17.745219",
+        "prompt": "Give the full abstract. What memory tasks (declarative, motor/procedural, finger tapping)? How many nights, consecutive? Was SO-spindle coupling analysed as mediator?"
+      }
+    },
+    {
+      "tool": "WebFetch",
+      "input": {
+        "url": "https://bmjopen.bmj.com/content/14/2/e077442",
+        "prompt": "Describe the SMiLES design: population (acute/subacute/chronic stroke), healthy controls?, sleep measures (PSG/EEG; spindles; slow oscillations; SO-spindle coupling; hemisphere-specific/perilesional?), motor task (paretic hand sequence?), sleep vs wake control, timepoints."
+      }
+    }
+  ]
+}

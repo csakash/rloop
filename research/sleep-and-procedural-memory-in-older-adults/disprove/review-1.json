@@ -1,187 +1,174 @@
 [
   {
     "id": "g01",
-    "signal": "narrow-coverage",
-    "question": "In healthy adults aged 60-80, does overnight phase-locked closed-loop acoustic stimulation of slow oscillations, compared with sham, increase SO-spindle coupling and overnight offline gains on a finger-tapping motor sequence task, and does the size of the gain scale with the number of stimuli delivered?",
-    "why": "The only closed-loop acoustic stimulation data with a motor outcome come from one afternoon-nap study in healthy (non-older) adults: stimulation raised coupled SO-spindle events, gave no group effect on memory, but showed a dose-response with stimulation rate (c0083-c0085). In older adults, the spindle-targeted interventions tried so far (spindle-tACS, TMR) did not improve motor consolidation, and TMR even lowered spindle density (c0022, c0027, c0029, c0052). Coupling is reported to be reduced with age (c0008). No study in this set applies whole-night CLAS to older adults with a procedural outcome.",
+    "signal": "contradiction",
+    "question": "In healthy adults aged 65+, does overnight sleep (vs a circadian-matched wake interval, counterbalanced morning/evening training) produce larger offline gains for a whole-hand or gross-motor sequence task than for an individuated finger-tapping task, and does fine-motor dexterity moderate that difference within subjects?",
+    "why": "Sleep-vs-wake findings for motor consolidation in older adults point in all directions: no effect (c0026, c0043, c0091), harm (c0044), and benefit when the task uses whole-hand movements instead of individuated fingers (c0092, c0093). Meta-analyses suggest that confounds such as time of testing and reactive inhibition explain much of the reported sleep benefit, and that elderly status is a moderator (c0004, c0006, c0007). No study has crossed task type with a circadian-controlled sleep/wake design in the same older participants, so it is unknown whether the 'age deficit' is really a task-dexterity artefact.",
     "claims": [
-      "c0083",
-      "c0084",
-      "c0085",
-      "c0086",
-      "c0008",
-      "c0022",
-      "c0027",
-      "c0029",
-      "c0052"
+      "c0004",
+      "c0006",
+      "c0007",
+      "c0026",
+      "c0043",
+      "c0044",
+      "c0091",
+      "c0092",
+      "c0093",
+      "c0015",
+      "c0010"
     ],
     "status": "open"
   },
   {
     "id": "g02",
-    "signal": "contradiction",
-    "question": "In healthy adults aged 60+ with overnight PSG after motor sequence training, does SO-spindle coupling strength or phase predict sleep-dependent offline gains once fast-spindle density is entered in the same preregistered model?",
-    "why": "The evidence conflicts. Coupling tracked offline gains in older adults after a nap on a cognitive procedural task (c0009) and in young nappers (c0086). In two overnight studies, including the largest (n=173), coupling did not predict consolidation while fast-spindle density did (c0089, c0109, c0108). Even the direction of the age effect on coupling disagrees: lower in older adults in one study (c0008), higher in another (c0090). No study has tested coupling and spindle density against each other, with consistent detection methods, in an older sample powered for that comparison.",
+    "signal": "weak-evidence",
+    "question": "In healthy older adults (60+), does training to a fixed performance criterion (vs a fixed number of training blocks) restore sleep-dependent offline gains on the SRTT/MST relative to a time-of-day-matched wake group?",
+    "why": "Two small nap studies suggest older adults show intact sleep-dependent consolidation only when encoding is strong enough or motor-network activation is high enough (c0018, c0074, n=35). Prior piano experience boosts consolidation in older but not younger adults (c0030). Most age-comparison studies used fixed training doses and found no sleep benefit in older adults (c0062, c0066, c0021). No study has experimentally manipulated encoding strength (criterion vs fixed training) crossed with sleep vs wake in older adults with adequate power and circadian control.",
     "claims": [
-      "c0008",
-      "c0009",
-      "c0086",
-      "c0089",
-      "c0090",
-      "c0108",
-      "c0109"
+      "c0018",
+      "c0074",
+      "c0072",
+      "c0030",
+      "c0062",
+      "c0066",
+      "c0021",
+      "c0001"
     ],
     "status": "open"
   },
   {
     "id": "g03",
-    "signal": "contradiction",
-    "question": "In healthy adults aged 60-80 randomised to sleep vs wake retention intervals, do overtraining (extended practice to asymptote) and effector type (individuated-finger vs whole-hand sequence) interact to determine whether sleep-dependent motor sequence gains appear?",
-    "why": "Older adults' failure to show sleep-dependent gains seems to depend on the task. A whole-hand version of the sequence task brought back overnight gains where the finger version did not, and this has been put down to declining fine dexterity (c0080-c0082, c0068). Overtraining restored sleep benefit in one sample (c0088) but not in two others (c0049, c0094). Each factor has been tested only alone, in small samples (n≈17-24), so it is unknown whether the effects add up or whether one masks the other.",
+    "signal": "weak-evidence",
+    "question": "In healthy older adults, is the sleep-vs-wake benefit for motor sequence learning detectable in accuracy (error rate) but not speed, and does reanalysing published older-adult datasets by accuracy reverse the 'no sleep-dependent consolidation' conclusion?",
+    "why": "A circadian-controlled design found that sleep improved sequence accuracy but not speed, both in young adults and in early PD and healthy older adults (c0050, c0051, c0052). Most older-adult null findings and the meta-analytic estimates are based on speed or composite scores (c0119, c0120, c0091, c0026). No study has compared outcome metrics systematically across older-adult sleep/wake studies, so the age-related 'absence' of sleep benefit may depend on which outcome was measured.",
     "claims": [
-      "c0080",
-      "c0081",
-      "c0082",
-      "c0068",
-      "c0088",
-      "c0049",
-      "c0094",
-      "c0048"
+      "c0050",
+      "c0051",
+      "c0052",
+      "c0119",
+      "c0120",
+      "c0091",
+      "c0026",
+      "c0004"
     ],
     "status": "open"
   },
   {
     "id": "g04",
-    "signal": "method-transfer",
-    "question": "In a young-vs-older adult comparison on the finger-tapping task, does the age difference in sleep-vs-wake offline gains survive when gain scores use the final-block (not averaged) measure, reactive inhibition is controlled with spaced training blocks, and time-of-testing is counterbalanced?",
-    "why": "A meta-analysis (n=1296) found that the apparent sleep benefit for motor sequence learning disappears once averaging in gain scores, reactive inhibition, time of testing and training duration are accounted for. It also flagged elderly status as a moderator (c0038, c0039). The age-comparison experiments that report reduced sleep-dependent consolidation in older adults (c0031, c0034, c0054, c0087, c0107) do not use these artefact controls. So it is unclear whether the 'age deficit' is a real loss of sleep-dependent consolidation, or a difference in how young and old adults show reactive-inhibition recovery.",
+    "signal": "contradiction",
+    "question": "In older adults (60+) after motor sequence learning, does slow oscillation–spindle coupling (phase and strength) predict overnight motor gains over and above fast-spindle density, and does this differ between motor sequence tasks and cognitive procedural tasks such as the Tower of Hanoi?",
+    "why": "SO–spindle coupling predicted procedural (Tower of Hanoi) consolidation in older adults during a nap (c0003) and predicted motor adaptation and TMR-related gains in young samples (c0076, c0111). The largest age-comparison study (n=173, gross motor sequence) found that coupling was unrelated to overnight gains and only N3 fast-spindle density predicted them (c0095, c0097). No study has tested coupling and spindle density as competing predictors in the same older sample across motor and cognitive procedural tasks.",
     "claims": [
-      "c0038",
-      "c0039",
-      "c0031",
-      "c0034",
-      "c0054",
-      "c0087",
-      "c0107",
-      "c0101"
+      "c0002",
+      "c0003",
+      "c0076",
+      "c0111",
+      "c0095",
+      "c0097",
+      "c0098",
+      "c0053"
     ],
     "status": "open"
   },
   {
     "id": "g05",
-    "signal": "weak-evidence",
-    "question": "In adults aged 65+ with moderate-to-severe obstructive sleep apnea, does 4-12 weeks of adherent CPAP, compared with sham CPAP, improve overnight motor sequence consolidation, and is improvement mediated by restored N2 spindle density or reduced sleep fragmentation?",
-    "why": "OSA severity correlates with worse motor procedural learning in older adults (c0044). The only intervention tested is a single night of nocturnal oxygen, which reduced hypoxemia but did not change procedural learning (c0045, c0046). That leaves open whether fragmentation rather than hypoxemia is the active ingredient (c0004, c0074). No randomised trial in this corpus tests sustained CPAP against a procedural outcome in older adults.",
+    "signal": "newly-tractable",
+    "question": "In older vs young adults, does an age-related loss of spindle clustering (spindle trains) rather than isolated-spindle density mediate reduced overnight motor sequence consolidation?",
+    "why": "Recent work shows that spindles grouped in trains, not isolated spindles, relate to motor memory consolidation (c0077, c0084), whereas isolated spindles promote generalization (c0085). Separately, ageing reduces spindle number and density (c0009, c0063, c0098, c0128), and spindle loss is linked to the older-adult consolidation deficit (c0064, c0067). No study has measured spindle trains in older adults. Existing large overnight age-comparison PSG datasets (c0094, n=173) make this answerable by reanalysis.",
     "claims": [
-      "c0044",
-      "c0045",
-      "c0046",
-      "c0004",
-      "c0074"
+      "c0077",
+      "c0084",
+      "c0085",
+      "c0098",
+      "c0094",
+      "c0095",
+      "c0063",
+      "c0064",
+      "c0067",
+      "c0128"
     ],
     "status": "open"
   },
   {
     "id": "g06",
-    "signal": "contradiction",
-    "question": "In older adults (60+), does a post-training daytime nap of at least 60 minutes containing N2 spindles produce larger 24-h motor sequence retention than matched wake, and does the effect depend on explicit vs implicit sequence knowledge?",
-    "why": "Nap studies in older adults split almost evenly. A nap helped explicit SRTT and motor sequence consolidation in some (c0013, c0040), and a systematic review concluded naps help motor learning (c0047). Other crossover and randomised studies with short and long naps found no effect in healthy older adults, Parkinson's disease or stroke (c0010, c0050, c0051, c0079). These studies differ in nap length, task explicitness and retest timing, and the largest has n=64, so the null results cannot be told apart from low power or design heterogeneity.",
+    "signal": "method-transfer",
+    "question": "In healthy older adults, does multi-night closed-loop auditory stimulation phase-locked to slow-oscillation up-states after motor sequence training increase overnight motor gains relative to sham, and is the effect mediated by increased SO–spindle coupling?",
+    "why": "Closed-loop auditory stimulation boosts slow-wave sleep and memory mainly in young adults (c0101). Registered trials in older adults target declarative memory or waste clearance in SCD/MCI (c0102, c0105), and SWS enhancement has been proposed to reverse age-related procedural deficits (c0019). The age-related loss of slow-wave activity over motor cortex (c0056, c0059) and slow-wave amplitude–performance links in older adults (c0033, c0038) make motor memory a plausible target. However, no claim reports CLAS tested on a procedural/motor outcome in healthy older adults.",
     "claims": [
-      "c0010",
-      "c0013",
-      "c0040",
-      "c0047",
-      "c0050",
-      "c0051",
-      "c0079",
-      "c0041"
+      "c0101",
+      "c0102",
+      "c0105",
+      "c0019",
+      "c0100",
+      "c0056",
+      "c0059",
+      "c0033",
+      "c0038"
     ],
     "status": "open"
   },
   {
     "id": "g07",
-    "signal": "contradiction",
-    "question": "In chronic stroke survivors aged 60+, does a full night of sleep, compared with a daytime nap or an equivalent wake interval, produce offline gains on a paretic-hand motor sequence task, and do these gains predict functional upper-limb recovery over rehabilitation?",
-    "why": "A review concluded that sleep improves motor performance after stroke compared with wake, while healthy older controls show no such benefit (c0066, c0067). A randomised nap study in chronic stroke found no sleep-dependent consolidation either after the nap or after a following night (c0078, c0079). It is unclear whether the benefit is limited to nocturnal sleep, to particular lesion profiles, or comes from comparisons with young controls. No study links the size of offline gains to rehabilitation outcomes.",
+    "signal": "weak-evidence",
+    "question": "In healthy older adults, does targeted memory reactivation of a motor sequence with cues delivered in closed loop at SO up-states during overnight NREM sleep (vs open-loop cueing during a nap) improve motor retention relative to uncued sequences?",
+    "why": "TMR improves motor performance in young adults, and its benefit scales with TMR-evoked SO–sigma coupling (c0109, c0110, c0111). In older adults, two open-loop nap studies found no TMR benefit (c0024, n=17; c0035). In one of them, cues increased slow-wave density but decreased spindle density (c0036, c0037), and slow-wave amplitude at cue onset predicted performance (c0038). No study has tested phase-targeted or overnight TMR in older adults, so it is unknown whether the null results reflect ageing or a suboptimal cueing protocol.",
     "claims": [
-      "c0066",
-      "c0067",
-      "c0078",
-      "c0079"
+      "c0024",
+      "c0035",
+      "c0036",
+      "c0037",
+      "c0038",
+      "c0109",
+      "c0110",
+      "c0111"
     ],
     "status": "open"
   },
   {
     "id": "g08",
-    "signal": "missing-link",
-    "question": "Do older adults with amnestic mild cognitive impairment show reduced overnight sleep-dependent gains on a motor sequence task compared with cognitively normal age-matched controls, and is the difference explained by fast-spindle density or N3 slow-wave activity on PSG?",
-    "why": "MCI is named as a population of interest, and SWS and spindle reductions are described across healthy ageing and MCI (c0001, c0002). Yet every procedural consolidation study here uses healthy older adults, Parkinson's disease, stroke, OSA or depression (c0010, c0044, c0078, c0103). Fast-spindle density is the most consistent microstructural predictor of motor consolidation in older samples (c0035, c0108). No claim tests whether that pathway is further impaired, or relatively spared, in MCI, where procedural memory is often thought preserved.",
+    "signal": "method-transfer",
+    "question": "In healthy older adults, does closed-loop tACS (sigma bursts triggered on detected SO up-states) during a post-training nap increase spindle density and motor consolidation relative to sham, unlike open-loop spindle-inspired tACS?",
+    "why": "Open-loop spindle-inspired tACS in older adults (n=26) neither increased spindles nor improved force-modulation consolidation, even though natural spindle density predicted consolidation (c0046, c0047, c0048). Post-training tDCS during wake is also null or harmful in older adults (c0079, c0080, c0127). Transcranial stimulation timed to sleep oscillations has enhanced SWS and memory in healthy adults (c0107). No claim reports oscillation-locked (closed-loop) electrical stimulation tested on motor consolidation in older adults.",
     "claims": [
-      "c0001",
-      "c0002",
-      "c0035",
-      "c0108",
-      "c0003"
+      "c0046",
+      "c0047",
+      "c0048",
+      "c0049",
+      "c0107",
+      "c0079",
+      "c0080",
+      "c0127"
     ],
     "status": "open"
   },
   {
     "id": "g09",
-    "signal": "newly-tractable",
-    "question": "In older adults, does fronto-central white matter integrity (corona radiata, corpus callosum on DTI) and motor-network grey matter volume moderate the motor consolidation benefit of a spindle- or slow-wave-targeting intervention (TMR, CLAS), so that only people with preserved structure respond?",
-    "why": "Structural MRI explains a lot of the age-related loss in sleep oscillations: white matter integrity predicts frontal fast-spindle loss and moderates whether spindles support overnight motor consolidation (c0036, c0037). Grey matter loss in motor cortex and striatum mediates reduced nap delta (c0092). Sufficient motor-network activation appears necessary for sleep-facilitated consolidation (c0015). Recent older-adult TMR and tACS trials were null on average (c0022, c0027, c0052) but did not stratify by structure. Neuroimaging combined with closed-loop sleep manipulation now makes it testable whether the null results hide structure-dependent responders.",
+    "signal": "contradiction",
+    "question": "In healthy adults aged 60+, does motor sequence training within ~1 hour of habitual bedtime (vs evening training ~4 hours before bed, both tested 24 h later) increase overnight retention, independent of time-of-testing effects?",
+    "why": "One experiment found a ~30% enhancement in motor adaptation only when training was close to bedtime, so that sleep falls inside the stabilization window (c0121, c0122). A review argues that evening training benefits older populations (c0055). However, the large age-comparison study found that morning vs evening training had no effect on consolidation (c0099), and time of testing is a known confound (c0007). The bedtime-proximity manipulation has not been tested in older adults, whose stabilization windows and sleep timing differ.",
     "claims": [
-      "c0036",
-      "c0037",
-      "c0092",
-      "c0015",
-      "c0022",
-      "c0027",
-      "c0052"
+      "c0121",
+      "c0122",
+      "c0055",
+      "c0099",
+      "c0007"
     ],
     "status": "open"
   },
   {
     "id": "g10",
-    "signal": "contradiction",
-    "question": "In healthy adults aged 60+, does evening training (sleep within ~2 h) vs morning training (with a matched 24-h retest) increase motor sequence retention at 24 h and 1 week, on both a finger-tapping task and a gross-motor sequence task?",
-    "why": "One study in elderly participants found that evening finger-tapping training produced extra overnight and 1-week gains compared with morning training (c0033). The largest age-comparison study (n=173, gross-motor sequence, ambulatory PSG) found training time had no effect on consolidation (c0111). The meta-analysis lists time of testing as a strong moderator (c0038, c0039). The disagreement could come from task (fine vs gross motor) or from the delay before sleep. That needs a direct factorial test in older adults, because training timing is a cheap and practical rehabilitation lever.",
+    "signal": "narrow-coverage",
+    "question": "In chronic stroke survivors vs age-matched healthy older adults, does a full night of sleep (vs circadian-matched wake) yield greater offline gains on a paretic-hand motor sequence task, and are gains predicted by perilesional SO–spindle coupling?",
+    "why": "Reviews conclude that people after stroke benefit from sleep for motor learning, unlike healthy older adults (c0016, c0025, c0026). The only randomized nap study in chronic stroke found no sleep-dependent consolidation after a nap or a following night (c0027, c0028). Stroke is proposed to disrupt SO–spindle coupling (c0054), but no claim links measured perilesional coupling to consolidation in stroke vs healthy older controls. The evidence relies on reviews and a single small nap trial.",
     "claims": [
-      "c0033",
-      "c0111",
-      "c0038",
-      "c0039",
-      "c0107"
-    ],
-    "status": "open"
-  },
-  {
-    "id": "g11",
-    "signal": "contradiction",
-    "question": "In older adults learning a gross-motor ballistic skill (e.g., dart throwing), does overnight sleep reduce 24-h retention compared with an equal daytime wake interval, and is any loss associated with N3 slow-wave activity rather than spindles?",
-    "why": "One study (n=60 older adults) reported that nocturnal sleep harmed dart-throwing retention in older adults, the only claim of a negative sleep effect on motor memory (c0096). In contrast, whole-hand and gross-motor sequence tasks restored or showed sleep-related gains (c0081, c0107). A separate nap study found that entering SWS was linked to worse visuomotor maze performance (c0114). A harmful effect of sleep has not been replicated, and the sleep stage behind it has not been measured with PSG.",
-    "claims": [
-      "c0096",
-      "c0095",
-      "c0097",
-      "c0081",
-      "c0107",
-      "c0114"
-    ],
-    "status": "open"
-  },
-  {
-    "id": "g12",
-    "signal": "weak-evidence",
-    "question": "In healthy adults aged 60-85, does pharmacological REM suppression (e.g., a single SSRI/SNRI dose) after motor sequence or mirror-tracing training, compared with placebo, reduce overnight procedural gains, while N2 spindle density is held constant?",
-    "why": "Reviews assign procedural consolidation to REM sleep and say REM-related procedural consolidation is impaired in older adults (c0005, c0058). The only direct evidence in older people is a 2003 correlation between REM% and procedural learning (c0113). Meanwhile, recent older-adult studies point to N2/N3 fast spindles instead (c0035, c0108). No study in this set manipulates REM in older adults to test whether it is causally necessary for procedural consolidation as distinct from NREM spindles.",
-    "claims": [
-      "c0005",
-      "c0058",
-      "c0113",
-      "c0035",
-      "c0108",
-      "c0006"
+      "c0016",
+      "c0025",
+      "c0026",
+      "c0027",
+      "c0028",
+      "c0053",
+      "c0054",
+      "c0012"
     ],
     "status": "open"
   }
