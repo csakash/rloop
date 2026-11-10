@@ -1,0 +1,58 @@
+{
+  "requested": 100,
+  "fetched": 100,
+  "plan": [
+    {
+      "source": "pubmed",
+      "query": "(sleep[tiab] OR nap[tiab] OR napping[tiab] OR \"Sleep\"[MeSH]) AND (\"procedural memory\"[tiab] OR \"procedural learning\"[tiab] OR \"motor sequence\"[tiab] OR \"motor learning\"[tiab] OR \"motor skill\"[tiab] OR \"skill learning\"[tiab] OR \"motor memory\"[tiab] OR \"motor adaptation\"[tiab] OR \"finger tapping\"[tiab] OR \"serial reaction time\"[tiab] OR \"mirror tracing\"[tiab] OR \"Memory, Procedural\"[MeSH]) AND (older[tiab] OR elderly[tiab] OR aging[tiab] OR ageing[tiab] OR \"Aged\"[MeSH])",
+      "count": 124,
+      "n": 3
+    },
+    {
+      "source": "europepmc",
+      "query": "(TITLE_ABS:(sleep OR nap OR napping)) AND (TITLE_ABS:(\"procedural memory\" OR \"procedural learning\" OR \"motor sequence\" OR \"motor learning\" OR \"motor skill\" OR \"motor memory\" OR \"motor adaptation\" OR \"finger tapping\" OR \"serial reaction time\" OR \"mirror tracing\")) AND (TITLE_ABS:(\"older adults\" OR elderly OR \"healthy aging\" OR \"healthy ageing\" OR \"older people\" OR \"age-related\"))",
+      "count": 69,
+      "n": 1
+    },
+    {
+      "source": "openalex",
+      "query": "(sleep OR nap) AND (\"procedural memory\" OR \"procedural learning\" OR \"motor sequence learning\" OR \"motor memory consolidation\" OR \"motor skill consolidation\") AND (\"older adults\" OR elderly OR \"healthy aging\")",
+      "count": 3249,
+      "n": 95
+    },
+    {
+      "source": "clinicaltrials",
+      "query": "(sleep OR nap) AND (\"procedural memory\" OR \"motor learning\" OR \"motor sequence\" OR \"motor memory\" OR \"memory consolidation\") AND (\"older adults\" OR elderly OR aging)",
+      "count": 33,
+      "n": 1
+    }
+  ],
+  "report": [
+    {
+      "source": "pubmed",
+      "asked": 3,
+      "got": 3
+    },
+    {
+      "source": "europepmc",
+      "asked": 1,
+      "got": 1
+    },
+    {
+      "source": "openalex",
+      "asked": 95,
+      "got": 95
+    },
+    {
+      "source": "clinicaltrials",
+      "asked": 1,
+      "got": 1
+    },
+    {
+      "source": "openalex",
+      "topUp": true,
+      "asked": 98,
+      "got": 98
+    }
+  ]
+}

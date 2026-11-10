@@ -1,0 +1,62 @@
+{
+  "stream": true,
+  "toolCalls": 134,
+  "web": [
+    {
+      "tool": "WebFetch",
+      "input": {
+        "url": "https://academic.oup.com/sleep/article/43/12/zsaa111/5859322",
+        "prompt": "What memory tasks were used (any finger tapping / procedural motor task)? What were the results for procedural memory? Ages of subjects?"
+      }
+    },
+    {
+      "tool": "WebFetch",
+      "input": {
+        "url": "https://www.biorxiv.org/content/10.64898/2026.08.17.745219v1",
+        "prompt": "What memory tasks were used (any motor/procedural task, e.g. finger tapping)? Results? Number of nights, whole-night stimulation?"
+      }
+    },
+    {
+      "tool": "WebFetch",
+      "input": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/26715400/",
+        "prompt": "Give the full results and conclusions of the abstract, including mean age of groups and whether compliant CPAP users showed overnight motor gains."
+      }
+    },
+    {
+      "tool": "WebFetch",
+      "input": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/25953301/",
+        "prompt": "Give the full results and conclusions of the abstract, including ages and MST results."
+      }
+    },
+    {
+      "tool": "WebFetch",
+      "input": {
+        "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4865554/",
+        "prompt": "Summarize abstract results and conclusions: ages of groups, whether compliant CPAP users showed overnight motor sequence gains vs untreated OSA and controls, CPAP duration."
+      }
+    },
+    {
+      "tool": "WebFetch",
+      "input": {
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4865554/",
+        "prompt": "Summarize abstract results and conclusions: ages of groups, whether compliant CPAP users showed overnight motor sequence gains vs untreated OSA and controls, CPAP duration."
+      }
+    },
+    {
+      "tool": "WebFetch",
+      "input": {
+        "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID:26715400%20OR%20EXT_ID:25953301&resultType=core&format=json",
+        "prompt": "For each paper, give the full abstractText verbatim (results and conclusions, ages)."
+      }
+    },
+    {
+      "tool": "WebFetch",
+      "input": {
+        "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID:36041284%20OR%20EXT_ID:27303292%20OR%20EXT_ID:34450244&resultType=core&format=json",
+        "prompt": "For each paper summarize abstract results: for 36041284, effect for procedural memory and whether age moderated; for 27303292 nap length, sample, task; for 34450244 nap effect in older adults."
+      }
+    }
+  ]
+}

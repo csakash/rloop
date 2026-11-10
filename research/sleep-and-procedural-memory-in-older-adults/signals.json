@@ -1,0 +1,537 @@
+{
+  "thresholds": {
+    "minLinkClaims": 3,
+    "minWeakClaims": 3,
+    "weakMaxN": 100,
+    "minNarrowClaims": 2,
+    "maxPerSignal": 25
+  },
+  "concepts": 63,
+  "pairs": 71,
+  "missing-link": [
+    {
+      "a": "aging",
+      "c": "sleep",
+      "via": [
+        "motor memory consolidation"
+      ],
+      "claims": [
+        "c0031",
+        "c0042",
+        "c0054",
+        "c0073",
+        "c0087",
+        "c0098",
+        "c0104",
+        "c0107",
+        "c0038",
+        "c0048",
+        "c0066",
+        "c0067",
+        "c0075",
+        "c0080",
+        "c0093",
+        "c0095",
+        "c0101",
+        "c0112"
+      ]
+    },
+    {
+      "a": "daytime nap",
+      "c": "sleep",
+      "via": [
+        "motor memory consolidation"
+      ],
+      "claims": [
+        "c0010",
+        "c0013",
+        "c0040",
+        "c0050",
+        "c0061",
+        "c0078",
+        "c0079",
+        "c0038",
+        "c0048",
+        "c0066",
+        "c0067",
+        "c0075",
+        "c0080",
+        "c0093",
+        "c0095",
+        "c0101",
+        "c0112"
+      ]
+    },
+    {
+      "a": "motor memory consolidation",
+      "c": "sleep-dependent consolidation",
+      "via": [
+        "aging"
+      ],
+      "claims": [
+        "c0031",
+        "c0042",
+        "c0054",
+        "c0073",
+        "c0087",
+        "c0098",
+        "c0104",
+        "c0107",
+        "c0003",
+        "c0007",
+        "c0016",
+        "c0019",
+        "c0034",
+        "c0039",
+        "c0041"
+      ]
+    },
+    {
+      "a": "aging",
+      "c": "daytime nap",
+      "via": [
+        "motor memory consolidation"
+      ],
+      "claims": [
+        "c0031",
+        "c0042",
+        "c0054",
+        "c0073",
+        "c0087",
+        "c0098",
+        "c0104",
+        "c0107",
+        "c0010",
+        "c0013",
+        "c0040",
+        "c0050",
+        "c0061",
+        "c0078",
+        "c0079"
+      ]
+    },
+    {
+      "a": "sleep",
+      "c": "sleep spindle",
+      "via": [
+        "motor memory consolidation"
+      ],
+      "claims": [
+        "c0038",
+        "c0048",
+        "c0066",
+        "c0067",
+        "c0075",
+        "c0080",
+        "c0093",
+        "c0095",
+        "c0101",
+        "c0112",
+        "c0021",
+        "c0024",
+        "c0035",
+        "c0062"
+      ]
+    },
+    {
+      "a": "sleep spindle",
+      "c": "sleep-dependent consolidation",
+      "via": [
+        "aging"
+      ],
+      "claims": [
+        "c0002",
+        "c0017",
+        "c0025",
+        "c0059",
+        "c0003",
+        "c0007",
+        "c0016",
+        "c0019",
+        "c0034",
+        "c0039",
+        "c0041"
+      ]
+    },
+    {
+      "a": "daytime nap",
+      "c": "sleep spindle",
+      "via": [
+        "motor memory consolidation"
+      ],
+      "claims": [
+        "c0010",
+        "c0013",
+        "c0040",
+        "c0050",
+        "c0061",
+        "c0078",
+        "c0079",
+        "c0021",
+        "c0024",
+        "c0035",
+        "c0062"
+      ]
+    }
+  ],
+  "weak-evidence": [
+    {
+      "a": "aging",
+      "b": "motor memory consolidation",
+      "claims": [
+        "c0031",
+        "c0042",
+        "c0054",
+        "c0073",
+        "c0087",
+        "c0098",
+        "c0104",
+        "c0107"
+      ],
+      "designs": {
+        "experiment": 5,
+        "review": 2,
+        "observational": 1
+      },
+      "maxN": 173,
+      "strongCount": 0
+    },
+    {
+      "a": "daytime nap",
+      "b": "motor memory consolidation",
+      "claims": [
+        "c0010",
+        "c0013",
+        "c0040",
+        "c0050",
+        "c0061",
+        "c0078",
+        "c0079"
+      ],
+      "designs": {
+        "rct": 3,
+        "experiment": 4
+      },
+      "maxN": 64,
+      "strongCount": 3
+    },
+    {
+      "a": "aging",
+      "b": "sleep spindle",
+      "claims": [
+        "c0002",
+        "c0017",
+        "c0025",
+        "c0059"
+      ],
+      "designs": {
+        "review": 2,
+        "experiment": 1,
+        "observational": 1
+      },
+      "maxN": 96,
+      "strongCount": 0
+    },
+    {
+      "a": "motor memory consolidation",
+      "b": "sleep spindle",
+      "claims": [
+        "c0021",
+        "c0024",
+        "c0035",
+        "c0062"
+      ],
+      "designs": {
+        "experiment": 3,
+        "observational": 1
+      },
+      "maxN": 96,
+      "strongCount": 0
+    }
+  ],
+  "contradiction": [
+    {
+      "a": "motor memory consolidation",
+      "b": "sleep",
+      "claims": [
+        "c0038",
+        "c0048",
+        "c0066",
+        "c0067",
+        "c0075",
+        "c0080",
+        "c0093",
+        "c0095",
+        "c0101",
+        "c0112"
+      ],
+      "relations": {
+        "no-effect": 8,
+        "increases": 1,
+        "enables": 1
+      }
+    },
+    {
+      "a": "aging",
+      "b": "sleep-dependent consolidation",
+      "claims": [
+        "c0003",
+        "c0007",
+        "c0016",
+        "c0019",
+        "c0034",
+        "c0039",
+        "c0041"
+      ],
+      "relations": {
+        "decreases": 5,
+        "other": 1,
+        "no-effect": 1
+      }
+    },
+    {
+      "a": "daytime nap",
+      "b": "motor memory consolidation",
+      "claims": [
+        "c0010",
+        "c0013",
+        "c0040",
+        "c0050",
+        "c0061",
+        "c0078",
+        "c0079"
+      ],
+      "relations": {
+        "no-effect": 4,
+        "increases": 3
+      }
+    },
+    {
+      "a": "aging",
+      "b": "motor sequence learning",
+      "claims": [
+        "c0032",
+        "c0043"
+      ],
+      "relations": {
+        "increases": 1,
+        "no-effect": 1
+      }
+    },
+    {
+      "a": "daytime nap",
+      "b": "motor learning",
+      "claims": [
+        "c0047",
+        "c0051"
+      ],
+      "relations": {
+        "increases": 1,
+        "no-effect": 1
+      }
+    }
+  ],
+  "narrow-coverage": [
+    {
+      "a": "closed-loop acoustic stimulation",
+      "b": "motor memory consolidation",
+      "claims": [
+        "c0084",
+        "c0085"
+      ],
+      "setting": "healthy adult afternoon nap"
+    }
+  ],
+  "stated-limitation": [
+    {
+      "concept": "motor memory consolidation",
+      "papers": [
+        "doi:10.1111/jsr.70203",
+        "doi:10.1093/cercor/bhv347",
+        "doi:10.64898/2026.04.22.26351552",
+        "doi:10.1371/journal.pone.0006683",
+        "doi:10.1523/jneurosci.3033-16.2017",
+        "doi:10.1098/rspb.2023.1408",
+        "doi:10.1111/jsr.12028",
+        "doi:10.7275/hec9-z333",
+        "doi:10.3389/fnagi.2013.00083",
+        "doi:10.2147/nss.s100337"
+      ],
+      "phrases": [
+        "remains unknown",
+        "little is known",
+        "further investigation",
+        "remains unclear",
+        "remain unclear",
+        "future research",
+        "has not been"
+      ],
+      "claims": [
+        "c0010",
+        "c0012",
+        "c0013",
+        "c0014",
+        "c0027",
+        "c0030",
+        "c0031",
+        "c0035",
+        "c0053",
+        "c0075",
+        "c0087",
+        "c0088",
+        "c0089",
+        "c0101",
+        "c0103",
+        "c0104",
+        "c0105",
+        "c0106"
+      ]
+    },
+    {
+      "concept": "aging",
+      "papers": [
+        "doi:10.1371/journal.pone.0006683",
+        "doi:10.1523/jneurosci.3033-16.2017",
+        "doi:10.1055/s-0029-1240138",
+        "doi:10.1042/etls20230110",
+        "doi:10.7275/hec9-z333",
+        "doi:10.2147/nss.s100337"
+      ],
+      "phrases": [
+        "remains unclear",
+        "has not been",
+        "future research"
+      ],
+      "claims": [
+        "c0031",
+        "c0032",
+        "c0034",
+        "c0058",
+        "c0059",
+        "c0072",
+        "c0087",
+        "c0090",
+        "c0104"
+      ]
+    },
+    {
+      "concept": "daytime nap",
+      "papers": [
+        "doi:10.1111/jsr.70203",
+        "doi:10.1093/cercor/bhv347",
+        "doi:10.3389/fnagi.2022.1000707"
+      ],
+      "phrases": [
+        "remains unknown",
+        "little is known",
+        "future studies"
+      ],
+      "claims": [
+        "c0010",
+        "c0011",
+        "c0013",
+        "c0047"
+      ]
+    },
+    {
+      "concept": "sleep spindle",
+      "papers": [
+        "doi:10.64898/2026.04.22.26351552",
+        "doi:10.1523/jneurosci.3033-16.2017",
+        "doi:10.1055/s-0029-1240138"
+      ],
+      "phrases": [
+        "further investigation",
+        "remains unclear",
+        "has not been"
+      ],
+      "claims": [
+        "c0029",
+        "c0035",
+        "c0036",
+        "c0059"
+      ]
+    },
+    {
+      "concept": "sleep-dependent consolidation",
+      "papers": [
+        "doi:10.1093/cercor/bhv347",
+        "doi:10.1523/jneurosci.3033-16.2017"
+      ],
+      "phrases": [
+        "little is known",
+        "remains unclear"
+      ],
+      "claims": [
+        "c0015",
+        "c0034",
+        "c0037"
+      ]
+    },
+    {
+      "concept": "procedural memory consolidation",
+      "papers": [
+        "doi:10.1055/s-0029-1240138",
+        "doi:10.31237/osf.io/8t9uq"
+      ],
+      "phrases": [
+        "has not been",
+        "future studies"
+      ],
+      "claims": [
+        "c0058",
+        "c0060",
+        "c0114"
+      ]
+    },
+    {
+      "concept": "sleep",
+      "papers": [
+        "doi:10.1111/jsr.12028",
+        "doi:10.3389/fnagi.2013.00083"
+      ],
+      "phrases": [
+        "remain unclear",
+        "has not been"
+      ],
+      "claims": [
+        "c0075",
+        "c0101",
+        "c0102"
+      ]
+    },
+    {
+      "concept": "slow-wave sleep",
+      "papers": [
+        "doi:10.1111/jsr.12028",
+        "doi:10.2147/nss.s100337",
+        "doi:10.31237/osf.io/8t9uq"
+      ],
+      "phrases": [
+        "remain unclear",
+        "remains unclear",
+        "future studies"
+      ],
+      "claims": [
+        "c0076",
+        "c0105",
+        "c0114"
+      ]
+    },
+    {
+      "concept": "slow wave amplitude",
+      "papers": [
+        "doi:10.1111/jsr.70203",
+        "doi:10.64898/2026.04.22.26351552"
+      ],
+      "phrases": [
+        "remains unknown",
+        "further investigation"
+      ],
+      "claims": [
+        "c0012",
+        "c0030"
+      ]
+    }
+  ]
+}

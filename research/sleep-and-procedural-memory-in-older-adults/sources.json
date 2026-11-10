@@ -1,0 +1,34 @@
+[
+  {
+    "source": "pubmed",
+    "query": "(sleep[tiab] OR nap[tiab] OR napping[tiab] OR \"Sleep\"[MeSH]) AND (\"procedural memory\"[tiab] OR \"procedural learning\"[tiab] OR \"motor sequence\"[tiab] OR \"motor learning\"[tiab] OR \"motor skill\"[tiab] OR \"skill learning\"[tiab] OR \"motor memory\"[tiab] OR \"motor adaptation\"[tiab] OR \"finger tapping\"[tiab] OR \"serial reaction time\"[tiab] OR \"mirror tracing\"[tiab] OR \"Memory, Procedural\"[MeSH]) AND (older[tiab] OR elderly[tiab] OR aging[tiab] OR ageing[tiab] OR \"Aged\"[MeSH])",
+    "reason": "Core biomedical index for sleep/ageing neuroscience; MeSH plus task-name terms gave mostly on-topic human studies and reviews.",
+    "count": 124,
+    "canSearch": true,
+    "error": null
+  },
+  {
+    "source": "europepmc",
+    "query": "(TITLE_ABS:(sleep OR nap OR napping)) AND (TITLE_ABS:(\"procedural memory\" OR \"procedural learning\" OR \"motor sequence\" OR \"motor learning\" OR \"motor skill\" OR \"motor memory\" OR \"motor adaptation\" OR \"finger tapping\" OR \"serial reaction time\" OR \"mirror tracing\")) AND (TITLE_ABS:(\"older adults\" OR elderly OR \"healthy aging\" OR \"healthy ageing\" OR \"older people\" OR \"age-related\"))",
+    "reason": "Adds recent preprints (medRxiv/PsyArXiv) and full-text records; the sample was highly on-topic (nap/TMR trials in older adults and PD).",
+    "count": 69,
+    "canSearch": true,
+    "error": null
+  },
+  {
+    "source": "openalex",
+    "query": "(sleep OR nap) AND (\"procedural memory\" OR \"procedural learning\" OR \"motor sequence learning\" OR \"motor memory consolidation\" OR \"motor skill consolidation\") AND (\"older adults\" OR elderly OR \"healthy aging\")",
+    "reason": "Broad cross-disciplinary coverage including psychology journals, with citation counts; the top results were the key age-related consolidation papers, though the total is large and relevance-ranked.",
+    "count": 3249,
+    "canSearch": true,
+    "error": null
+  },
+  {
+    "source": "clinicaltrials",
+    "query": "(sleep OR nap) AND (\"procedural memory\" OR \"motor learning\" OR \"motor sequence\" OR \"motor memory\" OR \"memory consolidation\") AND (\"older adults\" OR elderly OR aging)",
+    "reason": "Registered sleep-modulation intervention trials in older adults (acoustic/tSOS stimulation, CBT-I), useful for spotting unpublished or ongoing work; results are mixed and need screening.",
+    "count": 33,
+    "canSearch": true,
+    "error": null
+  }
+]

@@ -1,0 +1,149 @@
+{
+  "thresholds": {
+    "minQueries": 10,
+    "minSources": 2
+  },
+  "gaps": {
+    "g01": {
+      "queries": 10,
+      "sources": [
+        "openalex",
+        "pubmed",
+        "clinicaltrials",
+        "europepmc",
+        "arxiv"
+      ],
+      "verifiedClaims": 9,
+      "pass": true
+    },
+    "g02": {
+      "queries": 10,
+      "sources": [
+        "openalex",
+        "pubmed",
+        "europepmc",
+        "arxiv"
+      ],
+      "verifiedClaims": 7,
+      "pass": true
+    },
+    "g03": {
+      "queries": 10,
+      "sources": [
+        "openalex",
+        "pubmed",
+        "europepmc",
+        "clinicaltrials",
+        "arxiv"
+      ],
+      "verifiedClaims": 8,
+      "pass": true
+    },
+    "g04": {
+      "queries": 10,
+      "sources": [
+        "openalex",
+        "pubmed",
+        "europepmc",
+        "arxiv"
+      ],
+      "verifiedClaims": 8,
+      "pass": true
+    },
+    "g05": {
+      "queries": 10,
+      "sources": [
+        "pubmed",
+        "openalex",
+        "clinicaltrials",
+        "europepmc"
+      ],
+      "verifiedClaims": 5,
+      "pass": true
+    },
+    "g06": {
+      "queries": 10,
+      "sources": [
+        "pubmed",
+        "openalex",
+        "europepmc",
+        "clinicaltrials",
+        "arxiv"
+      ],
+      "verifiedClaims": 8,
+      "pass": true
+    },
+    "g07": {
+      "queries": 10,
+      "sources": [
+        "pubmed",
+        "openalex",
+        "clinicaltrials",
+        "europepmc",
+        "arxiv"
+      ],
+      "verifiedClaims": 4,
+      "pass": true
+    },
+    "g08": {
+      "queries": 10,
+      "sources": [
+        "pubmed",
+        "openalex",
+        "europepmc",
+        "clinicaltrials",
+        "arxiv"
+      ],
+      "verifiedClaims": 5,
+      "pass": true
+    },
+    "g09": {
+      "queries": 10,
+      "sources": [
+        "openalex",
+        "pubmed",
+        "europepmc",
+        "clinicaltrials",
+        "arxiv"
+      ],
+      "verifiedClaims": 7,
+      "pass": true
+    },
+    "g10": {
+      "queries": 10,
+      "sources": [
+        "pubmed",
+        "openalex",
+        "europepmc",
+        "clinicaltrials",
+        "arxiv"
+      ],
+      "verifiedClaims": 5,
+      "pass": true
+    },
+    "g11": {
+      "queries": 10,
+      "sources": [
+        "openalex",
+        "pubmed",
+        "europepmc",
+        "arxiv",
+        "clinicaltrials"
+      ],
+      "verifiedClaims": 6,
+      "pass": true
+    },
+    "g12": {
+      "queries": 10,
+      "sources": [
+        "pubmed",
+        "openalex",
+        "europepmc",
+        "clinicaltrials",
+        "arxiv"
+      ],
+      "verifiedClaims": 6,
+      "pass": true
+    }
+  }
+}

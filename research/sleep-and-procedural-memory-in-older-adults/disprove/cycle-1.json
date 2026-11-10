@@ -1,0 +1,143 @@
+{
+  "cycle": 1,
+  "summary": "11 issues",
+  "findings": [
+    {
+      "id": "d1-01",
+      "gap": "g01",
+      "severity": "weakens",
+      "class": "answered-by-prior-work",
+      "summary": "Half of g01, whether CLAS raises SO–spindle coupling in older adults, is already answered. Multi-night phase-locked acoustic stimulation in 32 healthy older adults (mean age 68.9) produced a 24% increase in SO-coupled spindles. A 2026 sham-controlled crossover in 16 adults aged 60+ (two stimulation nights) enhanced NREM oscillations, but word-pair recall did not improve at group level. In a middle-aged sample (55.7 y), closed-loop stimulation's effect on SOs and on several memory tasks differed from young adults, a finding the gap does not cite. The open part is narrower: no study has a procedural/finger-tapping outcome under whole-night CLAS in adults over 60, and none has tested a stimulus-count dose-response. The gap should be restated around that motor outcome rather than coupling.",
+      "sources": [
+        "doi:10.1093/ageing/afad228",
+        "doi:10.64898/2026.08.17.745219",
+        "doi:10.1093/sleep/zsaa111",
+        "doi:10.1093/sleep/zsad206"
+      ]
+    },
+    {
+      "id": "d1-02",
+      "gap": "g02",
+      "severity": "weakens",
+      "class": "answered-by-prior-work",
+      "summary": "Whether coupling metrics predict consolidation, and how age changes that, has been pooled already. A Bayesian meta-analysis (23 studies, 297 effect sizes) models coupling phase, strength and percentage against consolidation with physiological and behavioural moderators. In an older sample, precise SO–fast-spindle coupling predicted retention, and older adults showed a shift to slow-spindle power later in the up-state. That gives one explanation for the opposite age-direction findings the gap lists (detection band and timing). What is still open is a narrower question: a head-to-head of coupling versus fast-spindle density for motor-sequence tasks in older adults, using harmonised detection.",
+      "sources": [
+        "doi:10.7554/elife.101992",
+        "doi:10.1038/s41598-018-36557-z",
+        "openalex:W7171340689"
+      ]
+    },
+    {
+      "id": "d1-03",
+      "gap": "g04",
+      "severity": "weakens",
+      "class": "answered-by-prior-work",
+      "summary": "The idea that the age deficit is a measurement artefact is already debated in print: Adi-Japha & Karni wrote a comment on Pan & Rickard citing developmental and task-demand constraints, and Pan & Rickard replied. Age-comparison data also exist where neither group shows sleep-specific gains. On an implicit sequence task, sleep had no critical role in either young or old adults. The older-adult finger-tapping study found sleep modulated word-pair learning but not motor sequence learning. So the gap cannot assume a well-established 'age deficit' to explain away. It should be narrowed to explicit finger-tapping with artefact-controlled gain scores.",
+      "sources": [
+        "doi:10.1037/bul0000048",
+        "doi:10.1037/bul0000094",
+        "doi:10.1007/s00221-009-2024-x",
+        "doi:10.1016/j.neurobiolaging.2011.06.029"
+      ]
+    },
+    {
+      "id": "d1-04",
+      "gap": "g05",
+      "severity": "weakens",
+      "class": "already-in-progress",
+      "summary": "The claim that only nocturnal oxygen has been tested is wrong. Compliant CPAP users showed overnight finger-tapping gains like healthy controls, while untreated moderate–severe OSA patients declined (non-randomised, not restricted to older adults). A single night of CPAP did not restore offline motor consolidation, so treatment duration matters. A sham-CPAP RCT with a procedural memory outcome is registered (NCT00464659). A multicentre RCT of 3-month OSA treatment in cognitively normal older adults with memory outcomes is underway (ESSENTIAL, NCT05988385; open-label waitlist, not sham). What remains is narrower: a sham-controlled trial in people 65+ with an overnight motor-sequence outcome and spindle/fragmentation mediation.",
+      "sources": [
+        "doi:10.5664/jcsm.5794",
+        "doi:10.1016/j.sleep.2015.01.017",
+        "nct:NCT00464659",
+        "nct:NCT05988385"
+      ]
+    },
+    {
+      "id": "d1-05",
+      "gap": "g06",
+      "severity": "weakens",
+      "class": "answered-by-prior-work",
+      "summary": "A meta-analysis of 60 samples from 54 nap studies found a significant procedural-memory benefit of naps (d≈0.49). It tested age, nap length, nap start time and habituality as moderators and found none significant, so the 'is it power or heterogeneity' question has partly been addressed. A crossover in healthy older adults already compared short (10–20 min sleep) and long (50–70 min sleep) naps against wake and found gains that were not sleep-dependent. An explicit-SRTT nap study did find nap-dependent consolidation in older adults. An NIH study (NCT04312126) covering ages 50–80 and chronic stroke is examining nap mechanisms for motor learning. The remaining gap is narrower: the explicit-versus-implicit interaction with naps of 60 minutes or more and 24-h retest.",
+      "sources": [
+        "doi:10.1016/j.smrv.2022.101666",
+        "doi:10.3389/fnagi.2016.00125",
+        "doi:10.1016/j.nlm.2021.107508",
+        "nct:NCT04312126"
+      ]
+    },
+    {
+      "id": "d1-06",
+      "gap": "g07",
+      "severity": "weakens",
+      "class": "already-in-progress",
+      "summary": "The gap says no study links offline gains to rehabilitation outcomes. That half is now being studied: the SMiLES longitudinal protocol tests whether sleep-dependent motor-sequence consolidation mediates the link between post-stroke sleep and clinical motor outcomes. Night-sleep versus wake offline learning in chronic stroke is already shown on a tracking task. In chronic stroke with PSG, offline gains have been linked to sleep parameters and functional status. What is left is the nocturnal-versus-nap comparison on a paretic-hand sequence task in survivors aged 60+.",
+      "sources": [
+        "doi:10.1136/bmjopen-2023-077442",
+        "doi:10.1177/1545968308326631",
+        "doi:10.3389/fneur.2015.00225",
+        "nct:NCT04312126"
+      ]
+    },
+    {
+      "id": "d1-07",
+      "gap": "g08",
+      "severity": "weakens",
+      "class": "answered-by-prior-work",
+      "summary": "Procedural sequence learning and its consolidation have been compared in MCI versus healthy elderly on the ASRT task (MCI showed weaker learning), so 'every procedural consolidation study uses non-MCI groups' is not accurate. A 2026 study links spindles and white matter differently in older adults with versus without cognitive impairment. A systematic review of motor learning in MCI finds that retention was compared with controls in only one study, which supports keeping a narrowed gap: overnight sleep-versus-wake motor-sequence gains in amnestic MCI with PSG spindle/SWA mediation.",
+      "sources": [
+        "doi:10.3389/fnhum.2013.00318",
+        "doi:10.1007/s11065-025-09661-x",
+        "doi:10.1093/braincomms/fcag303"
+      ]
+    },
+    {
+      "id": "d1-08",
+      "gap": "g09",
+      "severity": "weakens",
+      "class": "already-in-progress",
+      "summary": "Linking TMR-induced changes in sleep oscillations and motor consolidation to diffusion-MRI microstructure has begun in a 2026 preprint; whether its sample is older adults was not confirmed. Thalamo-cortical white matter has already been shown to support motor consolidation through sleep spindles in young and older adults. The novelty that remains is stratifying responders to CLAS/TMR by structure, specifically in older adults.",
+      "sources": [
+        "doi:10.64898/2026.10.13.758910",
+        "doi:10.1016/j.neuroscience.2018.12.049"
+      ]
+    },
+    {
+      "id": "d1-09",
+      "gap": "g10",
+      "severity": "weakens",
+      "class": "answered-by-prior-work",
+      "summary": "For fine-motor training, the evening advantage in elderly adults is replicated beyond the single study the gap cites. A 10-session, multi-week programme found evening training led to better long-term retention than morning training in healthy elderly, alongside the single-session finger-tapping result (Learning & Memory). Time-of-day effects on finger-tapping consolidation (gain only after 8 pm training) are also shown in younger adults. What remains is narrower: a fine- versus gross-motor factorial in older adults, since the null result comes from the footstep-task study.",
+      "sources": [
+        "doi:10.3389/fnagi.2019.00321",
+        "doi:10.1101/lm.052522.120",
+        "doi:10.1038/s41539-023-00176-9",
+        "openalex:W7171340689"
+      ]
+    },
+    {
+      "id": "d1-10",
+      "gap": "g11",
+      "severity": "weakens",
+      "class": "mis-stated",
+      "summary": "The 'nocturnal sleep harms retention' claim comes from a design where the SLEEP group practised in the evening and was retested next morning, while CONTROL practised in the morning and was retested that evening. Sleep is fully confounded with time of training and testing, which the Pan & Rickard meta-analysis (c0038/c0039) lists as a strong moderator. A same-paradigm dart-throwing study in 60 adults (Motriz 2022, age not stated in what I saw) also tested nocturnal sleep on retention, adaptability and relearning. The gap frames this as a sleep-versus-wake contradiction. It should first be framed as needing a time-of-day-controlled replication (for example 24-h designs or counterbalanced AM/PM) before any N3-versus-spindle mechanism is studied.",
+      "sources": [
+        "doi:10.1080/0361073x.2024.2439741",
+        "doi:10.1590/s1980-657420220017221",
+        "doi:10.1037/bul0000009"
+      ]
+    },
+    {
+      "id": "d1-11",
+      "gap": "g12",
+      "severity": "weakens",
+      "class": "answered-by-prior-work",
+      "summary": "The proposed manipulation has already been done in young adults. SSRI/SNRI REM suppression after training did not impair finger-tapping consolidation; it enhanced accuracy gains together with sleep spindles. The authors concluded REM as a unitary state is not required for skill consolidation. Because these drugs raise spindles, the design condition 'N2 spindle density held constant' cannot be met with the suggested drug class, so the design is partly mis-stated. Other drug studies separate the cholinergic component: the anticholinergic antidepressant amitriptyline had differential effects on sleep-dependent memory consolidation, and combined cholinergic receptor blockade during REM-rich sleep impaired offline motor consolidation. Only an older-adult-specific test with a non-spindle-enhancing manipulation would remain novel.",
+      "sources": [
+        "doi:10.1038/nn.2206",
+        "doi:10.5665/sleep.3674",
+        "doi:10.1038/npp.2009.6"
+      ]
+    }
+  ]
+}
