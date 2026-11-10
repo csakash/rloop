@@ -203,8 +203,8 @@ test('agent env is minimal; rsearch guards secrets', () => {
   }
 });
 
-// protects=t2-01: the CLI scrubs its auth vars from Bash children, the search-log key travels in the keys file (not env), test hooks pass only under a stub, and push-blocking git config is renumbered from 0; t2-03: proxy/CA vars pass; t2-04: path-valued "secret" names don't trip the guard; fails_when=a credential or log key is in the agent/rsearch env, or git config indexes point at stripped entries; no_claim=the CLI's scrub list contents (string-checked in the 2.1.318 binary, not run)
-test('agent env: scrub, keys file, git config, proxy', () => {
+// protects=t2-01/t3-01/t3-02: the search-log key travels in the keys file (not env), the toolbox rsearch finds that file next to itself, CLAUDE_CODE_SUBPROCESS_ENV_SCRUB is NOT set (it strips RLOOP_KEYS_FILE and forces permission mode default: both observed on the real CLI), test hooks pass only under a stub, and push-blocking git config is renumbered from 0; t2-03/t3-03: proxy/CA vars pass with credentials stripped; t2-04: path-valued names don't trip the guard; fails_when=a credential or log key is in the agent env, or rsearch can't find its keys; no_claim=CLI enforcement (covered by scripts/probe-sandbox.js, which needs a logged-in CLI)
+test('agent env: keys file, git config, proxy', () => {
   const env = agent.minimalEnv({ PATH: '/b', HTTPS_PROXY: 'http://p', NODE_EXTRA_CA_CERTS: '/ca', RLOOP_TEST_SCENARIO: 's', GIT_CONFIG_COUNT: '2', GIT_CONFIG_KEY_0: 'k' });
   assert.ok(!('HTTPS_PROXY' in env) && !('NODE_EXTRA_CA_CERTS' in env), 'proxy/CA kept');
   assert.ok('RLOOP_TEST_SCENARIO' in env && env.RLOOP_TEST_SCENARIO === undefined, 'test hook stripped without a stub');
@@ -221,10 +221,21 @@ test('agent env: scrub, keys file, git config, proxy', () => {
   const ctx = { runDir: tmpdir(), logKey: 'f'.repeat(64) };
   const tb = agent.toolbox(ctx);
   assert.equal(JSON.parse(fs.readFileSync(tb.keys, 'utf8')).RLOOP_LOG_KEY, 'f'.repeat(64));
+  // The toolbox rsearch signs with the key from its own keys.json even with no RLOOP_KEYS_FILE in env.
+  const runDir = tmpdir();
+  const childEnv = { ...process.env, RLOOP_RUN_DIR: runDir, RLOOP_ROLE: 'disprover', RLOOP_CACHE: 'off' };
+  delete childEnv.RLOOP_KEYS_FILE;
+  execFileSync(tb.rsearch, ['sources'], { env: childEnv });
+  spawnSync(tb.rsearch, ['resolve', 'not-an-id', '--gap', 'g01'], { env: childEnv, encoding: 'utf8' });
+  const logged = require('../lib/searchlog').read(runDir, 'f'.repeat(64));
+  assert.equal(logged.length, 1, 'entry signed with the keys-file key');
   agent.cleanup(ctx);
   const src = fs.readFileSync(path.join(ROOT, 'lib', 'agent.js'), 'utf8');
-  assert.match(src, /CLAUDE_CODE_SUBPROCESS_ENV_SCRUB: '1'/);
+  assert.doesNotMatch(src, /CLAUDE_CODE_SUBPROCESS_ENV_SCRUB: '1'/);
   assert.doesNotMatch(src, /RLOOP_LOG_KEY: ctx\.logKey/);
+  const proxied = agent.minimalEnv({ HTTPS_PROXY: 'http://user:pw@proxy:8080', http_proxy: 'http://proxy:3128' });
+  assert.equal(proxied.HTTPS_PROXY, 'http://proxy:8080/');
+  assert.ok(!('http_proxy' in proxied), 'credential-free proxy passes unchanged');
   const { leaksSecret } = require('../bin/rsearch');
   assert.equal(leaksSecret(['search', 'openalex', '/tmp/rloop-tools-abc/keys.json'], { RLOOP_KEYS_FILE: '/tmp/rloop-tools-abc/keys.json', SSH_AUTH_SOCK: '/private/tmp/com.apple.launchd.x/Listeners' }), null);
   assert.equal(leaksSecret(['q', 'Bearer abcdefgh123'], { ANTHROPIC_CUSTOM_HEADERS: 'Authorization: Bearer abcdefgh123' }), 'ANTHROPIC_CUSTOM_HEADERS');

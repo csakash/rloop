@@ -8,9 +8,19 @@
 // with RLOOP_ROLE / RLOOP_STAGE.
 const fs = require('fs');
 
-// Database keys come from the toolbox's owner-only keys file, never from the agent's env.
-if (process.env.RLOOP_KEYS_FILE) {
-  try { Object.assign(process.env, JSON.parse(fs.readFileSync(process.env.RLOOP_KEYS_FILE, 'utf8'))); } catch { /* no keys: keyless */ }
+// Database keys and the search-log key come from the toolbox's owner-only keys file, never
+// from the agent's env. The toolbox copy finds it next to itself (<toolbox>/keys.json), so
+// nothing depends on an env var surviving the CLI; RLOOP_KEYS_FILE is a fallback for tests.
+const path = require('path');
+const keysFile = [path.join(__dirname, '..', 'keys.json'), process.env.RLOOP_KEYS_FILE].find((f) => {
+  if (!f) return false;
+  try {
+    const st = fs.statSync(f);
+    return st.isFile() && st.uid === process.getuid() && (st.mode & 0o077) === 0;
+  } catch { return false; }
+});
+if (keysFile) {
+  try { Object.assign(process.env, JSON.parse(fs.readFileSync(keysFile, 'utf8'))); } catch { /* no keys: keyless */ }
 }
 const sources = require('../lib/sources');
 const searchlog = require('../lib/searchlog');
@@ -19,7 +29,7 @@ const searchlog = require('../lib/searchlog');
 // expansion inside an allowed command cannot read a secret back or send it to an API or log.
 // Defense in depth only: the real barrier is that agents' env holds no secrets (rloop's env
 // allowlist plus CLAUDE_CODE_SUBPROCESS_ENV_SCRUB); pieces under 8 chars still pass this check.
-const SECRET_NAME = /(KEY|TOKEN|SECRET|PASS|AUTH|CREDENTIAL|COOKIE|SESSION|HEADER)/i;
+const SECRET_NAME = /(KEY|TOKEN|SECRET|PASS|AUTH|CREDENTIAL|COOKIE|SESSION|HEADER|PROXY)/i;
 const NOT_SECRET = new Set(['RLOOP_KEYS_FILE']);
 const WINDOW = 8;
 function leaksSecret(args, env = process.env) {
