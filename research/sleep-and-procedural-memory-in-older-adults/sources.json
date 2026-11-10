@@ -1,0 +1,42 @@
+[
+  {
+    "source": "pubmed",
+    "query": "(sleep[tiab] OR nap[tiab] OR napping[tiab] OR \"Sleep\"[MeSH]) AND (\"procedural memory\"[tiab] OR \"procedural learning\"[tiab] OR \"motor learning\"[tiab] OR \"motor sequence\"[tiab] OR \"motor skill\"[tiab] OR \"motor memory\"[tiab] OR \"skill learning\"[tiab] OR \"finger tapping\"[tiab] OR \"serial reaction time\"[tiab] OR \"Memory, Procedural\"[MeSH]) AND (older[tiab] OR elderly[tiab] OR aging[tiab] OR ageing[tiab] OR \"Aged\"[MeSH])",
+    "reason": "Core biomedical index for this topic; MeSH plus title/abstract terms gave on-topic results (age-related sleep-dependent consolidation, nap studies, reviews).",
+    "count": 122,
+    "canSearch": true,
+    "error": null
+  },
+  {
+    "source": "europepmc",
+    "query": "(TITLE_ABS:(sleep OR nap OR napping)) AND (TITLE_ABS:(\"procedural memory\" OR \"procedural learning\" OR \"motor learning\" OR \"motor sequence\" OR \"motor skill\" OR \"motor memory\" OR \"skill learning\" OR \"finger tapping\" OR \"serial reaction time\")) AND (TITLE_ABS:(older OR elderly OR aging OR ageing OR \"older adults\"))",
+    "reason": "Adds preprints (bioRxiv/medRxiv/PsyArXiv) and the most recent work, e.g. 2025-2026 TMR and nap RCTs in older adults and Parkinson's disease.",
+    "count": 87,
+    "canSearch": true,
+    "error": null
+  },
+  {
+    "source": "openalex",
+    "query": "sleep \"motor memory consolidation\" older adults",
+    "reason": "Broad cross-disciplinary coverage with citation counts; a narrow phrase query was needed because the boolean version returned more than 54k loosely matched records.",
+    "count": 872,
+    "canSearch": true,
+    "error": null
+  },
+  {
+    "source": "semanticscholar",
+    "query": "sleep procedural motor memory consolidation older adults aging",
+    "reason": "Relevance-ranked neuroscience coverage; returned on-topic spindle, tACS, TMR and training-timing studies in older adults.",
+    "count": null,
+    "canSearch": true,
+    "error": "GET https://api.semanticscholar.org/graph/v1/paper/search?query=sleep%20procedural%20motor%20memory%20consolidation%20older%20adults%20aging&limit=1&fields=title failed after 4 attempts: HTTP 429"
+  },
+  {
+    "source": "clinicaltrials",
+    "query": "(sleep OR nap OR \"slow wave\") AND (\"memory consolidation\" OR \"motor sequence\" OR \"procedural memory\") AND (older OR elderly OR aging)",
+    "reason": "Registered sleep-modulation trials in older adults (tSOS, closed-loop auditory stimulation, nap interventions) for finding planned or unpublished work; results are mixed declarative/procedural, so the next stage needs to filter them.",
+    "count": 31,
+    "canSearch": true,
+    "error": null
+  }
+]

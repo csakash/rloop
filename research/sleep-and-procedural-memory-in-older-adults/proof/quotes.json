@@ -1,0 +1,776 @@
+[
+  {
+    "claim": "c0001",
+    "source": "doi:10.1093/sleep/zsae072",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0002",
+    "source": "doi:10.1093/sleep/zsae072",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0003",
+    "source": "doi:10.1093/sleep/zsae072",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0004",
+    "source": "doi:10.1037/bul0000009",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0005",
+    "source": "doi:10.1037/bul0000009",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0006",
+    "source": "doi:10.1037/bul0000009",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0007",
+    "source": "doi:10.1037/bul0000009",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0008",
+    "source": "doi:10.1007/7854_2014_300",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0009",
+    "source": "doi:10.1007/7854_2014_300",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0010",
+    "source": "doi:10.1007/7854_2014_300",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0011",
+    "source": "doi:10.1007/7854_2014_300",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0012",
+    "source": "doi:10.3389/fneur.2015.00241",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0013",
+    "source": "doi:10.3389/fnagi.2022.1000707",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0014",
+    "source": "doi:10.3389/fnagi.2022.1000707",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0015",
+    "source": "doi:10.2522/ptj.20080310",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0016",
+    "source": "doi:10.2522/ptj.20080310",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0017",
+    "source": "doi:10.1016/j.nlm.2021.107508",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0018",
+    "source": "doi:10.1016/j.nlm.2021.107508",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0019",
+    "source": "doi:10.1176/appi.ajgp.13.5.344",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0020",
+    "source": "doi:10.1042/etls20230110",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0021",
+    "source": "doi:10.1016/j.neurobiolaging.2016.08.006",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0022",
+    "source": "doi:10.1016/j.neurobiolaging.2016.08.006",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0023",
+    "source": "doi:10.1016/j.neurobiolaging.2016.08.006",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0024",
+    "source": "doi:10.1111/jsr.14027",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0025",
+    "source": "doi:10.3233/rnn-150521",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0026",
+    "source": "doi:10.3233/rnn-150521",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0027",
+    "source": "doi:10.3389/fneur.2018.01002",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0028",
+    "source": "doi:10.3389/fneur.2018.01002",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0029",
+    "source": "doi:10.1371/journal.pone.0157770",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0030",
+    "source": "doi:10.1371/journal.pone.0157770",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0031",
+    "source": "doi:10.5665/sleep.5048",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0032",
+    "source": "doi:10.1111/jsr.70203",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0033",
+    "source": "doi:10.1111/jsr.70203",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0034",
+    "source": "doi:10.1111/jsr.70203",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0035",
+    "source": "doi:10.64898/2026.04.22.26351552",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0036",
+    "source": "doi:10.64898/2026.04.22.26351552",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0037",
+    "source": "doi:10.64898/2026.04.22.26351552",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0038",
+    "source": "doi:10.64898/2026.04.22.26351552",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0039",
+    "source": "doi:10.31234/osf.io/5yqjg_v1",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0040",
+    "source": "doi:10.31234/osf.io/5yqjg_v1",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0041",
+    "source": "doi:10.1016/j.sleep.2025.106821",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0042",
+    "source": "doi:10.1016/j.sleep.2025.106821",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0043",
+    "source": "doi:10.1080/0361073x.2024.2439741",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0044",
+    "source": "doi:10.1080/0361073x.2024.2439741",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0045",
+    "source": "doi:10.1080/0361073x.2024.2439741",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0046",
+    "source": "doi:10.1093/sleepadvances/zpaf022",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0047",
+    "source": "doi:10.1093/sleepadvances/zpaf022",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0048",
+    "source": "doi:10.1093/sleepadvances/zpaf022",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0049",
+    "source": "doi:10.1093/sleepadvances/zpaf022",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0050",
+    "source": "doi:10.3389/fnbeh.2024.1466696",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0051",
+    "source": "doi:10.3389/fnbeh.2024.1466696",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0052",
+    "source": "doi:10.3389/fnbeh.2024.1466696",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0053",
+    "source": "doi:10.1080/10749357.2026.2754432",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0054",
+    "source": "doi:10.1080/10749357.2026.2754432",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0055",
+    "source": "doi:10.1080/10749357.2026.2754432",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0056",
+    "source": "doi:10.3389/fnagi.2021.787654",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0057",
+    "source": "doi:10.3389/fnagi.2021.787654",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0058",
+    "source": "doi:10.3389/fnagi.2021.787654",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0059",
+    "source": "doi:10.1111/ejn.15468",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0060",
+    "source": "doi:10.1111/ejn.15468",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0061",
+    "source": "doi:10.1111/ejn.15468",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0062",
+    "source": "doi:10.1002/hbm.22426",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0063",
+    "source": "doi:10.1002/hbm.22426",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0064",
+    "source": "doi:10.1002/hbm.22426",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0065",
+    "source": "doi:10.1002/hbm.22426",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0066",
+    "source": "doi:10.1523/jneurosci.3033-16.2017",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0067",
+    "source": "doi:10.1523/jneurosci.3033-16.2017",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0068",
+    "source": "doi:10.1523/jneurosci.3033-16.2017",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0069",
+    "source": "doi:10.1523/jneurosci.3033-16.2017",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0070",
+    "source": "doi:10.1007/s11357-015-9779-8",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0071",
+    "source": "doi:10.1371/journal.pone.0174755",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0072",
+    "source": "doi:10.1093/cercor/bhv347",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0073",
+    "source": "doi:10.1093/cercor/bhv347",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0074",
+    "source": "doi:10.1093/cercor/bhv347",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0075",
+    "source": "doi:10.1038/s41598-018-34225-w",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0076",
+    "source": "doi:10.1038/s41598-018-34225-w",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0077",
+    "source": "doi:10.1098/rspb.2023.1408",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0078",
+    "source": "doi:10.5812/jmcl-148244",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0079",
+    "source": "doi:10.1016/j.neuroimage.2020.117323",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0080",
+    "source": "doi:10.1016/j.neuroimage.2020.117323",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0081",
+    "source": "doi:10.1155/2018/4756785",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0082",
+    "source": "doi:10.1155/2018/3076986",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0083",
+    "source": "doi:10.1155/2018/3076986",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0084",
+    "source": "doi:10.1038/s42003-025-09425-6",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0085",
+    "source": "doi:10.1038/s42003-025-09425-6",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0086",
+    "source": "doi:10.1038/s42003-025-09425-6",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0087",
+    "source": "doi:10.12775/qs.2026.58.72667",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0088",
+    "source": "doi:10.12775/qs.2026.58.72667",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0089",
+    "source": "doi:10.3233/jpd-230038",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0090",
+    "source": "doi:10.3233/jpd-230038",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0091",
+    "source": "doi:10.1016/j.neurobiolaging.2014.12.014",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0092",
+    "source": "doi:10.1016/j.neurobiolaging.2014.12.014",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0093",
+    "source": "doi:10.1016/j.neurobiolaging.2014.12.014",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0094",
+    "source": "openalex:W7171340689",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0095",
+    "source": "openalex:W7171340689",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0096",
+    "source": "openalex:W7171340689",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0097",
+    "source": "openalex:W7171340689",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0098",
+    "source": "openalex:W7171340689",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0099",
+    "source": "openalex:W7171340689",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0100",
+    "source": "nct:NCT04277104",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0101",
+    "source": "nct:NCT04277104",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0102",
+    "source": "nct:NCT07051239",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0103",
+    "source": "nct:NCT06501495",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0104",
+    "source": "nct:NCT06501495",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0105",
+    "source": "nct:NCT06501495",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0106",
+    "source": "nct:NCT03112902",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0107",
+    "source": "nct:NCT03112902",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0108",
+    "source": "nct:NCT07383311",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0109",
+    "source": "doi:10.7554/elife.73930",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0110",
+    "source": "doi:10.7554/elife.73930",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0111",
+    "source": "doi:10.7554/elife.73930",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0112",
+    "source": "doi:10.1038/s44271-024-00082-9",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0113",
+    "source": "doi:10.1038/s44271-024-00082-9",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0114",
+    "source": "doi:10.3389/fnins.2018.00280",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0115",
+    "source": "openalex:W2950678296",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0116",
+    "source": "openalex:W2950678296",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0117",
+    "source": "openalex:W2950678296",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0118",
+    "source": "openalex:W2950678296",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0119",
+    "source": "doi:10.1016/j.neubiorev.2020.07.028",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0120",
+    "source": "doi:10.1016/j.neubiorev.2020.07.028",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0121",
+    "source": "doi:10.1523/jneurosci.0325-24.2024",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0122",
+    "source": "doi:10.1523/jneurosci.0325-24.2024",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0123",
+    "source": "doi:10.1590/s1980-657420220017221",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0124",
+    "source": "doi:10.3389/fnhum.2026.1698460",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0125",
+    "source": "doi:10.14288/1.0367776",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0126",
+    "source": "doi:10.14288/1.0367776",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0127",
+    "source": "doi:10.3390/brainsci13010137",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0128",
+    "source": "doi:10.3390/brainsci11081003",
+    "verified": true,
+    "reason": null
+  },
+  {
+    "claim": "c0129",
+    "source": "doi:10.3390/brainsci11081003",
+    "verified": true,
+    "reason": null
+  }
+]

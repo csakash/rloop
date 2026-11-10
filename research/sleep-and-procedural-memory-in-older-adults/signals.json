@@ -1,0 +1,554 @@
+{
+  "thresholds": {
+    "minLinkClaims": 3,
+    "minWeakClaims": 3,
+    "weakMaxN": 100,
+    "minNarrowClaims": 2,
+    "maxPerSignal": 25
+  },
+  "concepts": 81,
+  "pairs": 90,
+  "missing-link": [
+    {
+      "a": "daytime nap",
+      "c": "sleep",
+      "via": [
+        "motor memory consolidation"
+      ],
+      "claims": [
+        "c0017",
+        "c0027",
+        "c0028",
+        "c0032",
+        "c0016",
+        "c0025",
+        "c0026",
+        "c0043",
+        "c0044",
+        "c0075",
+        "c0091",
+        "c0092",
+        "c0117",
+        "c0119",
+        "c0120",
+        "c0123"
+      ]
+    },
+    {
+      "a": "sleep",
+      "c": "slow oscillation-spindle coupling",
+      "via": [
+        "motor memory consolidation"
+      ],
+      "claims": [
+        "c0016",
+        "c0025",
+        "c0026",
+        "c0043",
+        "c0044",
+        "c0075",
+        "c0091",
+        "c0092",
+        "c0117",
+        "c0119",
+        "c0120",
+        "c0123",
+        "c0076",
+        "c0097",
+        "c0111"
+      ]
+    },
+    {
+      "a": "sleep",
+      "c": "slow-wave sleep",
+      "via": [
+        "motor memory consolidation"
+      ],
+      "claims": [
+        "c0016",
+        "c0025",
+        "c0026",
+        "c0043",
+        "c0044",
+        "c0075",
+        "c0091",
+        "c0092",
+        "c0117",
+        "c0119",
+        "c0120",
+        "c0123",
+        "c0040",
+        "c0087",
+        "c0096"
+      ]
+    },
+    {
+      "a": "sleep",
+      "c": "targeted memory reactivation",
+      "via": [
+        "motor memory consolidation"
+      ],
+      "claims": [
+        "c0016",
+        "c0025",
+        "c0026",
+        "c0043",
+        "c0044",
+        "c0075",
+        "c0091",
+        "c0092",
+        "c0117",
+        "c0119",
+        "c0120",
+        "c0123",
+        "c0024",
+        "c0035",
+        "c0109"
+      ]
+    },
+    {
+      "a": "daytime nap",
+      "c": "slow oscillation-spindle coupling",
+      "via": [
+        "motor memory consolidation"
+      ],
+      "claims": [
+        "c0017",
+        "c0027",
+        "c0028",
+        "c0032",
+        "c0076",
+        "c0097",
+        "c0111"
+      ]
+    },
+    {
+      "a": "daytime nap",
+      "c": "slow-wave sleep",
+      "via": [
+        "motor memory consolidation"
+      ],
+      "claims": [
+        "c0017",
+        "c0027",
+        "c0028",
+        "c0032",
+        "c0040",
+        "c0087",
+        "c0096"
+      ]
+    },
+    {
+      "a": "daytime nap",
+      "c": "targeted memory reactivation",
+      "via": [
+        "motor memory consolidation"
+      ],
+      "claims": [
+        "c0017",
+        "c0027",
+        "c0028",
+        "c0032",
+        "c0024",
+        "c0035",
+        "c0109"
+      ]
+    },
+    {
+      "a": "slow oscillation-spindle coupling",
+      "c": "slow-wave sleep",
+      "via": [
+        "motor memory consolidation"
+      ],
+      "claims": [
+        "c0076",
+        "c0097",
+        "c0111",
+        "c0040",
+        "c0087",
+        "c0096"
+      ]
+    },
+    {
+      "a": "slow oscillation-spindle coupling",
+      "c": "targeted memory reactivation",
+      "via": [
+        "motor memory consolidation"
+      ],
+      "claims": [
+        "c0076",
+        "c0097",
+        "c0111",
+        "c0024",
+        "c0035",
+        "c0109"
+      ]
+    },
+    {
+      "a": "slow-wave sleep",
+      "c": "targeted memory reactivation",
+      "via": [
+        "motor memory consolidation"
+      ],
+      "claims": [
+        "c0040",
+        "c0087",
+        "c0096",
+        "c0024",
+        "c0035",
+        "c0109"
+      ]
+    }
+  ],
+  "weak-evidence": [
+    {
+      "a": "aging",
+      "b": "sleep-dependent consolidation",
+      "claims": [
+        "c0001",
+        "c0006",
+        "c0010",
+        "c0015",
+        "c0020",
+        "c0021",
+        "c0062"
+      ],
+      "designs": {
+        "experiment": 3,
+        "review": 4
+      },
+      "maxN": 1296,
+      "strongCount": 0
+    },
+    {
+      "a": "aging",
+      "b": "sleep spindle",
+      "claims": [
+        "c0009",
+        "c0049",
+        "c0063",
+        "c0098"
+      ],
+      "designs": {
+        "review": 1,
+        "experiment": 3
+      },
+      "maxN": 173,
+      "strongCount": 0
+    },
+    {
+      "a": "daytime nap",
+      "b": "motor memory consolidation",
+      "claims": [
+        "c0017",
+        "c0027",
+        "c0028",
+        "c0032"
+      ],
+      "designs": {
+        "experiment": 3,
+        "rct": 1
+      },
+      "maxN": 35,
+      "strongCount": 1
+    },
+    {
+      "a": "motor memory consolidation",
+      "b": "targeted memory reactivation",
+      "claims": [
+        "c0024",
+        "c0035",
+        "c0109"
+      ],
+      "designs": {
+        "experiment": 3
+      },
+      "maxN": 17,
+      "strongCount": 0
+    },
+    {
+      "a": "motor memory consolidation",
+      "b": "slow-wave sleep",
+      "claims": [
+        "c0040",
+        "c0087",
+        "c0096"
+      ],
+      "designs": {
+        "review": 2,
+        "experiment": 1
+      },
+      "maxN": 173,
+      "strongCount": 0
+    },
+    {
+      "a": "motor memory consolidation",
+      "b": "slow oscillation-spindle coupling",
+      "claims": [
+        "c0076",
+        "c0097",
+        "c0111"
+      ],
+      "designs": {
+        "experiment": 3
+      },
+      "maxN": 173,
+      "strongCount": 0
+    }
+  ],
+  "contradiction": [
+    {
+      "a": "motor memory consolidation",
+      "b": "sleep",
+      "claims": [
+        "c0016",
+        "c0025",
+        "c0026",
+        "c0043",
+        "c0044",
+        "c0075",
+        "c0091",
+        "c0092",
+        "c0117",
+        "c0119",
+        "c0120",
+        "c0123"
+      ],
+      "relations": {
+        "increases": 5,
+        "no-effect": 5,
+        "decreases": 1,
+        "enables": 1
+      }
+    },
+    {
+      "a": "daytime nap",
+      "b": "motor memory consolidation",
+      "claims": [
+        "c0017",
+        "c0027",
+        "c0028",
+        "c0032"
+      ],
+      "relations": {
+        "increases": 1,
+        "no-effect": 3
+      }
+    },
+    {
+      "a": "motor memory consolidation",
+      "b": "targeted memory reactivation",
+      "claims": [
+        "c0024",
+        "c0035",
+        "c0109"
+      ],
+      "relations": {
+        "no-effect": 2,
+        "increases": 1
+      }
+    },
+    {
+      "a": "motor memory consolidation",
+      "b": "parkinson s disease",
+      "claims": [
+        "c0034",
+        "c0089"
+      ],
+      "relations": {
+        "no-effect": 1,
+        "decreases": 1
+      }
+    },
+    {
+      "a": "anodal tdcs",
+      "b": "motor memory consolidation",
+      "claims": [
+        "c0079",
+        "c0080"
+      ],
+      "relations": {
+        "decreases": 1,
+        "no-effect": 1
+      }
+    }
+  ],
+  "narrow-coverage": [],
+  "stated-limitation": [
+    {
+      "concept": "motor memory consolidation",
+      "papers": [
+        "doi:10.2522/ptj.20080310",
+        "doi:10.1111/jsr.70203",
+        "doi:10.64898/2026.04.22.26351552",
+        "doi:10.1523/jneurosci.3033-16.2017",
+        "doi:10.1093/cercor/bhv347",
+        "doi:10.1098/rspb.2023.1408",
+        "doi:10.7554/elife.73930",
+        "doi:10.3389/fnins.2018.00280",
+        "doi:10.1016/j.neubiorev.2020.07.028",
+        "doi:10.3389/fnhum.2026.1698460"
+      ],
+      "phrases": [
+        "little is known",
+        "remains unknown",
+        "further investigation",
+        "remains unclear",
+        "remain unclear",
+        "further studies",
+        "future research",
+        "future studies"
+      ],
+      "claims": [
+        "c0016",
+        "c0032",
+        "c0033",
+        "c0034",
+        "c0035",
+        "c0038",
+        "c0066",
+        "c0067",
+        "c0069",
+        "c0072",
+        "c0073",
+        "c0074",
+        "c0077",
+        "c0109",
+        "c0111",
+        "c0114",
+        "c0119",
+        "c0120",
+        "c0124"
+      ]
+    },
+    {
+      "concept": "targeted memory reactivation",
+      "papers": [
+        "doi:10.64898/2026.04.22.26351552",
+        "doi:10.7554/elife.73930"
+      ],
+      "phrases": [
+        "further investigation",
+        "remain unclear"
+      ],
+      "claims": [
+        "c0035",
+        "c0036",
+        "c0037",
+        "c0109",
+        "c0110"
+      ]
+    },
+    {
+      "concept": "daytime nap",
+      "papers": [
+        "doi:10.3389/fnagi.2022.1000707",
+        "doi:10.1111/jsr.70203"
+      ],
+      "phrases": [
+        "future studies",
+        "remains unknown"
+      ],
+      "claims": [
+        "c0013",
+        "c0014",
+        "c0032"
+      ]
+    },
+    {
+      "concept": "aging",
+      "papers": [
+        "doi:10.2522/ptj.20080310",
+        "doi:10.1042/etls20230110",
+        "doi:10.1523/jneurosci.3033-16.2017"
+      ],
+      "phrases": [
+        "little is known",
+        "future research",
+        "remains unclear"
+      ],
+      "claims": [
+        "c0015",
+        "c0020",
+        "c0066"
+      ]
+    },
+    {
+      "concept": "sleep",
+      "papers": [
+        "doi:10.2522/ptj.20080310",
+        "doi:10.1016/j.neubiorev.2020.07.028"
+      ],
+      "phrases": [
+        "little is known",
+        "future research"
+      ],
+      "claims": [
+        "c0016",
+        "c0119",
+        "c0120"
+      ]
+    },
+    {
+      "concept": "sleep spindle",
+      "papers": [
+        "doi:10.1523/jneurosci.3033-16.2017",
+        "doi:10.3390/brainsci11081003"
+      ],
+      "phrases": [
+        "remains unclear",
+        "further investigation"
+      ],
+      "claims": [
+        "c0067",
+        "c0068",
+        "c0128"
+      ]
+    },
+    {
+      "concept": "sleep-dependent consolidation",
+      "papers": [
+        "doi:10.2522/ptj.20080310",
+        "doi:10.1042/etls20230110"
+      ],
+      "phrases": [
+        "little is known",
+        "future research"
+      ],
+      "claims": [
+        "c0015",
+        "c0020"
+      ]
+    },
+    {
+      "concept": "slow wave amplitude",
+      "papers": [
+        "doi:10.1111/jsr.70203",
+        "doi:10.64898/2026.04.22.26351552"
+      ],
+      "phrases": [
+        "remains unknown",
+        "further investigation"
+      ],
+      "claims": [
+        "c0033",
+        "c0038"
+      ]
+    },
+    {
+      "concept": "transcranial direct current stimulation",
+      "papers": [
+        "doi:10.3389/fnhum.2026.1698460",
+        "doi:10.3390/brainsci13010137"
+      ],
+      "phrases": [
+        "future studies",
+        "future research"
+      ],
+      "claims": [
+        "c0124",
+        "c0127"
+      ]
+    }
+  ]
+}

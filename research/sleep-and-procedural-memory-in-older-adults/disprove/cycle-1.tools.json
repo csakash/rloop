@@ -1,0 +1,97 @@
+{
+  "stream": true,
+  "toolCalls": 164,
+  "web": [
+    {
+      "tool": "WebFetch",
+      "input": {
+        "url": "https://pubmed.ncbi.nlm.nih.gov/32562487/",
+        "prompt": "Give the full abstract. Which memory tasks were used (declarative, procedural/finger tapping)? Ages? Results for procedural memory?"
+      }
+    },
+    {
+      "tool": "WebFetch",
+      "input": {
+        "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=EXT_ID:32562487&resultType=core&format=json",
+        "prompt": "Return the full abstract text verbatim."
+      }
+    },
+    {
+      "tool": "WebFetch",
+      "input": {
+        "url": "https://europepmc.org/articles/PMC7734479",
+        "prompt": "Did the study include a procedural/motor memory task (e.g., finger sequence tapping)? What were the results for the procedural task in older subjects? Quote the relevant methods/results sentences."
+      }
+    },
+    {
+      "tool": "WebFetch",
+      "input": {
+        "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC7734479/fullTextXML",
+        "prompt": "Did the study include a procedural/motor memory task (e.g., finger sequence tapping)? What were the results for the procedural task in older subjects? Quote the relevant methods/results sentences."
+      }
+    },
+    {
+      "tool": "WebFetch",
+      "input": {
+        "url": "https://clinicaltrials.gov/api/v2/studies/NCT07082595",
+        "prompt": "Describe the intervention: is it closed-loop / phase-targeted auditory stimulation or TMR during sleep, what motor learning task, which population (PD only or healthy older adults too), number of nights, ages?"
+      }
+    },
+    {
+      "tool": "WebFetch",
+      "input": {
+        "url": "https://clinicaltrials.gov/api/v2/studies/NCT06466772",
+        "prompt": "Describe the intervention: does it involve sleep stimulation (closed-loop auditory, TMR), what motor learning task, which population (stroke only or healthy older adults too), number of nights, ages?"
+      }
+    },
+    {
+      "tool": "WebFetch",
+      "input": {
+        "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI:10.1093/sleepadvances/zpaf022&resultType=core&format=json",
+        "prompt": "Summarize the abstract: was tACS delivered open-loop or closed-loop (triggered by detected events)? How was timing determined?"
+      }
+    },
+    {
+      "tool": "WebFetch",
+      "input": {
+        "url": "https://clinicaltrials.gov/api/v2/studies/NCT05843656",
+        "prompt": "Describe: population (stroke, healthy older controls?), stimulation type (closed-loop? tACS? auditory?), timing (during sleep, nap/night), motor task, outcomes including sleep EEG measures (spindles, SO coupling), status, enrollment."
+      }
+    },
+    {
+      "tool": "WebFetch",
+      "input": {
+        "url": "https://doi.org/10.7275/hec9-z333",
+        "prompt": "Summarize the abstract: design (overtraining vs standard, sleep vs wake, morning/evening 12h interval), sample sizes, and main results for older adults' sleep-dependent consolidation."
+      }
+    },
+    {
+      "tool": "WebFetch",
+      "input": {
+        "url": "https://scholarworks.umass.edu/entities/publication/9bbca4fb-373e-48ec-a849-82cfba8281ed",
+        "prompt": "Summarize the abstract: design (overtraining vs standard, sleep vs wake, morning/evening 12h interval), sample sizes, and main results for older adults' sleep-dependent consolidation."
+      }
+    },
+    {
+      "tool": "WebFetch",
+      "input": {
+        "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI:10.3389/fnbeh.2024.1466696&resultType=core&format=json",
+        "prompt": "Give the full abstract details: in the second experiment with older adults and PD, was there a wake control interval / circadian-controlled sleep vs wake comparison, or just a night of sleep? Sample sizes?"
+      }
+    },
+    {
+      "tool": "WebFetch",
+      "input": {
+        "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/PMC11464313/fullTextXML",
+        "prompt": "In Experiment 2 (older adults and Parkinson's disease), what was the design? Was there a wake interval compared against a sleep interval (e.g., morning-evening-morning), or only an overnight retest? Give sample sizes for older adults and PD and the exact wording about accuracy vs speed after sleep vs wake in Experiment 2."
+      }
+    },
+    {
+      "tool": "WebFetch",
+      "input": {
+        "url": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=DOI:10.7554/elife.101992&resultType=core&format=json",
+        "prompt": "Give the abstract findings about moderators: age (older vs young adults), memory type (declarative vs procedural/motor), coupling phase/strength vs spindle amplitude."
+      }
+    }
+  ]
+}
