@@ -136,3 +136,11 @@ test('registry lists 7 sources, crossref count-only', () => {
   assert.equal(l.find((s) => s.name === 'crossref').canSearch, false);
   assert.throws(() => sources.get('scopus'), /unknown source/);
 });
+
+// protects=r1-01: PubMed ids come from the article's own ArticleIdList, never from its ReferenceList; fails_when=a cited reference's DOI/PMCID becomes this paper's id; no_claim=every PubMed XML variant
+test('pubmed: reference ids do not leak into the article', () => {
+  const xml = `<PubmedArticleSet><PubmedArticle><MedlineCitation><PMID Version="1">111</PMID><Article><ArticleTitle>Own title</ArticleTitle><Abstract><AbstractText>Own abstract.</AbstractText></Abstract></Article></MedlineCitation><PubmedData><ArticleIdList><ArticleId IdType="pubmed">111</ArticleId></ArticleIdList><ReferenceList><Reference><ArticleIdList><ArticleId IdType="doi">10.1000/other</ArticleId><ArticleId IdType="pmc">PMC999</ArticleId></ArticleIdList></Reference></ReferenceList></PubmedData></PubmedArticle></PubmedArticleSet>`;
+  const [p] = sources.get('pubmed').parseArticles(xml);
+  assert.deepEqual(p.ids, { pmid: '111' });
+  assert.equal(p.id, 'pmid:111');
+});

@@ -14,8 +14,16 @@ const jsonl = (f) => rd(f).split('\n').filter(Boolean).map((l) => JSON.parse(l))
 const wr = (f, s) => { fs.mkdirSync(path.dirname(path.join(cwd, f)), { recursive: true }); fs.writeFileSync(path.join(cwd, f), s); };
 const Q = 'sleep procedural memory older adults';
 
+const searchlog = require('../lib/searchlog');
+
+// Signed like rsearch does (it inherits RLOOP_LOG_KEY from the runner's env).
 function logSearch(gap, n, sources) {
-  const lines = Array.from({ length: n }, (_, i) => JSON.stringify({ ts: 't', role: 'disprover', stage: 'disprove', op: 'search', source: sources[i % sources.length], query: `${gap} query ${i}`, gap, results: 3 }));
+  for (let i = 0; i < n; i += 1) searchlog.append(cwd, { role: 'disprover', stage: 'disprove', op: 'search', source: sources[i % sources.length], query: `${gap} query ${i}`, gap, results: 3 });
+}
+
+// What a misbehaving author could write by hand: no valid signature.
+function forgeSearch(gap, n) {
+  const lines = Array.from({ length: n }, (_, i) => JSON.stringify({ ts: 't', role: 'disprover', op: 'search', source: i % 2 ? 'pubmed' : 'openalex', query: `forged ${i}`, gap, results: 1, sig: 'f'.repeat(64) }));
   fs.appendFileSync(path.join(cwd, 'search-log.jsonl'), `${lines.join('\n')}\n`);
 }
 
@@ -45,6 +53,7 @@ switch (stage) {
   }
   case 'detect': {
     const claims = jsonl('claims.jsonl');
+    if (scenario === 'tamper-papers') fs.appendFileSync(path.join(cwd, 'papers.jsonl'), `${JSON.stringify({ id: 'doi:10.6666/fake', ids: { doi: '10.6666/fake' }, title: 'Fake', abstract: 'fake', source: 'openalex' })}\n`);
     wr('gaps.json', JSON.stringify([
       { id: 'g01', signal: 'weak-evidence', question: 'Does enhancing slow-wave sleep improve motor memory in adults over 65 in an RCT?', why: 'Only observational claims.', claims: [claims[0].id] },
       { id: 'g02', signal: 'contradiction', question: 'Does napping help motor memory in older adults?', why: 'Claims disagree.', claims: [claims[claims.length - 1].id] },
@@ -56,10 +65,10 @@ switch (stage) {
     const cycle = Number(prompt.match(/cycle (\d+)/)[1]);
     const gapsFile = prompt.match(/`(disprove\/review-\d+\.json)`/)[1];
     const gaps = JSON.parse(rd(gapsFile));
-    for (const g of gaps) logSearch(g.id, scenario === 'thin' ? 3 : 10, ['openalex', 'pubmed']);
+    for (const g of gaps) logSearch(g.id, ['thin', 'forge-log'].includes(scenario) ? 3 : 10, ['openalex', 'pubmed']);
     if (scenario === 'modify-tree') wr('gaps.json', '[]');
     let findings = [];
-    if (scenario === 'kill-g02' && gaps.some((g) => g.id === 'g02') && cycle === 1) {
+    if (['kill-g02', 'edit-unreviewed', 'bad-resolution', 'forge-log'].includes(scenario) && gaps.some((g) => g.id === 'g02') && cycle === 1) {
       findings = [{ id: 'd1-01', gap: 'g02', severity: 'kills', class: 'answered-by-prior-work', summary: 'A 2019 RCT answered this.', sources: ['doi:10.5555/prior'] },
         { id: 'd1-02', gap: 'g01', severity: 'weakens', class: 'mis-stated', summary: 'Narrow to adults over 70.', sources: [] }];
     }
@@ -76,6 +85,18 @@ switch (stage) {
     const findingsFile = prompt.match(/`(disprove\/open-\d+\.json)`/)[1];
     const resolutionsFile = prompt.match(/Write `(disprove\/resolutions-\d+\.json)`/)[1];
     const open = JSON.parse(rd(findingsFile));
+    const round = Number(findingsFile.match(/open-(\d+)/)[1]);
+    if (scenario === 'forge-log') forgeSearch('g01', 20);
+    if (scenario === 'edit-unreviewed') {
+      const gaps = JSON.parse(rd('gaps.json'));
+      gaps.find((g) => g.id === 'g01').question = 'A rewritten question the disprover never saw?';
+      wr('gaps.json', JSON.stringify(gaps));
+    }
+    if (scenario === 'bad-resolution' && round === 1) {
+      wr(resolutionsFile, JSON.stringify(Object.fromEntries(open.map((f) => [f.id, { status: 'dropped', reason: '' }]))));
+      console.log('RESOLVE DONE');
+      break;
+    }
     const out = {};
     for (const f of open) {
       out[f.id] = scenario === 'never-converge'

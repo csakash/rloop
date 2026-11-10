@@ -142,3 +142,52 @@ test('autonomous without origin blocks at ship', async () => {
   assert.equal(final.message, 'no origin remote');
   assert.match(git(dir, 'log', '-1', '--format=%s'), /^research: t gap report/);
 });
+
+// protects=r1-03: an agent appending a fake paper to papers.jsonl (to make a fake id "resolve") is caught right after that stage; fails_when=runner-owned gate inputs can be edited; no_claim=tampering outside the run dir
+test('agent tampering with papers.jsonl blocks', async () => {
+  const { final } = await fullRun('tamper-papers');
+  assert.equal(final.outcome, 'blocked');
+  assert.equal(final.blockedGate, 'detect');
+  assert.equal(final.message, 'runner-owned file changed by an agent: papers.jsonl');
+});
+
+// protects=r1-03: unsigned search-log entries written by an author do not count toward disprover coverage; fails_when=forged entries satisfy the 10-query bar; no_claim=an agent that can read the process env (denied by tool permissions)
+test('forged search-log entries do not count', async () => {
+  const { ctx, final } = await fullRun('forge-log');
+  assert.equal(final.outcome, 'blocked');
+  assert.equal(final.blockedGate, 'citegate');
+  assert.match(final.message, /g01: disprover ran 3 queries/);
+  assert.ok(fs.readFileSync(path.join(ctx.runDir, 'search-log.jsonl'), 'utf8').includes('forged'));
+});
+
+// protects=r1-02: an author edit to a gap it did not rebut (never re-reviewed) is discarded and recorded; fails_when=a survivor carries a question the disprover never saw; no_claim=quality of legitimate narrowing edits
+test('edits to unreviewed gaps are ignored', async () => {
+  const { ctx, final } = await fullRun('edit-unreviewed');
+  assert.equal(final.outcome, 'needs-human', final.message);
+  const g01 = JSON.parse(fs.readFileSync(path.join(ctx.runDir, 'gaps.json'), 'utf8')).find((g) => g.id === 'g01');
+  assert.match(g01.question, /^Does enhancing slow-wave sleep/);
+  assert.deepEqual(JSON.parse(fs.readFileSync(path.join(ctx.runDir, 'disprove', 'ignored-edits.json'), 'utf8')), [{ round: 1, gap: 'g01' }]);
+});
+
+// protects=r1-04: a rejected resolution gets another resolve round with the reason, within fixCycles, instead of blocking; fails_when=one bad resolution file ends the run as non-converged; no_claim=none beyond protects
+test('rejected resolution is retried next round', async () => {
+  const { ctx, final } = await fullRun('bad-resolution');
+  assert.equal(final.outcome, 'needs-human', final.message);
+  assert.equal(final.stages.disprove.result.cycles, 1, 'r1-06: no extra disprove cycle counted');
+  const gaps = JSON.parse(fs.readFileSync(path.join(ctx.runDir, 'gaps.json'), 'utf8'));
+  assert.equal(gaps.find((g) => g.id === 'g02').status, 'dropped');
+  assert.ok(fs.existsSync(path.join(ctx.runDir, 'disprove', 'resolutions-2.json')));
+});
+
+// protects=r1-05: a run stopped at the gate and resumed leaves one history record, not two; fails_when=stats double-count resumed runs; no_claim=none beyond protects
+test('history keeps one record per run', async () => {
+  process.env.STUB_SCENARIO = 'clean';
+  const dir = workspace();
+  const first = ctxFor(dir);
+  await runner.runResearch(first.ctx);
+  await runner.runResearch(ctxFor(dir, { opts: { papers: 6, sources: null }, resume: first.ctx.runDir }).ctx);
+  const runs = runner.loadHistory(dir);
+  assert.equal(runs.length, 1);
+  assert.equal(runs[0].blockedGate, 'push');
+  assert.equal(runner.stats(dir).runs, 1);
+});

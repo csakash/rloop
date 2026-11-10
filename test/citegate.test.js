@@ -57,3 +57,11 @@ test('paraphrased quote is not verified', async () => {
   assert.equal(r.quotes[0].verified, false);
   assert.match(r.problems.join('\n'), /g01: none of its claims has a quote found/);
 });
+
+// protects=r1-07: a punctuation-only or 3-word quote never counts as verified; fails_when='…' matches every abstract; no_claim=none beyond protects
+test('too-short quote is not verified', async () => {
+  for (const quote of ['…', '--', 'motor sequence learning']) {
+    const r = await citegate.run(input({ claims: [{ ...claims[0], quote }] }));
+    assert.equal(r.quotes[0].verified, false, quote);
+  }
+});
