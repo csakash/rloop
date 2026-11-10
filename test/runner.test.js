@@ -273,6 +273,10 @@ test('partly answered gap is narrowed and re-checked', async () => {
   const report = fs.readFileSync(path.join(ctx.runDir, 'REPORT.md'), 'utf8');
   assert.match(report, /\*\*Narrowed from:\*\* Does enhancing slow-wave sleep/);
   assert.match(report, /narrowed to their open part: 1/);
+  // q1-01: the narrowing finding is not repeated as a caveat; the verdict names the narrowed question
+  assert.match(report, /no work found that answers the narrowed question/);
+  assert.doesNotMatch(report, /Caveats raised by the disprover[\s\S]*coupling half is answered[\s\S]*### /);
+  assert.equal(final.stages.disprove.result.findings.narrowing, 1, 'q1-02: counted once');
   // AC3 end to end: g01 had a finding, so it needed 15 searches (the stub ran 15 per cycle).
   const cov = JSON.parse(fs.readFileSync(path.join(ctx.runDir, 'proof', 'search-coverage.json'), 'utf8')).gaps;
   assert.deepEqual(cov.g01.required, { queries: 15, sources: 3 });
