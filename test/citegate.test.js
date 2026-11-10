@@ -15,7 +15,7 @@ function input(over = {}) {
     gaps: [{ id: 'g01', status: 'survived', claims: ['c0001'] }, { id: 'g02', status: 'dropped', claims: ['c0001'] }],
     findings: [{ id: 'd1-01', gap: 'g02', sources: ['doi:10.5555/prior'] }],
     resolutions: {},
-    logEntries: log('g01', 10, ['openalex', 'pubmed']),
+    logEntries: log('g01', 10, ['openalex', 'pubmed', 'europepmc']),
     resolve: okResolve,
     ...over,
   };
@@ -28,7 +28,7 @@ test('passes a clean run', async () => {
   assert.equal(r.citations.find((c) => c.id === 'pmid:11').via, 'fetched:pubmed');
   assert.equal(r.citations.find((c) => c.id === 'doi:10.5555/prior').via, 'crossref');
   assert.equal(r.quotes[0].verified, true);
-  assert.deepEqual(r.coverage.g01.sources, ['openalex', 'pubmed']);
+  assert.deepEqual(r.coverage.g01.sources, ['openalex', 'pubmed', 'europepmc']);
 });
 
 // protects=AC4: one fake DOI blocks with "citation doi:… did not resolve"; fails_when=an unresolvable citation passes; no_claim=none beyond protects
@@ -74,4 +74,15 @@ test('non-hex signature is skipped, not a crash', () => {
   fs.appendFileSync(require('path').join(dir, 'search-log.jsonl'), `${JSON.stringify({ role: 'disprover', op: 'search', gap: 'g01', source: 'pubmed', query: 'x', sig: 'z'.repeat(64) })}\n`);
   const got = searchlog.read(dir, 'k');
   assert.deepEqual(got.map((e) => e.query), ['real']);
+});
+
+// protects=rloop-quality AC3: a surviving gap with any disprover finding needs minQueries + 5 (15) across 3 databases; without a finding 10 suffice; fails_when=the disprover stops at the minimum after finding related work, or 2 databases pass; no_claim=search quality
+test('adaptive bar: 15 searches when the disprover found something', async () => {
+  const withFinding = { findings: [{ id: 'd1-01', gap: 'g01', sources: [] }] };
+  let r = await citegate.run(input({ ...withFinding, logEntries: log('g01', 12, ['openalex', 'pubmed', 'europepmc']) }));
+  assert.match(r.problems.join('\n'), /g01: disprover ran 12 queries across 3 sources \(needs 15 across 3\)/);
+  r = await citegate.run(input({ ...withFinding, logEntries: log('g01', 15, ['openalex', 'pubmed', 'europepmc']) }));
+  assert.deepEqual(r.problems, []);
+  r = await citegate.run(input({ logEntries: log('g01', 10, ['openalex', 'pubmed']) }));
+  assert.match(r.problems.join('\n'), /needs 10 across 3/);
 });

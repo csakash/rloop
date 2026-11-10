@@ -4,7 +4,7 @@ The gaps to attack are in `{{gapsFile}}` (read it). The claims they rest on are 
 {{previous}}
 
 How to search:
-- For EVERY gap, run at least {{minQueries}} distinct searches across at least {{minSources}} different databases, each tagged with the gap id:
+- For EVERY gap, run at least {{minQueries}} distinct searches across at least {{minSources}} different databases, each tagged with the gap id. For any gap where you end up reporting a finding (you found related work), run at least {{extraQueries}} more ({{findingQueries}} in total): related work is the sign that more of it exists. These counts are checked by code from the search log.
 
       {{rsearch}} search <source> "<query>" --limit 10 --gap <gap id>
 
@@ -27,6 +27,7 @@ Report, as your final message, ONE fenced JSON block and nothing after it:
 
 - `kills`: the gap as stated is not a gap. `answered-by-prior-work` must cite the work.
 - `weakens`: the gap survives but must be narrowed or caveated.
+- If part of a gap is already answered, report `weakens` with class `answered-by-prior-work` or `already-in-progress` (citing the work) or `mis-stated`, and say in `summary` exactly which part is answered and which part is still open. Any of these makes the author narrow the gap to the open part, and you will check the narrowed version. A `weakens` with any other class, or without cited work, is only a caveat.
 - No finding for a gap means you searched and found nothing that defeats it. That is a valid result; do not invent findings.
 - Cite only ids you actually saw in search results or confirmed with `resolve`. Every id is checked by code.
 {{noRepeat}}

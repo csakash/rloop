@@ -37,7 +37,8 @@
   "research": {
     "disprove": {
       "minQueries": 10,
-      "minSources": 2
+      "minSources": 3,
+      "extraQueriesIfFinding": 5
     },
     "signals": {}
   }

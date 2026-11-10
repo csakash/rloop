@@ -84,7 +84,7 @@ test('scope gate stops, then resumes with --papers', async () => {
   assert.equal(st2.outcome, 'needs-human');
   assert.equal(st2.blockedGate, 'push');
   const sel = JSON.parse(fs.readFileSync(path.join(first.ctx.runDir, 'selection.json'), 'utf8'));
-  assert.deepEqual(sel, { papers: 6, sources: ['openalex', 'pubmed'] });
+  assert.deepEqual(sel, { papers: 6, sources: ['openalex', 'pubmed'], split: [{ source: 'openalex', n: 4 }, { source: 'pubmed', n: 2 }] });
 });
 
 // protects=AC3: a bypass run goes through every stage, kills g02 via a cited prior work, keeps g01 with its weakens caveat, writes REPORT.md, commits it, and stops before push; fails_when=a killed gap survives, the report is missing, or bypass pushes; no_claim=report prose quality
@@ -109,7 +109,7 @@ test('bypass run end to end', async () => {
   const tools = JSON.parse(fs.readFileSync(path.join(ctx.runDir, 'disprove', 'cycle-1.tools.json'), 'utf8'));
   assert.equal(tools.web.length, 1, 'web tool calls counted from stream-json');
   const h = runner.loadHistory(dir).pop();
-  assert.deepEqual(h.gaps, { proposed: 2, killed: 1, survived: 1 });
+  assert.deepEqual(h.gaps, { proposed: 2, killed: 1, survived: 1, narrowed: 0 });
 });
 
 // protects=AC6: a disprover that changes any file in the run dir blocks the run; fails_when=a writing reviewer goes unnoticed; no_claim=tool permissions of the real CLI (checked separately in agent args)
@@ -256,4 +256,54 @@ test('resume keeps the log key and seals; disprover never sees brief.md', async 
   assert.ok(seals['proof/citations.json'] && seals['sources.json']);
   const prompt = fs.readFileSync(path.join(__dirname, '..', 'prompts', 'disprove.md'), 'utf8');
   assert.ok(!prompt.includes('brief.md') && prompt.includes('topic.md'));
+});
+
+// protects=rloop-quality AC4: a partly answered gap (weakens + cited answering work) forces a resolve round; the author narrows it, the narrowed question goes back to the disprover (cycle 2 clean), and the gap survives with the new question, narrowedFrom, and a "Narrowed from" section in REPORT.md; fails_when=a partly answered gap keeps its over-broad question or skips re-review; no_claim=quality of the real author's narrowing
+test('partly answered gap is narrowed and re-checked', async () => {
+  const { ctx, final } = await fullRun('narrow');
+  assert.equal(final.outcome, 'needs-human', final.message);
+  assert.equal(final.stages.disprove.result.cycles, 2, 'narrowed gap re-reviewed');
+  assert.equal(final.stages.disprove.result.narrowed, 1);
+  const g01 = JSON.parse(fs.readFileSync(path.join(ctx.runDir, 'gaps.json'), 'utf8')).find((g) => g.id === 'g01');
+  assert.equal(g01.status, 'survived');
+  assert.match(g01.question, /finger-tapping gains in adults aged 60-80 \(round 1\)/);
+  assert.match(g01.narrowedFrom, /^Does enhancing slow-wave sleep/);
+  const review2 = JSON.parse(fs.readFileSync(path.join(ctx.runDir, 'disprove', 'review-2.json'), 'utf8'));
+  assert.deepEqual(review2.map((g) => g.question), [g01.question], 'disprover saw the narrowed question');
+  const report = fs.readFileSync(path.join(ctx.runDir, 'REPORT.md'), 'utf8');
+  assert.match(report, /\*\*Narrowed from:\*\* Does enhancing slow-wave sleep/);
+  assert.match(report, /narrowed to their open part: 1/);
+  // q1-01: the narrowing finding is not repeated as a caveat; the verdict names the narrowed question
+  assert.match(report, /no work found that answers the narrowed question/);
+  assert.doesNotMatch(report, /Caveats raised by the disprover[\s\S]*coupling half is answered[\s\S]*### /);
+  assert.equal(final.stages.disprove.result.findings.narrowing, 1, 'q1-02: counted once');
+  // AC3 end to end: g01 had a finding, so it needed 15 searches (the stub ran 15 per cycle).
+  const cov = JSON.parse(fs.readFileSync(path.join(ctx.runDir, 'proof', 'search-coverage.json'), 'utf8')).gaps;
+  assert.deepEqual(cov.g01.required, { queries: 15, sources: 3 });
+  assert.deepEqual(cov.g02.required, { queries: 10, sources: 3 });
+});
+
+// protects=rloop-quality AC5: "narrowed" with an unchanged question is rejected and stays open; at the cap an open narrowing does not block (gap flagged incomplete), unlike an open kill; fails_when=a no-op narrowing is accepted, or narrowing blocks the whole run; no_claim=none beyond protects
+test('narrowing: unchanged question rejected; incomplete at cap does not block', async () => {
+  const { ctx, final } = await fullRun('narrow-unchanged');
+  assert.equal(final.outcome, 'needs-human', final.message);
+  const g01 = JSON.parse(fs.readFileSync(path.join(ctx.runDir, 'gaps.json'), 'utf8')).find((g) => g.id === 'g01');
+  assert.equal(g01.narrowing, 'incomplete');
+  assert.deepEqual(g01.openNarrowing, ['d1-01']);
+  assert.equal(g01.narrowedFrom, undefined);
+  const prev = fs.readFileSync(path.join(ctx.runDir, 'disprove', 'resolutions-2.json'), 'utf8');
+  assert.ok(prev.includes('narrowed'), 'author got a second round');
+  assert.match(fs.readFileSync(path.join(ctx.runDir, 'REPORT.md'), 'utf8'), /\*\*Narrowing incomplete:\*\*/);
+  const stuck = await fullRun('narrow-stuck');
+  assert.equal(stuck.final.outcome, 'needs-human', stuck.final.message);
+  const s01 = JSON.parse(fs.readFileSync(path.join(stuck.ctx.runDir, 'gaps.json'), 'utf8')).find((g) => g.id === 'g01');
+  assert.equal(s01.narrowing, 'incomplete');
+  assert.ok(s01.narrowedFrom, 'narrowed twice but still asked to narrow');
+});
+
+// protects=security s1-01: an injected author cannot close a kill finding with "narrowed" (no evidence); it must drop or rebut with a new source; fails_when=a one-word rewrite plus "narrowed" closes a kill; no_claim=none beyond protects
+test('narrowed cannot resolve a kill', async () => {
+  const { final } = await fullRun('narrow-a-kill');
+  assert.equal(final.outcome, 'blocked');
+  assert.match(final.message, /did not converge after 2 cycles: open d1-01/);
 });
