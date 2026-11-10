@@ -1,0 +1,159 @@
+#!/usr/bin/env node
+// rloop: research-gap discovery loops on gstack-loops.
+//   rloop new "<topic>" [--slug s]
+//   rloop run <slug> [--mode interactive|bypass|autonomous] [--papers N] [--sources a,b] [--fix-cycles N] [--fresh] [--dry-run]
+//   rloop ship <slug>
+//   rloop ls
+//   rloop stats [--json]
+const fs = require('fs');
+const path = require('path');
+const { spawnSync } = require('child_process');
+const gloop = require('../lib/gloop');
+const ws = require('../lib/workspace');
+const runner = require('../lib/runner');
+
+const { c, run, slugOk, readJSON } = gloop.util;
+const MODES = Object.keys(gloop.driver.MODES);
+
+function die(msg) {
+  console.error(c.red('✗ ') + msg);
+  process.exit(1);
+}
+
+function parse(argv) {
+  const pos = [];
+  const flags = {};
+  for (let i = 0; i < argv.length; i += 1) {
+    const a = argv[i];
+    if (!a.startsWith('--')) { pos.push(a); continue; }
+    const k = a.slice(2);
+    if (['fresh', 'dry-run', 'json'].includes(k)) flags[k] = true;
+    else { flags[k] = argv[i + 1]; i += 1; }
+  }
+  return { pos, flags };
+}
+
+function topicTitle(file) {
+  const first = fs.readFileSync(file, 'utf8').split('\n').find((l) => l.trim());
+  return (first || '').replace(/^#\s*/, '').trim();
+}
+
+function cmdNew(root, pos, flags) {
+  const topic = pos.join(' ').trim();
+  if (!topic) die('usage: rloop new "<topic>" [--slug s]');
+  const slug = flags.slug || ws.slugify(topic);
+  if (!slugOk(slug)) die(`bad slug "${slug}" (lowercase letters, digits, dashes)`);
+  if (ws.topicDir(root, slug)) die(`topic "${slug}" already exists (rloop ls)`);
+  // stdio passes through, so use spawnSync (gloop's run() reads captured stdout).
+  const made = spawnSync('gloop', ['new', ws.loopName(slug)], { cwd: root, stdio: 'inherit' });
+  if (made.error) die(`could not run gloop: ${made.error.message}`);
+  if (made.status !== 0) die(`gloop new ${ws.loopName(slug)} failed (exit ${made.status})`);
+  const tdir = ws.topicDir(root, slug);
+  if (!tdir) die(`gloop new did not register loop ${ws.loopName(slug)}`);
+  const dir = path.join(tdir, 'research', slug);
+  fs.mkdirSync(dir, { recursive: true });
+  fs.writeFileSync(path.join(dir, 'topic.md'), `# ${topic}\n${flags.notes ? `\n${flags.notes}\n` : ''}`);
+  run('git', ['-C', tdir, 'add', path.join('research', slug, 'topic.md')]);
+  run('git', ['-C', tdir, 'commit', '-q', '-m', `topic: ${slug}`]);
+  console.log(c.green(`✓ topic ${slug}`) + `  branch=${run('git', ['-C', tdir, 'branch', '--show-current'])}`);
+  console.log(`  ${path.relative(root, dir)}/topic.md  (add notes on scope there if you like)`);
+  console.log(`  next: rloop run ${slug}`);
+}
+
+function ctxFor(root, slug, flags) {
+  const s = ws.loadSettings(root);
+  const tdir = ws.topicDir(root, slug);
+  if (!tdir) die(`no topic "${slug}". Create it with: rloop new "<topic>"`);
+  const topicFile = path.join(tdir, 'research', slug, 'topic.md');
+  if (!fs.existsSync(topicFile)) die(`missing ${path.relative(root, topicFile)}`);
+  const mode = flags.mode || 'interactive';
+  if (!MODES.includes(mode)) die(`--mode must be one of ${MODES.join(', ')}`);
+  const papers = flags.papers !== undefined ? Number(flags.papers) : null;
+  if (papers !== null && !(Number.isInteger(papers) && papers > 0)) die('--papers must be a positive integer');
+  const fixCycles = flags['fix-cycles'] !== undefined ? Number(flags['fix-cycles']) : s.fixCycles;
+  if (!(Number.isInteger(fixCycles) && fixCycles >= 0)) die('--fix-cycles must be a non-negative integer');
+  return {
+    root, slug, topicFile, topicTitle: topicTitle(topicFile), topicDir: tdir,
+    runsDir: ws.runsDir(tdir, slug), mode, fixCycles, baseBranch: s.baseBranch,
+    research: s.research, thresholds: s.research.disprove,
+    opts: { papers, sources: flags.sources ? String(flags.sources).split(',').map((x) => x.trim()).filter(Boolean) : null },
+    log: (m) => console.log(m),
+  };
+}
+
+async function cmdRun(root, pos, flags) {
+  const slug = pos[0];
+  if (!slug) die('usage: rloop run <slug> [--mode m] [--papers N] [--sources a,b]');
+  const ctx = ctxFor(root, slug, flags);
+  const last = ws.latestRun(ctx.topicDir, slug);
+  const st = last ? readJSON(path.join(last, 'status.json'), null) : null;
+  if (!flags.fresh && st && st.outcome === 'needs-human' && st.blockedGate === 'scope-gate') ctx.resume = last;
+  if (flags['dry-run']) {
+    const stages = runner.plan(ctx, ctx.resume ? st : null);
+    console.log(`would run: ${stages.join(' → ')}  mode=${ctx.mode}${ctx.resume ? `  resuming ${path.basename(last)}` : '  (new run)'}`);
+    console.log(`fixCycles=${ctx.fixCycles} disprove bar=${ctx.thresholds.minQueries} queries / ${ctx.thresholds.minSources} sources per gap`);
+    return 0;
+  }
+  const final = await runner.runResearch(ctx);
+  return final.outcome === 'blocked' ? 2 : 0;
+}
+
+async function cmdShip(root, pos, flags) {
+  const slug = pos[0];
+  if (!slug) die('usage: rloop ship <slug>');
+  const ctx = ctxFor(root, slug, { ...flags, mode: flags.mode || 'interactive' });
+  const last = ws.latestRun(ctx.topicDir, slug);
+  const st = last ? readJSON(path.join(last, 'status.json'), null) : null;
+  if (!st || !(st.outcome === 'needs-human' && st.blockedGate === 'push')) {
+    die(`nothing to ship: the latest run of ${slug} is ${st ? `${st.outcome}${st.blockedGate ? ` at ${st.blockedGate}` : ''}` : 'missing'}; ship needs a run that stopped before push`);
+  }
+  ctx.resume = last;
+  ctx.opts.ship = true;
+  const final = await runner.runResearch(ctx);
+  return final.outcome === 'blocked' ? 2 : 0;
+}
+
+function cmdLs(root) {
+  const slugs = ws.topics(root);
+  if (!slugs.length) { console.log('no research topics yet: rloop new "<topic>"'); return 0; }
+  for (const slug of slugs) {
+    const tdir = ws.topicDir(root, slug);
+    const last = tdir && ws.latestRun(tdir, slug);
+    const st = last ? readJSON(path.join(last, 'status.json'), {}) : {};
+    const d = st.stages && st.stages.disprove && st.stages.disprove.result;
+    const sel = last ? readJSON(path.join(last, 'selection.json'), {}) : {};
+    console.log(`${c.bold(slug.padEnd(40))} ${(st.outcome || 'not run').padEnd(12)} stage=${st.stage || '-'}${st.blockedGate ? ` (${st.blockedGate})` : ''}  papers=${sel.papers || '-'}  survived=${d ? `${d.survived}/${d.proposed}` : '-'}${st.pr ? `  ${st.pr}` : ''}`);
+  }
+  return 0;
+}
+
+function cmdStats(root, flags) {
+  const s = runner.stats(root);
+  if (flags.json) { console.log(JSON.stringify(s, null, 2)); return 0; }
+  console.log(`runs: ${s.runs}  shipped ${s.outcomes.shipped}  needs-human ${s.outcomes['needs-human']}  blocked ${s.outcomes.blocked}`);
+  console.log(`gap survival: ${s.gaps.survived}/${s.gaps.proposed}${s.gaps.survivalPct !== null ? ` (${s.gaps.survivalPct}%)` : ''}`);
+  console.log(`citations: ${s.citations.checked} checked, ${s.citations.failed} failed${s.citations.failurePct !== null ? ` (${s.citations.failurePct}%)` : ''}`);
+  const fmt = (o) => Object.entries(o).map(([k, v]) => `${k} ${v}`).join(', ') || 'none';
+  console.log(`blocked by gate: ${fmt(s.blockedByGate)}`);
+  console.log(`waiting on a human at: ${fmt(s.needsHumanByGate)}`);
+  return 0;
+}
+
+async function main() {
+  const { pos, flags } = parse(process.argv.slice(2));
+  const [cmd, ...rest] = pos;
+  let root;
+  try { root = ws.findRoot(); } catch (e) { die(e.message); }
+  switch (cmd) {
+    case 'new': return cmdNew(root, rest, flags);
+    case 'run': return cmdRun(root, rest, flags);
+    case 'ship': return cmdShip(root, rest, flags);
+    case 'ls': return cmdLs(root);
+    case 'stats': return cmdStats(root, flags);
+    default:
+      console.log('usage: rloop <new|run|ship|ls|stats> ...');
+      return cmd ? 1 : 0;
+  }
+}
+
+main().then((code) => process.exit(code || 0), (e) => die(e.stack || e.message));

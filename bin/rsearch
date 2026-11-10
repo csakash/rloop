@@ -1,0 +1,130 @@
+#!/usr/bin/env node
+// rsearch: the only way rloop's agents touch the databases.
+//   rsearch sources
+//   rsearch count   <source> <query>
+//   rsearch search  <source> <query> [--limit N] [--gap gID]
+//   rsearch resolve <kind:value>
+// Prints JSON. When RLOOP_RUN_DIR is set, every call is appended to its search-log.jsonl
+// with RLOOP_ROLE / RLOOP_STAGE.
+const fs = require('fs');
+
+// Database keys and the search-log key come from the toolbox's owner-only keys file, never
+// from the agent's env. The toolbox copy finds it next to itself (<toolbox>/keys.json), so
+// nothing depends on an env var surviving the CLI; RLOOP_KEYS_FILE is a fallback for tests.
+const path = require('path');
+const keysFile = [path.join(__dirname, '..', 'keys.json'), process.env.RLOOP_KEYS_FILE].find((f) => {
+  if (!f) return false;
+  try {
+    const st = fs.statSync(f);
+    return st.isFile() && st.uid === process.getuid() && (st.mode & 0o077) === 0;
+  } catch { return false; }
+});
+if (keysFile) {
+  try { Object.assign(process.env, JSON.parse(fs.readFileSync(keysFile, 'utf8'))); } catch { /* no keys: keyless */ }
+}
+const sources = require('../lib/sources');
+const searchlog = require('../lib/searchlog');
+
+// Refuse any argument carrying a piece (8+ chars) of a secret-looking env value. Second layer
+// only: the first is the claude CLI denying ${...}, $(...), backticks, chaining and redirects in
+// the rsearch rule (scripts/probe-sandbox.js), plus rloop's env allowlist. Pieces under 8 chars
+// pass this check. Proxy vars are not secrets here: credentialed proxies never reach agents.
+const SECRET_NAME = /(KEY|TOKEN|SECRET|PASS|AUTH|CREDENTIAL|COOKIE|SESSION|HEADER)/i;
+const NOT_SECRET = new Set(['RLOOP_KEYS_FILE']);
+const WINDOW = 8;
+function leaksSecret(args, env = process.env) {
+  const text = args.join('\u0000');
+  for (const [k, v] of Object.entries(env)) {
+    if (!SECRET_NAME.test(k) || NOT_SECRET.has(k) || typeof v !== 'string' || v.length < WINDOW || v.startsWith('/')) continue;
+    for (let i = 0; i + WINDOW <= v.length; i += 1) if (text.includes(v.slice(i, i + WINDOW))) return k;
+  }
+  return null;
+}
+
+const ABSTRACT_CHARS = 700;
+const MAX_LIMIT = 50;
+
+function parseArgs(argv) {
+  const pos = [];
+  const flags = {};
+  for (let i = 0; i < argv.length; i += 1) {
+    const a = argv[i];
+    if (a.startsWith('--')) { flags[a.slice(2)] = argv[i + 1]; i += 1; } else pos.push(a);
+  }
+  return { pos, flags };
+}
+
+function out(obj) {
+  process.stdout.write(`${JSON.stringify(obj, null, 2)}\n`);
+}
+
+function fail(msg) {
+  process.stderr.write(`rsearch: ${msg}\n`);
+  process.exit(2);
+}
+
+// The CLI lets an unquoted glob through in the rsearch rule, and the shell expands it to file
+// paths before rsearch runs. Refuse anything that looks like or names a filesystem path, and
+// never echo it, so rsearch cannot be used to list or probe files.
+// rsearch runs in the stage dir, so any reference outside it must start with "/", "~" or
+// "..": refuse those by syntax, before touching the filesystem (no existence oracle). An
+// argument naming an entry in the stage dir is refused too (lstat: dangling links count).
+function pathLike(args) {
+  return args.some((a) => {
+    if (/^[~/]/.test(a) || /(^|\/)\.\.(\/|$)/.test(a) || a.includes('/./')) return true;
+    if (a.length < 2) return false;
+    try { fs.lstatSync(a); return true; } catch { return false; }
+  });
+}
+
+async function main() {
+  const leak = leaksSecret(process.argv.slice(2));
+  if (leak) fail(`refusing: an argument contains part of $${leak}`);
+  if (pathLike(process.argv.slice(2))) fail('refusing: an argument looks like a filesystem path');
+  const { pos, flags } = parseArgs(process.argv.slice(2));
+  const [op, a, ...rest] = pos;
+  const runDir = process.env.RLOOP_RUN_DIR;
+  const base = { role: process.env.RLOOP_ROLE || 'cli', stage: process.env.RLOOP_STAGE || null };
+
+  if (op === 'sources') return out(sources.list());
+
+  if (op === 'count' || op === 'search') {
+    if (!a || rest.length === 0) fail(`usage: rsearch ${op} <source> <query>`);
+    const src = sources.get(a);
+    const query = rest.join(' ');
+    const gap = flags.gap || null;
+    try {
+      if (op === 'count') {
+        const n = await src.count(query);
+        searchlog.append(runDir, { ...base, op, source: a, query, gap, results: n });
+        return out({ source: a, query, count: n });
+      }
+      if (!src.canSearch) fail(`${a} cannot search in v1 (count/resolve only)`);
+      const limit = Math.max(1, Math.min(MAX_LIMIT, Number.parseInt(flags.limit, 10) || 10));
+      const res = await src.search(query, { limit });
+      searchlog.append(runDir, { ...base, op, source: a, query, gap, results: res.papers.length, total: res.total, ids: res.papers.map((p) => p.id) });
+      return out({
+        source: a, query, total: res.total,
+        papers: res.papers.map((p) => ({
+          id: p.id, ids: p.ids, title: p.title, year: p.year, venue: p.venue, citations: p.citations,
+          abstract: p.abstract.length > ABSTRACT_CHARS ? `${p.abstract.slice(0, ABSTRACT_CHARS)}…` : p.abstract,
+        })),
+      });
+    } catch (e) {
+      searchlog.append(runDir, { ...base, op, source: a, query, gap, error: e.message });
+      fail(e.message);
+    }
+  }
+
+  if (op === 'resolve') {
+    if (!a) fail('usage: rsearch resolve <kind:value>');
+    const r = await sources.resolveId(a);
+    searchlog.append(runDir, { ...base, op, source: r.via || null, query: a, gap: flags.gap || null, results: r.ok ? 1 : 0 });
+    return out({ id: r.id, ok: r.ok, via: r.via, title: r.title, error: r.error, year: r.paper ? r.paper.year : undefined });
+  }
+
+  fail('usage: rsearch <sources|count|search|resolve> ...');
+}
+
+if (require.main === module) main().catch((e) => fail(e.message));
+module.exports = { leaksSecret, pathLike };

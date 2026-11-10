@@ -1,0 +1,17 @@
+{
+  "name": "open-research",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Agent-driven research-gap discovery on gstack-loops",
+  "bin": {
+    "rloop": "bin/rloop",
+    "rsearch": "bin/rsearch"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "build": "node scripts/check.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
