@@ -203,3 +203,27 @@ test('ship commits only verified proof', async () => {
   assert.ok(fs.existsSync(path.join(out, 'disprove', 'cycle-1.json')));
   assert.ok(!fs.existsSync(path.join(out, 'disprove', 'open-1.json')) || ctx.seals.has('disprove/open-1.json'));
 });
+
+// protects=s2-01: an agent that plants CLAUDE.md (or .claude/) in the run dir, which the next agent would load as instructions, blocks the run right after that stage; fails_when=a planted instruction file reaches the disprover; no_claim=the CLI's own enforcement of the Edit deny rule
+test('planted CLI config in the run dir blocks', async () => {
+  const { final } = await fullRun('plant-config');
+  assert.equal(final.outcome, 'blocked');
+  assert.equal(final.blockedGate, 'detect');
+  assert.equal(final.message, 'agent wrote CLI config into the run dir: CLAUDE.md');
+});
+
+// protects=s2-02: the pre-push scan covers branch history, so a secret committed by an earlier run and later overwritten still blocks the push; fails_when=only the working tree is scanned; no_claim=encoded or split secrets
+test('secret in branch history blocks push', async () => {
+  const { push } = require('../lib/stages/ship');
+  const dir = workspace();
+  const out = path.join(dir, 'research', 't');
+  fs.writeFileSync(path.join(out, 'brief.md'), 'leaked ghp_abcdefghijklmnopqrstuvwxyz0123456789\n');
+  git(dir, 'add', '-A'); git(dir, 'commit', '-q', '-m', 'run 1');
+  fs.writeFileSync(path.join(out, 'brief.md'), 'clean\n');
+  fs.writeFileSync(path.join(out, 'REPORT.md'), '# clean\n');
+  git(dir, 'add', '-A'); git(dir, 'commit', '-q', '-m', 'run 2');
+  git(dir, 'branch', 'base', 'HEAD~2');
+  const runDir = tmpdir();
+  fs.writeFileSync(path.join(runDir, 'REPORT.md'), '# clean\n');
+  assert.throws(() => push({ topicDir: dir, slug: 't', runDir, baseBranch: 'base', topicTitle: 't' }), /possible secret in the report, not pushing: commits base\.\.HEAD matches a credential pattern/);
+});

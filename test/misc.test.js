@@ -29,6 +29,13 @@ test('agent tool permissions per role', () => {
   assert.deepEqual(aAllowed, ['Read(//tmp/rloop-run/**)', `Bash(${rs}:*)`, 'Edit(//tmp/rloop-run/**)']);
   for (const bare of ['Read', 'Write', 'Edit', 'Grep', 'Glob', 'WebFetch', 'Bash']) assert.ok(![...allowed, ...aAllowed].includes(bare), bare);
   assert.equal(a[a.indexOf('--permission-mode') + 1], 'default');
+  // s2-01/s2-03: no settings or MCP servers loaded; authors cannot write CLI config into the run dir
+  for (const x of [a, d]) {
+    assert.equal(x[x.indexOf('--setting-sources') + 1], '');
+    assert.ok(x.includes('--strict-mcp-config'));
+  }
+  const aDenied = a.slice(a.indexOf('--disallowedTools') + 1);
+  for (const p of ['CLAUDE.md', 'CLAUDE.local.md', '.claude/**', '.mcp.json']) assert.ok(aDenied.includes(`Edit(//tmp/rloop-run/${p})`), p);
 });
 
 // protects=s1-01: agents run a read-only per-run copy of rsearch, and any change to it is detected; fails_when=an agent's Write can alter code that rsearch later runs; no_claim=root or chmod-capable processes (agents have no shell)
