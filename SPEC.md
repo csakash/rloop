@@ -51,9 +51,9 @@ three quality problems:
 - A `weakens` finding requires narrowing when its class is `mis-stated`, or when it cites at
   least one source and its class is `answered-by-prior-work` or `already-in-progress`. Such a
   finding enters the review store as blocking (`important`), with `narrow: true`.
-- Resolution statuses: `dropped`, `rebutted`, and new `narrowed`. `narrowed` needs a reason
+- Resolution statuses: `dropped`, `rebutted`, and new `narrowed`, which is allowed only for narrowing findings. A kill must be dropped, or rebutted with a new source; this was changed after the security review (s1-01), and before it narrowed was also allowed for kills. `narrowed` needs a reason
   AND a changed `question` for that gap in `gaps.json`, otherwise it is rejected with
-  "narrowed but question unchanged". It is allowed for kill findings too.
+  "narrowed but question unchanged".
 - Narrowed and rebutted gaps (with their edits) go back to the disprover. The original
   question is kept as `narrowedFrom`.
 - At the cap: open kill findings block, as today. Open narrow-only findings do not block. The

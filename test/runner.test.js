@@ -300,3 +300,10 @@ test('narrowing: unchanged question rejected; incomplete at cap does not block',
   assert.equal(s01.narrowing, 'incomplete');
   assert.ok(s01.narrowedFrom, 'narrowed twice but still asked to narrow');
 });
+
+// protects=security s1-01: an injected author cannot close a kill finding with "narrowed" (no evidence); it must drop or rebut with a new source; fails_when=a one-word rewrite plus "narrowed" closes a kill; no_claim=none beyond protects
+test('narrowed cannot resolve a kill', async () => {
+  const { final } = await fullRun('narrow-a-kill');
+  assert.equal(final.outcome, 'blocked');
+  assert.match(final.message, /did not converge after 2 cycles: open d1-01/);
+});

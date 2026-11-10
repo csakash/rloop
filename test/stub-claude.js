@@ -82,6 +82,9 @@ switch (stage) {
     }
     // Narrowing: g01 is partly answered in cycle 1; after the author narrows it, cycle 2 is clean
     // ('narrow'), or the disprover keeps asking ('narrow-stuck').
+    if (scenario === 'narrow-a-kill' && cycle === 1) {
+      findings = [{ id: 'd1-01', gap: 'g01', severity: 'kills', class: 'answered-by-prior-work', summary: 'Fully answered.', sources: ['doi:10.5555/prior'] }];
+    }
     if ((['narrow', 'narrow-unchanged'].includes(scenario) && cycle === 1) || scenario === 'narrow-stuck') {
       findings = [{ id: `d${cycle}-01`, gap: 'g01', severity: 'weakens', class: 'answered-by-prior-work', summary: 'The coupling half is answered by a 2023 study; the motor-outcome half is open.', sources: ['doi:10.5555/coupling'] }];
     }
@@ -110,7 +113,7 @@ switch (stage) {
       console.log('RESOLVE DONE');
       break;
     }
-    if (scenario === 'narrow' || scenario === 'narrow-stuck' || scenario === 'narrow-unchanged') {
+    if (['narrow', 'narrow-stuck', 'narrow-unchanged', 'narrow-a-kill'].includes(scenario)) {
       if (scenario !== 'narrow-unchanged') {
         const gaps = JSON.parse(rd('gaps.json'));
         gaps.find((g) => g.id === 'g01').question = `Does whole-night CLAS improve finger-tapping gains in adults aged 60-80 (round ${round})?`;
