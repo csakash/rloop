@@ -5,6 +5,8 @@ const path = require('path');
 const http = require('../lib/http');
 
 process.env.RLOOP_CACHE = 'off';
+// Each test process gets its own throttle state, never the machine-wide one.
+process.env.RLOOP_THROTTLE_DIR = fs.mkdtempSync(path.join(os.tmpdir(), 'rloop-throttle-test-'));
 http.setSleep(async () => {});
 
 const FIX = path.join(__dirname, 'fixtures');
