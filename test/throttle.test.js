@@ -102,7 +102,7 @@ test('stale locks are broken, live locks are waited for', { timeout: 20000 }, as
   http.setFetch(async () => new Response('{}', { status: 200 }));
   http.setSleep((ms) => new Promise((r) => setTimeout(r, Math.min(ms, 20))));
   try {
-    fs.mkdirSync(lock);
+    fs.writeFileSync(lock, '');
     const old = (Date.now() - http.LOCK_STALE_MS - 5000) / 1000;
     fs.utimesSync(lock, old, old);
     await http.get('https://api.crossref.org/works/stale');
@@ -110,7 +110,7 @@ test('stale locks are broken, live locks are waited for', { timeout: 20000 }, as
 
     http.resetThrottle();
     fs.mkdirSync(dir, { recursive: true });
-    fs.mkdirSync(lock);
+    fs.writeFileSync(lock, `${process.pid} live`);
     const t0 = Date.now();
     setTimeout(() => fs.rmSync(lock, { recursive: true, force: true }), 300);
     await http.get('https://api.crossref.org/works/live');
@@ -132,7 +132,7 @@ test('other hosts and cache hits are not blocked by a held lock', { timeout: 200
     const dir = http.throttleDir();
     fs.mkdirSync(dir, { recursive: true });
     const lock = path.join(dir, `${http.hostKey('export.arxiv.org')}.lock`);
-    fs.mkdirSync(lock);
+    fs.writeFileSync(lock, `${process.pid} held`);
     const t0 = Date.now();
     assert.equal((await http.get('https://export.arxiv.org/cached')).cached, true);
     await http.get('https://www.ebi.ac.uk/other');
@@ -188,8 +188,7 @@ test('a dead owner\'s lock is broken immediately', { timeout: 20000 }, async () 
   const lock = path.join(dir, `${http.hostKey('api.crossref.org')}.lock`);
   const dead = spawn(process.execPath, ['-e', '0']);
   await new Promise((r) => dead.on('exit', r));
-  fs.mkdirSync(lock);
-  fs.writeFileSync(path.join(lock, 'owner'), `${dead.pid} deadbeef`);
+  fs.writeFileSync(lock, `${dead.pid} deadbeef`);
   http.setFetch(async () => new Response('{}', { status: 200 }));
   const t0 = Date.now();
   await http.get('https://api.crossref.org/works/dead-owner');
@@ -206,12 +205,11 @@ test('release leaves another holder\'s lock alone', { timeout: 20000 }, async ()
   http.setFetch(async () => {
     // While our request is in flight, our lock is broken and someone else takes the host.
     fs.rmSync(lock, { recursive: true, force: true });
-    fs.mkdirSync(lock);
-    fs.writeFileSync(path.join(lock, 'owner'), '999999 someoneelse');
+    fs.writeFileSync(lock, '999999 someoneelse');
     return new Response('{}', { status: 200 });
   });
   await http.get('https://api.crossref.org/works/foreign');
-  assert.equal(fs.readFileSync(path.join(lock, 'owner'), 'utf8'), '999999 someoneelse');
+  assert.equal(fs.readFileSync(lock, 'utf8'), '999999 someoneelse');
   fs.rmSync(lock, { recursive: true, force: true });
 });
 
@@ -233,4 +231,41 @@ test('SIGTERM mid-request releases the lock', { timeout: 20000 }, async () => {
   } finally {
     server.close();
   }
+});
+
+// protects=a run started under nohup survives SIGHUP after making requests; fails_when=the throttle installs a SIGHUP handler that re-raises with the default action; no_claim=other ignored signals
+test('SIGHUP is left alone (nohup keeps working)', { timeout: 20000 }, async () => {
+  const { server, base } = await startServer((req, res, ev) => reply(res, ev, { delay: 10 }));
+  const dir = tmpdir('rloop-throttle-h-');
+  try {
+    const code = `process.on('SIGHUP', () => {});
+      const http = require(${JSON.stringify(HTTP_JS)});
+      http.get(${JSON.stringify(base)} + '/x').then(() => {
+        process.kill(process.pid, 'SIGHUP');
+        setTimeout(() => { console.log(process.listenerCount('SIGHUP')); process.exit(0); }, 100);
+      });`;
+    const out = await new Promise((resolve, reject) => {
+      const p = spawn(process.execPath, ['-e', code], { env: { ...process.env, RLOOP_THROTTLE_DIR: dir, RLOOP_CACHE: 'off' } });
+      let o = '';
+      p.stdout.on('data', (d) => { o += d; });
+      p.on('exit', (c, sig) => (c === 0 ? resolve(o.trim()) : reject(new Error(`exited ${c} ${sig}`))));
+    });
+    assert.equal(out, '1', 'only the caller\'s own SIGHUP listener');
+  } finally {
+    server.close();
+  }
+});
+
+// protects=a lock file is created with its owner token already in it, and two takers can't both hold it; fails_when=an ownerless lock exists or a second taker overwrites the first; no_claim=none beyond protects
+test('a lock is born with its owner and is never replaced', { timeout: 20000 }, async () => {
+  http.resetThrottle();
+  const dir = http.throttleDir();
+  fs.mkdirSync(dir, { recursive: true });
+  const lock = path.join(dir, `${http.hostKey('api.crossref.org')}.lock`);
+  let seen = null;
+  http.setFetch(async () => { seen = fs.readFileSync(lock, 'utf8'); return new Response('{}', { status: 200 }); });
+  await http.get('https://api.crossref.org/works/born');
+  assert.match(seen, new RegExp(`^${process.pid} [0-9a-f]{12}$`));
+  assert.ok(!fs.existsSync(lock), 'released');
+  assert.deepEqual(fs.readdirSync(dir).filter((e) => /\.(new|dead)\./.test(e)), [], 'no temp files left');
 });
