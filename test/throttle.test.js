@@ -269,3 +269,23 @@ test('a lock is born with its owner and is never replaced', { timeout: 20000 }, 
   assert.ok(!fs.existsSync(lock), 'released');
   assert.deepEqual(fs.readdirSync(dir).filter((e) => /\.(new|dead)\./.test(e)), [], 'no temp files left');
 });
+
+// protects=taking the lock never replaces a live holder's lock; fails_when=tryLock writes or renames over an existing lock; no_claim=none beyond protects
+test('a live holder\'s lock is waited for, not replaced', { timeout: 20000 }, async () => {
+  http.resetThrottle();
+  const dir = http.throttleDir();
+  fs.mkdirSync(dir, { recursive: true });
+  const lock = path.join(dir, `${http.hostKey('api.crossref.org')}.lock`);
+  const foreign = `${process.pid} otherholder`;
+  fs.writeFileSync(lock, foreign);
+  const during = [];
+  const timer = setInterval(() => { if (fs.existsSync(lock)) during.push(fs.readFileSync(lock, 'utf8')); }, 20);
+  setTimeout(() => fs.unlinkSync(lock), 400);
+  http.setFetch(async () => new Response('{}', { status: 200 }));
+  const t0 = Date.now();
+  await http.get('https://api.crossref.org/works/live-holder');
+  clearInterval(timer);
+  assert.ok(Date.now() - t0 >= 350, 'waited for the live holder');
+  const beforeRelease = during.slice(0, Math.floor(350 / 20) - 2);
+  assert.ok(beforeRelease.length > 0 && beforeRelease.every((t) => t === foreign), `lock replaced while held: ${beforeRelease}`);
+});
