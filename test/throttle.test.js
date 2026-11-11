@@ -49,7 +49,7 @@ function child(base, paths, dir, spacing) {
 }
 
 // protects=one request at a time per host across processes, with spacing between them; fails_when=two processes overlap or start closer than the spacing; no_claim=machines other than this one
-test('two processes never overlap on one host and keep the spacing', async () => {
+test('two processes never overlap on one host and keep the spacing', { timeout: 20000 }, async () => {
   const { server, events, base } = await startServer((req, res, ev) => reply(res, ev));
   const dir = tmpdir('rloop-throttle-x-');
   try {
@@ -66,7 +66,7 @@ test('two processes never overlap on one host and keep the spacing', async () =>
 });
 
 // protects=a 429's Retry-After slows every process, not only the one that got it; fails_when=a second process requests during another's back-off; no_claim=HTTP-date Retry-After values
-test('Retry-After from one process holds back another', async () => {
+test('Retry-After from one process holds back another', { timeout: 20000 }, async () => {
   let first = true;
   let gotFirst;
   const firstSeen = new Promise((r) => { gotFirst = r; });
@@ -94,7 +94,7 @@ test('Retry-After from one process holds back another', async () => {
 });
 
 // protects=a lock left by a crashed process is broken after LOCK_STALE_MS, a fresh one is waited for; fails_when=a crash blocks a host forever or a live lock is ignored; no_claim=the race between two breakers of the same stale lock
-test('stale locks are broken, live locks are waited for', async () => {
+test('stale locks are broken, live locks are waited for', { timeout: 20000 }, async () => {
   http.resetThrottle();
   const dir = http.throttleDir();
   fs.mkdirSync(dir, { recursive: true });
@@ -121,7 +121,7 @@ test('stale locks are broken, live locks are waited for', async () => {
 });
 
 // protects=hosts don't block each other, and cache hits skip the lock; fails_when=a busy host delays another host or a cached read; no_claim=none beyond protects
-test('other hosts and cache hits are not blocked by a held lock', async () => {
+test('other hosts and cache hits are not blocked by a held lock', { timeout: 20000 }, async () => {
   const cache = tmpdir('rloop-cache-');
   process.env.RLOOP_CACHE = 'on';
   process.env.RLOOP_CACHE_DIR = cache;
@@ -145,7 +145,7 @@ test('other hosts and cache hits are not blocked by a held lock', async () => {
 });
 
 // protects=an unwritable throttle dir falls back to the in-process throttle with one warning, still spacing requests; fails_when=requests fail or go unthrottled; no_claim=cross-process safety in fallback mode
-test('falls back to the in-process throttle when the directory is unusable', async () => {
+test('falls back to the in-process throttle when the directory is unusable', { timeout: 20000 }, async () => {
   const saved = process.env.RLOOP_THROTTLE_DIR;
   const file = path.join(tmpdir('rloop-notdir-'), 'file');
   fs.writeFileSync(file, 'x');
@@ -177,5 +177,60 @@ test('host keys are safe file names', () => {
     const k = http.hostKey(h);
     assert.ok(!k.includes('/') && !k.startsWith('.'), `${h} -> ${k}`);
     assert.equal(path.dirname(path.join(os.tmpdir(), `${k}.lock`)), os.tmpdir());
+  }
+});
+
+// protects=a lock whose owner process is dead is broken at once, not after LOCK_STALE_MS; fails_when=a killed rsearch blocks the host for 90 s; no_claim=recycled pids
+test('a dead owner\'s lock is broken immediately', { timeout: 20000 }, async () => {
+  http.resetThrottle();
+  const dir = http.throttleDir();
+  fs.mkdirSync(dir, { recursive: true });
+  const lock = path.join(dir, `${http.hostKey('api.crossref.org')}.lock`);
+  const dead = spawn(process.execPath, ['-e', '0']);
+  await new Promise((r) => dead.on('exit', r));
+  fs.mkdirSync(lock);
+  fs.writeFileSync(path.join(lock, 'owner'), `${dead.pid} deadbeef`);
+  http.setFetch(async () => new Response('{}', { status: 200 }));
+  const t0 = Date.now();
+  await http.get('https://api.crossref.org/works/dead-owner');
+  assert.ok(Date.now() - t0 < 5000, `took ${Date.now() - t0}ms`);
+  assert.ok(!fs.existsSync(lock));
+});
+
+// protects=a process whose lock was broken never deletes the next holder's lock on release; fails_when=release removes a foreign lock and lets a third process in; no_claim=none beyond protects
+test('release leaves another holder\'s lock alone', { timeout: 20000 }, async () => {
+  http.resetThrottle();
+  const dir = http.throttleDir();
+  fs.mkdirSync(dir, { recursive: true });
+  const lock = path.join(dir, `${http.hostKey('api.crossref.org')}.lock`);
+  http.setFetch(async () => {
+    // While our request is in flight, our lock is broken and someone else takes the host.
+    fs.rmSync(lock, { recursive: true, force: true });
+    fs.mkdirSync(lock);
+    fs.writeFileSync(path.join(lock, 'owner'), '999999 someoneelse');
+    return new Response('{}', { status: 200 });
+  });
+  await http.get('https://api.crossref.org/works/foreign');
+  assert.equal(fs.readFileSync(path.join(lock, 'owner'), 'utf8'), '999999 someoneelse');
+  fs.rmSync(lock, { recursive: true, force: true });
+});
+
+// protects=a process killed by SIGTERM mid-request releases its lock; fails_when=the lock outlives the process; no_claim=SIGKILL (covered by the dead-owner test)
+test('SIGTERM mid-request releases the lock', { timeout: 20000 }, async () => {
+  let started;
+  const inFlight = new Promise((r) => { started = r; });
+  const { server, base } = await startServer((req, res, ev) => { started(); reply(res, ev, { delay: 5000 }); });
+  const dir = tmpdir('rloop-throttle-k-');
+  try {
+    const code = `const http = require(${JSON.stringify(HTTP_JS)}); http.get(${JSON.stringify(base)} + '/hang');`;
+    const p = spawn(process.execPath, ['-e', code], { env: { ...process.env, RLOOP_THROTTLE_DIR: dir, RLOOP_CACHE: 'off' } });
+    await inFlight;
+    const lock = path.join(dir, `${http.hostKey(new URL(base).host)}.lock`);
+    assert.ok(fs.existsSync(lock), 'lock held during the request');
+    p.kill('SIGTERM');
+    await new Promise((r) => p.on('exit', r));
+    assert.ok(!fs.existsSync(lock), 'lock released on SIGTERM');
+  } finally {
+    server.close();
   }
 });
