@@ -181,8 +181,8 @@ rloop ship sleep-and-procedural-memory-in-older-adults
 
 **Write specific topics.** Paper abstracts are written to be found: they pack in the exact
 terms of their field. "AI memory" will pull in noise. "Persistent graph-based memory for LLM
-agents" will pull in the right papers. You can add scope notes under the title in
-`research/<slug>/topic.md` before the first run.
+agents" will pull in the right papers. `rloop new` prints the path of the topic's `topic.md`
+(inside its worktree). Add scope notes under the title there before the first run.
 
 **Start small.** Try `--papers 30` first. Cost grows with the number of papers and gaps.
 
