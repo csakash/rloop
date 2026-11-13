@@ -29,8 +29,8 @@ needs a very good reason in the PR description.
   never by an agent.
 - **Search counts come from the signed log.** A gap is never reported as novel unless the
   disprover's searches are in `search-log.jsonl`.
-- **The disprover is read-only.** It may search, read and write its findings file. It must
-  never change the tree.
+- **The disprover is read-only.** It may search and read, and returns its findings as text.
+  It must never change the tree.
 - **Be polite to databases.** Every new client goes through `lib/http.js` (per-host rate
   limit, retries with backoff, User-Agent, cache).
 - **gstack-loops is required, never copied.** Reuse it through `lib/gloop.js`. Behavior that
@@ -43,8 +43,9 @@ against.
 
 1. Add a client in `lib/sources/<name>.js` that uses `lib/http.js`, and register it in
    `lib/sources/index.js`.
-2. Record fixtures with `node scripts/record-fixtures.js` and add tests in
-   `test/sources.test.js`. Tests must not hit the network.
+2. Add an entry for the source to `PLAN` in `scripts/record-fixtures.js`, record fixtures
+   with `node scripts/record-fixtures.js <name>`, and add tests in `test/sources.test.js`.
+   Tests must not hit the network.
 3. Add the source to the tables in the README, with any optional key it reads.
 
 ## Changing the agent sandbox

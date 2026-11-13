@@ -74,8 +74,8 @@ Each research topic is its own git branch and worktree (a
 | 4 | **detect** | code + agent | Code computes signals (thin evidence, contradictions, missing links). An agent writes them up as specific, answerable questions. |
 | 5 | **disprove** | fresh agent | Searches across databases for papers that already answer each gap. Each finding *kills*, *weakens*, or finds nothing. |
 | 6 | **resolve** | author agent | Must drop a killed gap, narrow a weakened one to its open part, or rebut with cited evidence. Loops back to disprove until no kill is left open. |
-| 7 | **citegate** | code only | Every paper ID must resolve in a real database and every quote must appear in its abstract. Any miss blocks the run. |
-| 8 | **rank** + **ship** | agent + git | Survivors are scored on novelty, importance, tractability and evidence gap (1 to 4 each; the score is their product), `REPORT.md` is written, and the run is committed and opened as a PR. |
+| 7 | **citegate** | code only | Every paper ID must resolve in a real database, and every claim's quote must appear in its paper's abstract or title. Claims that fail are dropped. An unresolved ID, a gap left with no verified claim, or a thin disprover search blocks the run. |
+| 8 | **rank** + **ship** | agent + git | Survivors are scored on novelty, importance, tractability and evidence gap (1 to 5 each; the score is their product), `REPORT.md` is written, and the run is committed and opened as a PR. |
 
 ### Sources
 
@@ -95,13 +95,19 @@ a database's "polite pool".
 ## Why you can trust the output
 
 **Checked by code, not AI**
-- Every quote is found word for word in its paper's abstract.
-- Every DOI, PMID, OpenAlex or arXiv ID resolves in a real database. No ID, no citation.
+- Every quote must be found in its paper's abstract or title (ignoring case and punctuation).
+  A claim whose quote isn't found is dropped from the report.
+- Every paper ID (DOI, PMID, PMCID, OpenAlex, arXiv, Semantic Scholar or NCT) must resolve in a
+  real database. No ID, no citation. One unresolved ID blocks the run.
 - Disprover search counts come from the search log, not from the agent's own account. A gap
   needs at least 10 searches across at least 3 databases (15 if related work turned up), or
   it does not ship.
 
 **Agents are boxed in**
+
+This box is built from Claude Code's permission rules, a scrubbed environment and throwaway
+temp directories. It is not an OS-level sandbox, and agents run as your user.
+
 - Each agent runs in a fresh, empty temp directory holding only copies of that stage's
   inputs. Only its declared outputs are copied back.
 - The only command an agent can run is `rsearch`, a read-only database client.
@@ -143,11 +149,18 @@ a database's "polite pool".
    rloop looks for it at `~/.claude/skills/gstack-loops`. If you put it somewhere else, set
    `GSTACK_LOOPS_DIR`.
 
-3. Clone rloop:
+3. **Fork** rloop on GitHub, then clone your fork and point `gh` at it:
 
    ```bash
-   git clone https://github.com/csakash/rloop.git && cd rloop
+   git clone https://github.com/<you>/rloop.git && cd rloop
    ```
+
+   ```bash
+   gh repo set-default <you>/rloop
+   ```
+
+   Every topic is a branch of this repo, and `rloop ship` pushes it to `origin` and opens a
+   PR. Working from your own fork keeps your research on your fork, not upstream.
 
 4. Put `rloop` on your PATH (optional, otherwise use `./bin/rloop`):
 
@@ -207,7 +220,7 @@ agents" will pull in the right papers. `rloop new` prints the path of the topic'
 | `--fresh` | off | Start a new run instead of resuming one stopped at the gate. |
 | `--dry-run` | off | Print the stages that would run and the disprove bar, then exit. |
 
-Exit codes: `0` finished or stopped for a human, `2` blocked by a failed check, `1` usage error.
+Exit codes: `0` finished or stopped for a human, `2` blocked by a failed check, `1` usage or setup error (for example, gstack-loops not found).
 
 ## Modes
 

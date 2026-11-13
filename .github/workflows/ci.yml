@@ -15,12 +15,16 @@ jobs:
       matrix:
         node: [18, 20, 22]
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: ${{ matrix.node }}
       - name: Install gstack-loops (rloop requires it)
-        run: git clone --depth 1 https://github.com/csakash/gstack-loops.git "$HOME/.claude/skills/gstack-loops"
+        env:
+          GSTACK_LOOPS_SHA: c0091ef7ba136d4dfb6711562266e006b14c2881
+        run: |
+          git clone https://github.com/csakash/gstack-loops.git "$HOME/.claude/skills/gstack-loops"
+          git -C "$HOME/.claude/skills/gstack-loops" checkout -q "$GSTACK_LOOPS_SHA"
       - name: Configure git for tests that commit
         run: |
           git config --global user.name "rloop CI"
