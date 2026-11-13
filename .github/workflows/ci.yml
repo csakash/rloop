@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [18, 20, 22]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Install gstack-loops (rloop requires it)
+        run: git clone --depth 1 https://github.com/csakash/gstack-loops.git "$HOME/.claude/skills/gstack-loops"
+      - name: Configure git for tests that commit
+        run: |
+          git config --global user.name "rloop CI"
+          git config --global user.email "ci@example.invalid"
+          git config --global init.defaultBranch main
+      - run: npm test
+      - run: npm run build
