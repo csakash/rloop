@@ -2,7 +2,6 @@
 
 **Agents that read the research for you, find the open questions, and try hard to prove themselves wrong.**
 
-[![CI](https://github.com/csakash/rloop/actions/workflows/ci.yml/badge.svg)](https://github.com/csakash/rloop/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 ![Node >= 18](https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg)
 

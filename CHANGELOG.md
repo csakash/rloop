@@ -11,8 +11,8 @@ All notable changes to rloop are listed here. The format follows
   identify as `rloop`.
 
 ### Added
-- README, license (MIT), contributing guide, security policy, code of conduct, issue and PR
-  templates, and CI.
+- README, license (MIT), contributing guide, security policy, code of conduct, and issue and
+  PR templates.
 
 ## [0.1.0] - 2026-11-12
 

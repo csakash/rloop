@@ -17,7 +17,7 @@ npm test        # offline: recorded fixtures + a stub agent, no network or Claud
 npm run build   # syntax and file-contract checks
 ```
 
-Both must pass before a PR is merged. CI runs them on every push and pull request.
+Both must pass before a PR is merged. There is no hosted CI, so run them locally and say so in the PR.
 
 ## What we care about
 
