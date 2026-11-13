@@ -1,12 +1,40 @@
 {
-  "name": "open-research",
+  "name": "rloop",
   "version": "0.1.0",
   "private": true,
-  "description": "Agent-driven research-gap discovery on gstack-loops",
+  "description": "Agents that read the research literature, find open questions, and try to prove themselves wrong. Every citation checked by code.",
+  "keywords": [
+    "research",
+    "literature-review",
+    "research-gaps",
+    "ai-agents",
+    "claude-code",
+    "pubmed",
+    "openalex",
+    "arxiv",
+    "semantic-scholar",
+    "cli"
+  ],
+  "homepage": "https://github.com/csakash/rloop#readme",
+  "bugs": {
+    "url": "https://github.com/csakash/rloop/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/csakash/rloop.git"
+  },
+  "license": "MIT",
+  "author": "Akash Munshi (https://github.com/csakash)",
   "bin": {
     "rloop": "bin/rloop",
     "rsearch": "bin/rsearch"
   },
+  "files": [
+    "bin",
+    "lib",
+    "prompts",
+    "scripts"
+  ],
   "scripts": {
     "test": "node --test test/*.test.js",
     "build": "node scripts/check.js"
